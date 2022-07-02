@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Entity
 @DiscriminatorColumn(name = "P")
 public class Petition extends Post {
+
     @Enumerated(EnumType.STRING)
     private PetitionStatus status;
 

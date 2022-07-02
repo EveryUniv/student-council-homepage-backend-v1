@@ -1,7 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.postFile.entity;
 
 import com.rtsoju.dku_council_homepage.domain.base.BaseEntity;
-import com.rtsoju.dku_council_homepage.domain.post.entity.POST;
+import com.rtsoju.dku_council_homepage.domain.base.Post;
 
 import javax.persistence.*;
 
@@ -14,7 +14,7 @@ public class PostFile extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "post_id")
-    private POST post;
+    private Post post;
 
     @Column(name = "file_url")
     private String url;
