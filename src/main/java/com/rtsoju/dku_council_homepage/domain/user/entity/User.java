@@ -1,30 +1,25 @@
-package com.rtsoju.dku_council_homepage.domain.post.entity;
+package com.rtsoju.dku_council_homepage.domain.user.entity;
 
-import com.rtsoju.dku_council_homepage.domain.base.BaseEntity;
-import com.rtsoju.dku_council_homepage.domain.base.Department;
-import com.rtsoju.dku_council_homepage.domain.base.Major;
-import com.rtsoju.dku_council_homepage.domain.base.Register;
-import com.rtsoju.dku_council_homepage.domain.user.entity.USER;
+import com.rtsoju.dku_council_homepage.domain.base.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
-@DynamicUpdate //게시글 수정시..
+@DynamicUpdate //회원 값 변경시.. 우리는 청원등록 때문에 필요
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @ToString
-public class POST extends BaseEntity {
-    @Id @GeneratedValue
+public class User extends BaseEntity {
+    @Id
+    @GeneratedValue
     @Column(name = "user_id")
     private Long id;
-
-    @OneToMany(mappedBy = )
-    private USER
-
 
     @Column(length = 10, nullable = false)
     private String name;
@@ -46,4 +41,10 @@ public class POST extends BaseEntity {
 
     //권한 들어가야함.
 
+    //연관관계 매핑
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Post> postList = new ArrayList<>();
+
+
 }
+
