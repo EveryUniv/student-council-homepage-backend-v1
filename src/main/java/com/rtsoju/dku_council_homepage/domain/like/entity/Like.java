@@ -1,8 +1,9 @@
 package com.rtsoju.dku_council_homepage.domain.like.entity;
 
 import com.rtsoju.dku_council_homepage.domain.base.BaseEntity;
-import com.rtsoju.dku_council_homepage.domain.post.entity.POST;
-import com.rtsoju.dku_council_homepage.domain.user.entity.USER;
+import com.rtsoju.dku_council_homepage.domain.base.Post;
+import com.rtsoju.dku_council_homepage.domain.user.entity.User;
+
 
 import javax.persistence.*;
 
@@ -14,10 +15,10 @@ public class Like extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "post_id")
-    private POST post;
+    private Post post;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private USER user;
+    private User user;
 
 }
