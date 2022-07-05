@@ -1,10 +1,14 @@
 package com.rtsoju.dku_council_homepage.domain.base;
 
+import com.rtsoju.dku_council_homepage.domain.comment.entity.Comment;
+import com.rtsoju.dku_council_homepage.domain.like.entity.Like;
 import com.rtsoju.dku_council_homepage.domain.user.entity.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
@@ -15,7 +19,8 @@ import javax.persistence.*;
 @ToString
 @Entity
 public class Post extends BaseEntity {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "post_id")
     Long id;
 
@@ -29,5 +34,11 @@ public class Post extends BaseEntity {
     @Column
     @Lob
     private String text;
+
+    @OneToMany(mappedBy = "post")
+    List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post")
+    List<PostHit> postHits = new ArrayList<>();
 }
 
