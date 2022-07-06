@@ -23,6 +23,9 @@ public class User extends BaseEntity {
     @Column(name = "user_id")
     private Long id;
 
+    @Column(name = "class_id")
+    private String classId;
+
     @Column(length = 10, nullable = false)
     private String name;
 
@@ -41,10 +44,16 @@ public class User extends BaseEntity {
     @Column(name = "last_petition_time")
     private LocalDateTime petitionTime;
 
+    @Column(name = "email_verify")
+    private boolean emailVerified;
     //권한 들어가야함.
 
     //연관관계 매핑
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> postList = new ArrayList<>();
+
+    public void emailVerifiedSuccess() {
+        this.emailVerified = true;
+    }
 }
 
