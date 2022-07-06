@@ -1,12 +1,12 @@
-package com.rtsoju.dku_council_homepage.domain.petition.entity;
+package com.rtsoju.dku_council_homepage.domain.post.entity.subentity;
 
 import com.rtsoju.dku_council_homepage.domain.base.PetitionStatus;
-import com.rtsoju.dku_council_homepage.domain.base.Post;
+import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
 
 import javax.persistence.*;
 
 @Entity
-@DiscriminatorColumn(name = "P")
+@DiscriminatorValue("P")
 public class Petition extends Post {
 
     @Enumerated(EnumType.STRING)

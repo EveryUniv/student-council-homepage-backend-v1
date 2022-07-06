@@ -1,7 +1,8 @@
-package com.rtsoju.dku_council_homepage.domain.base;
+package com.rtsoju.dku_council_homepage.domain.post.entity;
 
+import com.rtsoju.dku_council_homepage.domain.base.BaseEntity;
+import com.rtsoju.dku_council_homepage.domain.postHit.entity.PostHit;
 import com.rtsoju.dku_council_homepage.domain.comment.entity.Comment;
-import com.rtsoju.dku_council_homepage.domain.like.entity.Like;
 import com.rtsoju.dku_council_homepage.domain.user.entity.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;

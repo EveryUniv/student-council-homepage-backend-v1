@@ -1,7 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.postFile.entity;
 
 import com.rtsoju.dku_council_homepage.domain.base.BaseEntity;
-import com.rtsoju.dku_council_homepage.domain.base.Post;
+import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
 
 import javax.persistence.*;
 

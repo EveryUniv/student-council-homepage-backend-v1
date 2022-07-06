@@ -1,7 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.user.entity;
 
 import com.rtsoju.dku_council_homepage.domain.base.*;
-import com.rtsoju.dku_council_homepage.domain.like.entity.Like;
+import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @ToString
+@Table(name = "RTUser")
 public class User extends BaseEntity {
     @Id
     @GeneratedValue
