@@ -30,6 +30,9 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+//	email인증
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 tasks.named('test') {
