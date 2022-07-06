@@ -1,11 +1,10 @@
 package com.rtsoju.dku_council_homepage.domain.comment.entity;
 
 import com.rtsoju.dku_council_homepage.domain.base.BaseEntity;
-import com.rtsoju.dku_council_homepage.domain.base.Post;
+import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
 import com.rtsoju.dku_council_homepage.domain.user.entity.User;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 public class Comment extends BaseEntity {

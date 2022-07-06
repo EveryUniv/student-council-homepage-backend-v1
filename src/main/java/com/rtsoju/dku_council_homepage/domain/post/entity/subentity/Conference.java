@@ -1,12 +1,12 @@
-package com.rtsoju.dku_council_homepage.domain.conference.entity;
+package com.rtsoju.dku_council_homepage.domain.post.entity.subentity;
 
-import com.rtsoju.dku_council_homepage.domain.base.Post;
+import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@DiscriminatorColumn(name = "C")
+@DiscriminatorValue("C")
 public class Conference extends Post {
 
     @Column
