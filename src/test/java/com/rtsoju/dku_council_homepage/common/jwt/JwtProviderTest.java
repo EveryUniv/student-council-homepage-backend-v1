@@ -23,11 +23,11 @@ class JwtProviderTest {
         //when
 
         //then
-        assertThat(jwtProvider.phoneValidate(token, code)).isTrue();
+        assertThat(jwtProvider.validateSMSAuthToken(token, code)).isTrue();
     }
 
     @Test
-    public void 인증_실패() {
+    public void SMS_인증_실패() {
         //given
         String phone = "01012345678";
         String code = "5152";
@@ -37,7 +37,7 @@ class JwtProviderTest {
 
         //then
         String notMatchedCode = "1231";
-        assertThat(jwtProvider.phoneValidate(token, notMatchedCode)).isFalse();
+        assertThat(jwtProvider.validateSMSAuthToken(token, notMatchedCode)).isFalse();
     }
 
 }
