@@ -56,9 +56,8 @@ public class JwtProvider {
     // jwt의 유효성 및 만료일자 확인
     public boolean validationToken(String token){
         try{
-            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-            return true;
-//           return !claimsJws.getBody().getExpiration().before(new Date()); // 만료 날짜가 현재보다 이전이면 False
+            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+           return !claimsJws.getBody().getExpiration().before(new Date()); // 만료 날짜가 현재보다 이전이면 False
         }catch(JwtException | IllegalArgumentException e){
             log.error(e.toString());
             return false;
