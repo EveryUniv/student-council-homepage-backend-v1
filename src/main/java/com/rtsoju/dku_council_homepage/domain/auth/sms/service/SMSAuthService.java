@@ -1,8 +1,8 @@
-package com.rtsoju.dku_council_homepage.domain.user.service;
+package com.rtsoju.dku_council_homepage.domain.auth.sms.service;
 
 import com.rtsoju.dku_council_homepage.common.Messages;
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
-import com.rtsoju.dku_council_homepage.domain.user.model.SMSAuthToken;
+import com.rtsoju.dku_council_homepage.domain.auth.sms.dto.SMSAuthToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

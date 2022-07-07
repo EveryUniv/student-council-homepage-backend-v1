@@ -1,4 +1,4 @@
-package com.rtsoju.dku_council_homepage.domain.user.model;
+package com.rtsoju.dku_council_homepage.domain.auth.sms.dto;
 
 public class SMSAuthToken {
     private final String token;
