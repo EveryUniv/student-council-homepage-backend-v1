@@ -1,4 +1,4 @@
-package com.rtsoju.dku_council_homepage.domain.user.api;
+package com.rtsoju.dku_council_homepage.domain.user.controller;
 
 import com.rtsoju.dku_council_homepage.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
