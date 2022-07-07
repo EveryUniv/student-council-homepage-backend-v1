@@ -17,8 +17,6 @@ public class JwtProvider {
     @Value("temp")
     private String secretKey = "temp";
 
-    private Long phoneValidMillisecond = 3 * 60 * 1000L; // 3 hour
-
     private Long accessTokenValidMillisecond = 60 * 60 * 1000L; // 1 hour
     private Long refreshTokenValidMillisecond = 14 * 24 * 60 * 60 * 1000L; // 14 day
 
@@ -27,29 +25,31 @@ public class JwtProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String code) {
-        Claims claims = Jwts.claims();
-        claims.put("code", code);
-
+    private String createToken(Claims claims, long expiredDuration){
         Date now = new Date();
-
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + phoneValidMillisecond))
+                .setExpiration(new Date(now.getTime() + expiredDuration))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
-    public boolean phoneValidate(String token, String code) {
-        validationToken(token);
-        Claims claims = parseClaims(token);
+    public String createSMSAuthToken(String phone, String code){
+        Claims claims = Jwts.claims();
+        claims.put("phone", phone);
+        claims.put("code", code);
+        return createToken(claims, 3*60*1000L);
+    }
 
-        if (claims.get("code").equals(code)) {
-            return true;
+    public boolean phoneValidate(String token, String code) {
+        if(!validationToken(token)){
+            return false;
         }
-        return false;
+
+        Claims claims = parseClaims(token);
+        return claims.get("code").equals(code);
     }
 
 
@@ -67,7 +67,7 @@ public class JwtProvider {
 
 
     // Jwt 토큰 복호화해서 가져오기
-    private Claims parseClaims(String token){
+    public Claims parseClaims(String token){
         try{
             return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
         } catch(ExpiredJwtException e){

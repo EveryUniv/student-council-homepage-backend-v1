@@ -14,10 +14,11 @@ class JwtProviderTest {
     JwtProvider jwtProvider = new JwtProvider();
 
     @Test
-    public void 인증_성공() {
+    public void SMS_인증_성공() {
         //given
+        String phone = "01012345678";
         String code = "5152";
-        String token = jwtProvider.createToken(code);
+        String token = jwtProvider.createSMSAuthToken(phone, code);
 
         //when
 
@@ -28,14 +29,15 @@ class JwtProviderTest {
     @Test
     public void 인증_실패() {
         //given
+        String phone = "01012345678";
         String code = "5152";
-        String code2 = "1234";
-        String token = jwtProvider.createToken(code);
+        String token = jwtProvider.createSMSAuthToken(phone, code);
 
         //when
 
         //then
-        assertThat(jwtProvider.phoneValidate(token, code2)).isFalse();
+        String notMatchedCode = "1231";
+        assertThat(jwtProvider.phoneValidate(token, notMatchedCode)).isFalse();
     }
 
 }
