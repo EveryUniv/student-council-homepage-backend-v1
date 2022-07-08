@@ -26,6 +26,8 @@ public class User extends BaseEntity {
     @Column(name = "class_id")
     private String classId;
 
+    private String password;
+
     @Column(length = 10, nullable = false)
     private String name;
 
@@ -47,6 +49,7 @@ public class User extends BaseEntity {
     @Column(name = "email_verify")
     private boolean emailVerified;
     //권한 들어가야함.
+    private String authorization;
 
     //연관관계 매핑
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
