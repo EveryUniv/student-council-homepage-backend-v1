@@ -17,7 +17,7 @@ public class JwtProvider {
     private String secretKey = "temp";
 
     @Value("${auth.sms.expirationSeconds}")
-    private Integer expirationSeconds;
+    private int expirationSeconds;
 
     private Long accessTokenValidMillisecond = 60 * 60 * 1000L; // 1 hour
     private Long refreshTokenValidMillisecond = 14 * 24 * 60 * 60 * 1000L; // 14 day
@@ -42,7 +42,6 @@ public class JwtProvider {
         Claims claims = Jwts.claims();
         claims.put("phone", phone);
         claims.put("code", code);
-        log.info("EXPIRE: " + expirationSeconds);
         return createToken(claims, expirationSeconds * 1000L);
     }
 

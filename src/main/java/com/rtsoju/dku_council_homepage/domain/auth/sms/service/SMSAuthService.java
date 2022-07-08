@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class SMSAuthService {
     private static final Random RANDOM = new Random();
     private static final Pattern PHONE_PATTERN = Pattern.compile("^\\d{11}$");
-    private final JwtProvider jwtProvider = new JwtProvider();
+    private final JwtProvider jwtProvider;
     private final NHNCloudSMSService smsService;
 
     @Value("${auth.sms.digitCount}")
