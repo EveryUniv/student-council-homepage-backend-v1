@@ -1,18 +1,27 @@
 package com.rtsoju.dku_council_homepage.common.jwt;
 
+import com.rtsoju.dku_council_homepage.domain.auth.service.CustomUserDetailService;
 import io.jsonwebtoken.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class JwtProvider {
+
+    private final CustomUserDetailService customUserDetailService;
 
     @Value("temp")
     private String secretKey = "temp";
@@ -43,6 +52,14 @@ public class JwtProvider {
         return createToken(claims, 3 * 60 * 1000L);
     }
 
+    public String createLoginAccessToken(Long userId, List<String> roles) {
+        Claims claims = Jwts.claims();
+        claims.setSubject(userId.toString());
+        claims.put("roles", roles);
+
+        return createToken(claims, accessTokenValidMillisecond);
+    }
+
     public boolean validateSMSAuthToken(String token, String code) {
         if (!validationToken(token)) {
             return false;
@@ -65,7 +82,7 @@ public class JwtProvider {
     }
 
 
-    // Jwt 토큰 복호화해서 가져오기
+    // Jwt 토큰 복호화해서 body(payload) 가져오기
     public Claims parseClaims(String token) {
         try {
             return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
@@ -73,4 +90,15 @@ public class JwtProvider {
             return e.getClaims();
         }
     }
+
+    public Authentication getAuthentication(String token) {
+        UserDetails userDetails = customUserDetailService.loadUserByUsername(this.getUserId(token));
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
+
+    // 토큰에서 회원 id 추출
+    private String getUserId(String token) {
+        return parseClaims(token).getSubject();
+    }
+
 }
