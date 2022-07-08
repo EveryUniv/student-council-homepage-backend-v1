@@ -1,4 +1,4 @@
-package com.rtsoju.dku_council_homepage.domain.user.service;
+package com.rtsoju.dku_council_homepage.domain.auth.sms.service;
 
 import com.rtsoju.dku_council_homepage.common.Messages;
 import lombok.RequiredArgsConstructor;
