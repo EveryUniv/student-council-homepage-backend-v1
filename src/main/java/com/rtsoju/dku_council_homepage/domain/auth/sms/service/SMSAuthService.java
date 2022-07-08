@@ -1,8 +1,8 @@
-package com.rtsoju.dku_council_homepage.domain.user.service;
+package com.rtsoju.dku_council_homepage.domain.auth.sms.service;
 
 import com.rtsoju.dku_council_homepage.common.Messages;
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
-import com.rtsoju.dku_council_homepage.domain.user.model.SMSAuthToken;
+import com.rtsoju.dku_council_homepage.domain.auth.sms.dto.SMSAuthToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class SMSAuthService {
     private static final Random RANDOM = new Random();
     private static final Pattern PHONE_PATTERN = Pattern.compile("^\\d{11}$");
-    private final JwtProvider jwtProvider = new JwtProvider();
+    private final JwtProvider jwtProvider;
     private final NHNCloudSMSService smsService;
 
     @Value("${auth.sms.digitCount}")

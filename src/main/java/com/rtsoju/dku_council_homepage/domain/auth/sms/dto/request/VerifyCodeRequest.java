@@ -1,4 +1,4 @@
-package com.rtsoju.dku_council_homepage.domain.user.model.request;
+package com.rtsoju.dku_council_homepage.domain.auth.sms.dto.request;
 
 public class VerifyCodeRequest {
     private String identifier;

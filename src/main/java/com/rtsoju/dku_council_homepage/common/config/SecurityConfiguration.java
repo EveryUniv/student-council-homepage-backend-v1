@@ -3,7 +3,6 @@ package com.rtsoju.dku_council_homepage.common.config;
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
 import com.rtsoju.dku_council_homepage.domain.auth.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.filters.CorsFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.CorsFilter;
 
 import java.net.http.HttpRequest;
 

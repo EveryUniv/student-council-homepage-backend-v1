@@ -3,7 +3,6 @@ package com.rtsoju.dku_council_homepage.common.jwt;
 import com.rtsoju.dku_council_homepage.domain.auth.service.CustomUserDetailService;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +24,9 @@ public class JwtProvider {
 
     @Value("temp")
     private String secretKey = "temp";
+
+    @Value("${auth.sms.expirationSeconds}")
+    private int expirationSeconds;
 
     private Long accessTokenValidMillisecond = 60 * 60 * 1000L; // 1 hour
     private Long refreshTokenValidMillisecond = 14 * 24 * 60 * 60 * 1000L; // 14 day
@@ -49,7 +51,7 @@ public class JwtProvider {
         Claims claims = Jwts.claims();
         claims.put("phone", phone);
         claims.put("code", code);
-        return createToken(claims, 3 * 60 * 1000L);
+        return createToken(claims, expirationSeconds * 1000L);
     }
 
     public String createLoginAccessToken(Long userId, List<String> roles) {
