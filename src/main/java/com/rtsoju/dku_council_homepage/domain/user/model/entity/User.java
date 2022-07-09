@@ -1,4 +1,4 @@
-package com.rtsoju.dku_council_homepage.domain.user.entity;
+package com.rtsoju.dku_council_homepage.domain.user.model.entity;
 
 import com.rtsoju.dku_council_homepage.domain.base.*;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
@@ -49,7 +49,7 @@ public class User extends BaseEntity {
     @Column(name = "email_verify")
     private boolean emailVerified;
     //권한 들어가야함.
-    private String authorization;
+    private String role;
 
     //연관관계 매핑
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -57,6 +57,17 @@ public class User extends BaseEntity {
 
     public void emailVerifiedSuccess() {
         this.emailVerified = true;
+    }
+
+    // 2022-07-09 임시 사용 예정
+    public User(String classId, String password, String name, String phone) {
+        this.classId = classId;
+        this.password = password;
+        this.name = name;
+        this.phone = phone;
+    }
+    public void allocateRole(String role) {
+        this.role = role;
     }
 }
 

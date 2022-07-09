@@ -4,6 +4,7 @@ import com.rtsoju.dku_council_homepage.domain.auth.service.CustomUserDetailServi
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,7 +20,6 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class JwtProvider {
-
     private final CustomUserDetailService customUserDetailService;
 
     @Value("temp")

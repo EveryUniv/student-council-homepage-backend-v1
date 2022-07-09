@@ -2,7 +2,7 @@ package com.rtsoju.dku_council_homepage.domain.like.entity;
 
 import com.rtsoju.dku_council_homepage.domain.base.BaseEntity;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
-import com.rtsoju.dku_council_homepage.domain.user.entity.User;
+import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 
 
 import javax.persistence.*;
