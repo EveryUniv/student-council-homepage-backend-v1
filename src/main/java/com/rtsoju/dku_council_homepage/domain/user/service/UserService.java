@@ -3,6 +3,7 @@ package com.rtsoju.dku_council_homepage.domain.user.service;
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.RequestLoginDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.RequestSignupDto;
+import com.rtsoju.dku_council_homepage.domain.user.model.dto.response.LoginResponseDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import com.rtsoju.dku_council_homepage.domain.user.repository.UserInfoRepository;
 import com.rtsoju.dku_council_homepage.exception.LoginPwdDifferentException;
@@ -46,7 +47,7 @@ public class UserService {
         return user.getId();
     }
 
-    public String login(RequestLoginDto dto) {
+    public LoginResponseDto login(RequestLoginDto dto) {
         User findUser = userInfoRepository.findByClassId(dto.getClassId()).orElseThrow(LoginUserNotFoundException::new);
 
         if (passwordEncoder.matches(dto.getPassword(), findUser.getPassword())) {
@@ -55,8 +56,8 @@ public class UserService {
             List<String> role = new ArrayList<>();
             role.add(findUser.getRole());
             String loginAccessToken = jwtProvider.createLoginAccessToken(findUser.getId(), role);
-
-            return loginAccessToken;
+            String loginRefreshToken = jwtProvider.createLoginRefreshToken(findUser.getId());
+            return new LoginResponseDto(loginAccessToken, loginRefreshToken);
         }else{
             throw new LoginPwdDifferentException("Wrong pwd");
         }
