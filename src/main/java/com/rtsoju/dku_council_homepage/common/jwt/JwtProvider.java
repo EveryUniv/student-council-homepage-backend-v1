@@ -62,6 +62,13 @@ public class JwtProvider {
         return createToken(claims, accessTokenValidMillisecond);
     }
 
+    public String createLoginRefreshToken(Long userId) {
+        Claims claims = Jwts.claims();
+        claims.setSubject(userId.toString());
+
+        return createToken(claims, refreshTokenValidMillisecond);
+    }
+
     public boolean validateSMSAuthToken(String token, String code) {
         if (!validationToken(token)) {
             return false;

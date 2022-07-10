@@ -6,6 +6,9 @@ import com.rtsoju.dku_council_homepage.domain.user.model.dto.RequestSignupDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.response.LoginResponseDto;
 import com.rtsoju.dku_council_homepage.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,10 +25,13 @@ public class UserController {
     }
 
     @PostMapping("/users/login")
-    public RequestResult login(@RequestBody RequestLoginDto dto) {
-        LoginResponseDto loginResponseDto = new LoginResponseDto();
-        loginResponseDto.setAccessToken(userService.login(dto));
-        return new RequestResult("Login success", loginResponseDto);
+    public ResponseEntity<RequestResult> login(@RequestBody RequestLoginDto dto) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("test", "1234");
+        LoginResponseDto loginResponseDto = userService.login(dto);
+        return new ResponseEntity<RequestResult>(new RequestResult("Login Success",loginResponseDto), headers, HttpStatus.valueOf(200));
+//        return ResponseEntity.ok()
+//                .body(new RequestResult("Login Success", loginResponseDto)).
     }
 
     @GetMapping("/test")
