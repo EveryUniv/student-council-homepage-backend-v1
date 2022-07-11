@@ -5,6 +5,7 @@ import com.rtsoju.dku_council_homepage.domain.user.model.dto.RequestLoginDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.RequestSignupDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.response.LoginResponseDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
+import com.rtsoju.dku_council_homepage.domain.user.model.entity.UserRole;
 import com.rtsoju.dku_council_homepage.domain.user.repository.UserInfoRepository;
 import com.rtsoju.dku_council_homepage.exception.LoginPwdDifferentException;
 import com.rtsoju.dku_council_homepage.exception.LoginUserNotFoundException;
@@ -52,9 +53,11 @@ public class UserService {
 
         if (passwordEncoder.matches(dto.getPassword(), findUser.getPassword())) {
             // Todo : 권한 부분 수정
-            // Todo : refreshtoken 관련 추가 필요
             List<String> role = new ArrayList<>();
-            role.add(findUser.getRole());
+            List<UserRole> roles = findUser.getRoles();
+            for (UserRole userRole : roles) {
+                role.add(userRole.getRole());
+            }
             String loginAccessToken = jwtProvider.createLoginAccessToken(findUser.getId(), role);
             String loginRefreshToken = jwtProvider.createLoginRefreshToken(findUser.getId());
             return new LoginResponseDto(loginAccessToken, loginRefreshToken);

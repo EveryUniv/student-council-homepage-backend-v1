@@ -1,6 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.auth.model;
 
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
+import com.rtsoju.dku_council_homepage.domain.user.model.entity.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +22,11 @@ public class SecurityUser implements UserDetails {
         id = user.getId();
         classId = user.getClassId();
         password = user.getPassword();
-        authorities.add(user.getRole());
+
+        List<UserRole> roles = user.getRoles();
+        for (UserRole role : roles) {
+            authorities.add(role.getRole());
+        }
     }
 
     @Override

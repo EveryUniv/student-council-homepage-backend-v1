@@ -1,5 +1,6 @@
 package com.rtsoju.dku_council_homepage.common.jwt;
 
+import com.rtsoju.dku_council_homepage.domain.auth.service.CustomUserDetailService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class JwtProviderTest {
 
-
-    JwtProvider jwtProvider = new JwtProvider();
+    @Autowired
+    JwtProvider jwtProvider;
 
     @Test
     public void SMS_인증_성공() {

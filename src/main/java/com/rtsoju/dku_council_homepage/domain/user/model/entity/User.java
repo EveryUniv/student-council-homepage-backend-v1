@@ -48,8 +48,11 @@ public class User extends BaseEntity {
 
     @Column(name = "email_verify")
     private boolean emailVerified;
+
     //권한 들어가야함.
-    private String role;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserRole> roles = new ArrayList<>();
+
 
     //연관관계 매핑
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -67,7 +70,9 @@ public class User extends BaseEntity {
         this.phone = phone;
     }
     public void allocateRole(String role) {
-        this.role = role;
+        UserRole userRole = new UserRole(this, role);
+        roles.add(userRole);
+        return;
     }
 }
 
