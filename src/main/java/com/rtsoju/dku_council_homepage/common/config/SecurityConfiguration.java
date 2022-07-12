@@ -1,3 +1,5 @@
+
+
 package com.rtsoju.dku_council_homepage.common.config;
 
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
@@ -47,4 +49,3 @@ public class SecurityConfiguration{
 
 
 }
-
