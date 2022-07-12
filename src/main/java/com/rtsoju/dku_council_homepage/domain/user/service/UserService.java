@@ -1,12 +1,15 @@
 package com.rtsoju.dku_council_homepage.domain.user.service;
 
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
+import com.rtsoju.dku_council_homepage.domain.auth.email.dto.RequestEmailDto;
+import com.rtsoju.dku_council_homepage.domain.auth.email.dto.request.EmailResponseDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.RequestLoginDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.RequestSignupDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.response.LoginResponseDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.UserRole;
 import com.rtsoju.dku_council_homepage.domain.user.repository.UserInfoRepository;
+import com.rtsoju.dku_council_homepage.exception.EmailUserExistException;
 import com.rtsoju.dku_council_homepage.exception.LoginPwdDifferentException;
 import com.rtsoju.dku_council_homepage.exception.LoginUserNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -64,5 +67,8 @@ public class UserService {
         }else{
             throw new LoginPwdDifferentException("Wrong pwd");
         }
+    }
+    public void verifyExistMemberWithClassId(RequestEmailDto dto){
+         userInfoRepository.findByClassId(dto.getClassId()).ifPresent(user -> {throw new EmailUserExistException("이미 존재하는 회원입니다.");});
     }
 }

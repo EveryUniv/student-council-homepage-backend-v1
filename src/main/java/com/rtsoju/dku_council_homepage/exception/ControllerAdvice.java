@@ -21,4 +21,15 @@ public class ControllerAdvice {
     protected RequestResult loginPwdDifferentException(HttpServletRequest request, LoginPwdDifferentException e) {
         return new RequestResult(e);
     }
+
+    @ExceptionHandler(EmailUserExistException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected RequestResult emailUserExistException(HttpServletRequest request, EmailUserExistException e){
+        return new RequestResult(e);
+    }
+    @ExceptionHandler(ClassIdNotMatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected RequestResult classIdNotMatchException(HttpServletRequest request, ClassIdNotMatchException e){
+        return new RequestResult(e);
+    }
 }

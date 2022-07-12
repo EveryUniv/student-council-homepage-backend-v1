@@ -1,3 +1,5 @@
+
+
 package com.rtsoju.dku_council_homepage.common.config;
 
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
@@ -39,6 +41,7 @@ public class SecurityConfiguration{
                 .antMatchers(HttpMethod.POST, "/api/users/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/users").permitAll()
                 .antMatchers("/api/sms").permitAll()
+                .antMatchers("/api/email").permitAll()
                 .anyRequest().hasRole("USER")
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
@@ -47,4 +50,3 @@ public class SecurityConfiguration{
 
 
 }
-
