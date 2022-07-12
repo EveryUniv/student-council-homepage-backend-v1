@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/auth/sms")
+@RequestMapping("/api/sms")
 @RequiredArgsConstructor
 public class SMSAuthController {
     private final SMSAuthService service;
@@ -21,16 +21,16 @@ public class SMSAuthController {
         return new RequestResult(e);
     }
 
-    @GetMapping("/code")
+    @GetMapping("")
     public SMSAuthToken sendCode(@RequestParam String phone) {
         log.debug("Request sending SMS auth code: {}", phone);
         return service.sendSMSCode(phone);
     }
 
-    @PostMapping("/code")
+    @PostMapping("")
     public RequestResult verifyCode(@RequestBody VerifyCodeRequest body) {
-        log.debug("Let's verify {} -> {}", body.getIdentifier(), body.getCode());
-        service.verifyCode(body.getIdentifier(), body.getCode());
+        log.debug("Let's verify {} -> {}", body.getToken(), body.getCode());
+        service.verifyCode(body.getToken(), body.getCode());
         return new RequestResult(Messages.SUCCESS_SMS_AUTH.getMessage());
     }
 }
