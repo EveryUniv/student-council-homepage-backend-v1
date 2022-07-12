@@ -42,3 +42,4 @@ out/
 
 ### properties ###
 application-smtp.properties
+application.properties

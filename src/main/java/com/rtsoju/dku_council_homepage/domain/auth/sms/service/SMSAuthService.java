@@ -33,8 +33,8 @@ public class SMSAuthService {
         return new SMSAuthToken(token);
     }
 
-    public void verifyCode(String identifier, String code) {
-        if (!jwtProvider.validateSMSAuthToken(identifier, code)) {
+    public void verifyCode(String token, String code) {
+        if (!jwtProvider.validateSMSAuthToken(token, code)) {
             throw new IllegalArgumentException(Messages.ERROR_INCORRECT_SMS_CODE.getMessage());
         }
     }
