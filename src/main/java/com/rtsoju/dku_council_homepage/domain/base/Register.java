@@ -1,5 +1,16 @@
 package com.rtsoju.dku_council_homepage.domain.base;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public enum Register {
-    재학, 휴학, 졸업
+    IN("재학"),
+    REST("휴학"),
+    GRADUATE("졸업"),
+    ;
+
+    private String name;
+
 }

@@ -1,5 +1,6 @@
 package com.rtsoju.dku_council_homepage.common.jwt;
 
+import com.rtsoju.dku_council_homepage.domain.auth.filterException.TokenNotExsistException;
 import com.rtsoju.dku_council_homepage.domain.auth.service.CustomUserDetailService;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class JwtProvider {
     @Value("${auth.sms.expirationSeconds}")
     private int expirationSeconds;
 
-    private Long accessTokenValidMillisecond = 60 * 60 * 1000L; // 1 hour
+    private Long accessTokenValidMillisecond = 1 * 60 * 1000L; // 1 hour
     private Long refreshTokenValidMillisecond = 14 * 24 * 60 * 60 * 1000L; // 14 day
 
     @PostConstruct
@@ -81,6 +82,7 @@ public class JwtProvider {
 
     // jwt의 유효성 및 만료일자 확인
     public boolean validationToken(String token) {
+        // Todo: 아예 잘못된 토큰인지 or 만료된 토큰인지 에러처리를 할까 말까....
         try {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return !claimsJws.getBody().getExpiration().before(new Date()); // 만료 날짜가 현재보다 이전이면 False
@@ -106,8 +108,10 @@ public class JwtProvider {
     }
 
     // 토큰에서 회원 id 추출
-    private String getUserId(String token) {
+    public String getUserId(String token) {
         return parseClaims(token).getSubject();
     }
+
+
 
 }

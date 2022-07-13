@@ -2,8 +2,10 @@
 
 package com.rtsoju.dku_council_homepage.common.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
 import com.rtsoju.dku_council_homepage.domain.auth.JwtAuthenticationFilter;
+import com.rtsoju.dku_council_homepage.domain.auth.filterException.FilterExceptionHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +30,7 @@ public class SecurityConfiguration{
     private final CorsFilter corsFilter; // cors 정책에서 벗어남
     private final JwtProvider jwtProvider;
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -40,11 +43,14 @@ public class SecurityConfiguration{
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/users/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/users").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/users/reissue").permitAll()
                 .antMatchers("/api/sms").permitAll()
                 .antMatchers("/api/email").permitAll()
                 .anyRequest().hasRole("USER")
                 .and()
+                // 자동 주입으로 완성? OR new 생성자로 등록? 뭐가 좋을까...
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(new FilterExceptionHandler(new ObjectMapper()), JwtAuthenticationFilter.class)
                 .build();
     }
 
