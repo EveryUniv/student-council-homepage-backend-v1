@@ -58,13 +58,25 @@ public class User extends BaseEntity {
         this.emailVerified = true;
     }
 
-    // 2022-07-09 임시 사용 예정
-    public User(String classId, String password, String name, String phone) {
+//    // 2022-07-09 임시 사용 예정
+//    public User(String classId, String password, String name, String phone) {
+//        this.classId = classId;
+//        this.password = password;
+//        this.name = name;
+//        this.phone = phone;
+//    }
+
+    public User(String classId, String password, String name, Major major, Register register, String phone) {
         this.classId = classId;
         this.password = password;
         this.name = name;
+        this.major = major;
+        this.register = register;
         this.phone = phone;
+        this.emailVerified = false;
     }
+
+
     public void allocateRole(String role) {
         UserRole userRole = new UserRole(this, role);
         roles.add(userRole);
