@@ -5,7 +5,7 @@ package com.rtsoju.dku_council_homepage.common.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
 import com.rtsoju.dku_council_homepage.domain.auth.JwtAuthenticationFilter;
-import com.rtsoju.dku_council_homepage.domain.auth.filterException.FilterExceptionHandler;
+//import com.rtsoju.dku_council_homepage.domain.auth.filterException.FilterExceptionHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

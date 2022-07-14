@@ -1,7 +1,7 @@
 package com.rtsoju.dku_council_homepage.common.jwt;
 
-import com.rtsoju.dku_council_homepage.domain.auth.filterException.TokenNotExsistException;
 import com.rtsoju.dku_council_homepage.domain.auth.service.CustomUserDetailService;
+import com.rtsoju.dku_council_homepage.exception.ReissueAccessTokenNotCorrectException;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class JwtProvider {
     @Value("${auth.sms.expirationSeconds}")
     private int expirationSeconds;
 
-    private Long accessTokenValidMillisecond = 60 * 60 * 1000L; // 1 hour
+    private Long accessTokenValidMillisecond = 1 * 60 * 1000L; // 1 hour
     private Long refreshTokenValidMillisecond = 14 * 24 * 60 * 60 * 1000L; // 14 day
 
     @PostConstruct
@@ -99,6 +99,8 @@ public class JwtProvider {
             return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
         } catch (ExpiredJwtException e) {
             return e.getClaims();
+        } catch (SignatureException e) {
+            throw new ReissueAccessTokenNotCorrectException("Access Token 이 올바르지 않습니다.");
         }
     }
 

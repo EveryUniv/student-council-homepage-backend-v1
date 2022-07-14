@@ -51,4 +51,10 @@ public class ControllerAdvice {
     protected RequestResult findUserWithIdNotFoundException(HttpServletRequest request, FindUserWithIdNotFoundException e) {
         return new RequestResult(e);
     }
+
+    @ExceptionHandler(ReissueAccessTokenNotCorrectException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected RequestResult reissueAccessTokenNotCorrectException(HttpServletRequest request, ReissueAccessTokenNotCorrectException e) {
+        return new RequestResult(e);
+    }
 }
