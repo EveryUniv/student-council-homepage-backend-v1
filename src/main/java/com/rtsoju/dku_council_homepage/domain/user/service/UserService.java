@@ -34,7 +34,11 @@ public class UserService {
     }
 
     public Long signup(RequestSignupDto dto) {
-        // TODO : 학번 중복 검사
+        // Todo : 학번 중복 검사 -> 학번은 이메일을 통한 회원가입시 중복검사
+        // Todo : 이메일 인증
+        // Todo : 핸드폰 인증
+        // Todo : 학번 제대로 되어 있는지 토큰값으로 확인
+       // jwtProvider.validateEmailValidationToken(token, dto.getClassId());
 
         String bcryptPwd = passwordEncoder.encode(dto.getPassword());
         dto.setPassword(bcryptPwd);
@@ -60,8 +64,8 @@ public class UserService {
             throw new LoginPwdDifferentException("Wrong pwd");
         }
     }
-    public void verifyExistMemberWithClassId(RequestEmailDto dto){
-         userInfoRepository.findByClassId(dto.getClassId()).ifPresent(user -> {throw new EmailUserExistException("이미 존재하는 회원입니다.");});
+    public void verifyExistMemberWithClassId(String classId){
+         userInfoRepository.findByClassId(classId).ifPresent(user -> {throw new EmailUserExistException("이미 존재하는 회원입니다.");});
     }
 
     private List<String> getRole(User user) {

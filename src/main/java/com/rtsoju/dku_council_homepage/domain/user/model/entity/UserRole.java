@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @AllArgsConstructor
@@ -22,4 +23,17 @@ public class UserRole implements Serializable {
 
     @Id
     private String role;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserRole userRole = (UserRole) o;
+        return Objects.equals(user, userRole.user) && Objects.equals(role, userRole.role);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user, role);
+    }
 }

@@ -1,9 +1,9 @@
 package com.rtsoju.dku_council_homepage.domain.auth.email.service;
 
+import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
 import com.rtsoju.dku_council_homepage.domain.auth.email.dto.RequestEmailDto;
 import com.rtsoju.dku_council_homepage.domain.user.service.UserService;
 import com.rtsoju.dku_council_homepage.exception.ClassIdNotMatchException;
-import com.rtsoju.dku_council_homepage.exception.EmailUserExistException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,14 +18,17 @@ public class GmailService {
     private final UserService userService;
     private final JavaMailSender javaMailSender;
 
-    public void send(RequestEmailDto dto){
-        userService.verifyExistMemberWithClassId(dto);
+    private final JwtProvider jwtProvider;
+
+    public String send(RequestEmailDto dto){
+        userService.verifyExistMemberWithClassId(dto.getClassId());
         checkClassId(dto.getClassId());
         SimpleMailMessage smm = new SimpleMailMessage();
         smm.setTo(dto.getClassId()+"@dankook.ac.kr");
         smm.setSubject("단국대학교 총학생회 이메일 인증");
         smm.setText("링크");
         javaMailSender.send(smm);
+        return (jwtProvider.createEmailValidationToken(dto.getClassId()));
     }
 
     private void checkClassId(String classId){

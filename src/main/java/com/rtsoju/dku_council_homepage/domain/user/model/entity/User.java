@@ -32,11 +32,7 @@ public class User extends BaseEntity {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    private Department department;
-
-    @Enumerated(EnumType.STRING)
     private Major major;
-
     @Column(name = "phone_number")
     private String phone;
 
