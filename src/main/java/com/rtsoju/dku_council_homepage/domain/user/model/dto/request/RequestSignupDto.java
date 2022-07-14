@@ -1,4 +1,4 @@
-package com.rtsoju.dku_council_homepage.domain.user.model.dto;
+package com.rtsoju.dku_council_homepage.domain.user.model.dto.request;
 
 import com.rtsoju.dku_council_homepage.domain.base.Department;
 import com.rtsoju.dku_council_homepage.domain.base.Major;
@@ -13,7 +13,6 @@ public class RequestSignupDto {
     private String name;
 
 
-    private Department department;
     private Major major;
     private Register register;
 
@@ -21,8 +20,6 @@ public class RequestSignupDto {
 
 
     public User toUserEntity(){
-        User user = new User(classId, password, name, phone);
-//        new User(classId, password, name, department.)
-        return user;
+        return new User(classId, password, name, major, register, phone);
     }
 }

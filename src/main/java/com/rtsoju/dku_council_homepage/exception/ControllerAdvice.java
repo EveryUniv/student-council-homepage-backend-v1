@@ -24,12 +24,31 @@ public class ControllerAdvice {
 
     @ExceptionHandler(EmailUserExistException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected RequestResult emailUserExistException(HttpServletRequest request, EmailUserExistException e){
+    protected RequestResult emailUserExistException(HttpServletRequest request, EmailUserExistException e) {
         return new RequestResult(e);
     }
+
     @ExceptionHandler(ClassIdNotMatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected RequestResult classIdNotMatchException(HttpServletRequest request, ClassIdNotMatchException e){
+    protected RequestResult classIdNotMatchException(HttpServletRequest request, ClassIdNotMatchException e) {
+        return new RequestResult(e);
+    }
+
+    @ExceptionHandler(MajorDepartmentWrongException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected RequestResult majorDepartmentWrongException(HttpServletRequest request, MajorDepartmentWrongException e) {
+        return new RequestResult(e);
+    }
+
+    @ExceptionHandler(RefreshTokenNotValidateException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected RequestResult refreshTokenNotValidate(HttpServletRequest request, RefreshTokenNotValidateException e) {
+        return new RequestResult(e);
+    }
+
+    @ExceptionHandler(FindUserWithIdNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected RequestResult findUserWithIdNotFoundException(HttpServletRequest request, FindUserWithIdNotFoundException e) {
         return new RequestResult(e);
     }
 }
