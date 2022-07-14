@@ -1,5 +1,6 @@
 package com.rtsoju.dku_council_homepage.domain.auth.email.controller;
 
+import com.rtsoju.dku_council_homepage.common.Messages;
 import com.rtsoju.dku_council_homepage.common.RequestResult;
 import com.rtsoju.dku_council_homepage.domain.auth.email.dto.RequestEmailDto;
 import com.rtsoju.dku_council_homepage.domain.auth.email.dto.request.EmailResponseDto;
@@ -18,7 +19,6 @@ public class EmailController {
 
     @PostMapping("/email")
     public RequestResult email(@RequestBody RequestEmailDto dto){
-        gmailService.send(dto);
-        return new RequestResult("Email send Success", new EmailResponseDto(dto.getClassId()));
+        return new RequestResult(Messages.SUCCESS_EMAIL_SEND.getMessage(), new EmailResponseDto(dto.getClassId(), gmailService.send(dto)));
     }
 }

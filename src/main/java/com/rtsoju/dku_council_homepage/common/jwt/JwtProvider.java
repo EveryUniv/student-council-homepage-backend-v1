@@ -62,6 +62,14 @@ public class JwtProvider {
         return createToken(claims, accessTokenValidMillisecond);
     }
 
+    public String createEmailValidationToken(String classId){
+        Claims claims = Jwts.claims();
+//        claims.setSubject("ClassId");
+        claims.put("classId",classId);
+
+        return createToken(claims, accessTokenValidMillisecond);
+    }
+
     public String createLoginRefreshToken(Long userId) {
         Claims claims = Jwts.claims();
         claims.setSubject(userId.toString());
@@ -76,6 +84,15 @@ public class JwtProvider {
 
         Claims claims = parseClaims(token);
         return claims.get("code").equals(code);
+    }
+
+    //회원가입시, 전달받은 토큰과 학번으로 유효성 검사 실시해야함.
+    public boolean validateEmailValidationToken(String token, String classId){
+        if(!validationToken(token)){
+            return false;
+        }
+        Claims claims = parseClaims(token);
+        return claims.get("classId").equals(classId);
     }
 
 
@@ -109,5 +126,7 @@ public class JwtProvider {
     private String getUserId(String token) {
         return parseClaims(token).getSubject();
     }
+
+
 
 }
