@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -21,8 +23,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/users")
-    public RequestResult signup(@RequestBody RequestSignupDto dto) {
-        Long result = userService.signup(dto);
+    public RequestResult signup(@RequestBody RequestSignupDto dto, HttpServletRequest request) {
+        String token = request.getHeader("EMAIL-VALIDATION-TOKEN");
+        Long result = userService.signup(dto, token);
         return new RequestResult("Sign up Success");
     }
 
