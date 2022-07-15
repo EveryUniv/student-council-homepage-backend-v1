@@ -35,4 +35,6 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     private String resolveToken(HttpServletRequest request) {
         return request.getHeader("X-AUTH-TOKEN");
     }
+
+//    private String resolveEmailValidationToken(HttpServletRequest request){return request.getHeader("EMAIL-VALIDATION-TOKEN");}
 }
