@@ -1,10 +1,9 @@
-package com.rtsoju.dku_council_homepage.domain.auth.sms.service;
+package com.rtsoju.dku_council_homepage.common.nhn.service;
 
 import com.rtsoju.dku_council_homepage.common.ExternalURLs;
 import com.rtsoju.dku_council_homepage.common.Messages;
 import com.rtsoju.dku_council_homepage.domain.auth.sms.dto.NHNCloudSMSResponse;
 import com.rtsoju.dku_council_homepage.domain.auth.sms.dto.request.NHNCloudSMSRequest;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -13,18 +12,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
-public class NHNCloudSMSService {
+public class SMSService {
     private static final RestTemplate REST_TEMPLATE = new RestTemplate();
-    private String appKey;
-    private String secretKey;
-    private String senderPhone;
+    private final String appKey;
+    private final String secretKey;
+    private final String senderPhone;
 
     // 테스트하기 쉽게 @Value를 생성자에서 붙여 초기화
-    public NHNCloudSMSService(
-            @Value("${auth.sms.appKey}") String appKey,
-            @Value("${auth.sms.secretKey}") String secretKey,
+    public SMSService(
+            @Value("${nhn.sms.appKey}") String appKey,
+            @Value("${nhn.sms.secretKey}") String secretKey,
             @Value("${auth.sms.senderPhone}") String senderPhone) {
         this.appKey = appKey;
         this.secretKey = secretKey;
@@ -45,7 +43,7 @@ public class NHNCloudSMSService {
         // request api
         NHNCloudSMSRequest request = new NHNCloudSMSRequest(senderPhone, phone, body);
         HttpEntity<NHNCloudSMSRequest> entity = new HttpEntity<>(request, headers);
-        String url = ExternalURLs.NHNCloudSMS(appKey);
+        String url = ExternalURLs.NHNSMS(appKey);
         NHNCloudSMSResponse response = REST_TEMPLATE.postForObject(url, entity, NHNCloudSMSResponse.class);
 
         // handle response

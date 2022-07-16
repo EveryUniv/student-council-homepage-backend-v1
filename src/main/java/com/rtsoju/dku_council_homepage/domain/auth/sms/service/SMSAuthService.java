@@ -2,6 +2,7 @@ package com.rtsoju.dku_council_homepage.domain.auth.sms.service;
 
 import com.rtsoju.dku_council_homepage.common.Messages;
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
+import com.rtsoju.dku_council_homepage.common.nhn.service.SMSService;
 import com.rtsoju.dku_council_homepage.domain.auth.sms.dto.SMSAuthToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +17,7 @@ public class SMSAuthService {
     private static final Random RANDOM = new Random();
     private static final Pattern PHONE_PATTERN = Pattern.compile("^\\d{11}$");
     private final JwtProvider jwtProvider;
-    private final NHNCloudSMSService smsService;
+    private final SMSService smsService;
 
     @Value("${auth.sms.digitCount}")
     private int digitCount;
