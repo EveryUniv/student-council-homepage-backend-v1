@@ -1,4 +1,4 @@
-package com.rtsoju.dku_council_homepage.domain.postHit.entity;
+package com.rtsoju.dku_council_homepage.domain.posthit.entity;
 
 import com.rtsoju.dku_council_homepage.domain.base.BaseEntity;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Post;

@@ -9,7 +9,7 @@ public class RequestResult {
 
     private final String state;
     private final String message;
-    private List<Object> data = new ArrayList<>();
+    private final List<Object> data = new ArrayList<>();
 
     public RequestResult(String message) {
         this(RESULT_SUCCESS, message);
@@ -46,5 +46,7 @@ public class RequestResult {
         return message;
     }
 
-    public Object getData() { return data; }
+    public Object getData() {
+        return data;
+    }
 }
