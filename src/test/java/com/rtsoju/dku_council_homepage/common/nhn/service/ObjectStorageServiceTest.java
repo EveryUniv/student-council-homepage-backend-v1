@@ -17,11 +17,13 @@ class ObjectStorageServiceTest {
                 properties.getValue("nhn.os.username"),
                 properties.getValue("nhn.os.password"));
 
-        ObjectStorageService osService = new ObjectStorageService(properties.getValue("nhn.os.storageAccount"));
+        ObjectStorageService osService = new ObjectStorageService(
+                properties.getValue("nhn.os.storageAccount"),
+                properties.getValue("nhn.os.storageName"));
         String token = auth.requestToken();
 
         String testBinary = "/Users/psvm/Desktop/test.jpg";
-        String objectName = "mytest.jpg";
+        String objectName = "ttttt.png";
         InputStream is = new FileInputStream(testBinary);
         osService.uploadObject(token, "main-storage", objectName, is);
     }

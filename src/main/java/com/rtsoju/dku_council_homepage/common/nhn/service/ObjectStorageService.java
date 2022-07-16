@@ -15,10 +15,14 @@ import java.io.InputStream;
 @Service
 public class ObjectStorageService {
     private final String storageAccount;
+    private final String storageName;
     private final RestTemplate restTemplate;
 
-    public ObjectStorageService(@Value("${nhn.os.storageAccount}") String storageAccount) {
+    public ObjectStorageService(
+            @Value("${nhn.os.storageAccount}") String storageAccount,
+            @Value("${nhn.os.storageName}") String storageName) {
         this.storageAccount = storageAccount;
+        this.storageName = storageName;
 
         // RequestCallback을 사용할 수 있도록 설정
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
@@ -26,9 +30,11 @@ public class ObjectStorageService {
         restTemplate = new RestTemplate(requestFactory);
     }
 
-    public void uploadObject(String tokenId, String containerName, String objectName, final InputStream inputStream) {
-        String url = ExternalURLs.NHNObjectStorage(storageAccount, containerName, objectName);
+    public String getObjectURL(String objectName) {
+        return ExternalURLs.NHNObjectStorage(storageAccount, storageName, objectName);
+    }
 
+    public void uploadObject(String tokenId, String containerName, String objectName, final InputStream inputStream) {
         // InputStream을 요청 본문에 추가할 수 있도록 RequestCallback 오버라이드
         final RequestCallback requestCallback = request -> {
             request.getHeaders().add("X-Auth-Token", tokenId);
@@ -39,7 +45,7 @@ public class ObjectStorageService {
                 = new HttpMessageConverterExtractor<>(String.class, restTemplate.getMessageConverters());
 
         // API 호출
-        restTemplate.execute(url, HttpMethod.PUT, requestCallback, responseExtractor);
+        restTemplate.execute(getObjectURL(objectName), HttpMethod.PUT, requestCallback, responseExtractor);
     }
 
 }
