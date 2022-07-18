@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/news")
@@ -21,6 +23,8 @@ public class NewsController {
     @GetMapping
     public PageRes<NewsDto> list(Pageable pageable){
         Page<NewsDto> map = newsService.newsPage(pageable);
+        List<NewsDto> list = newsService.latestTop5();
+//        System.out.println("list = " + list);
         return new PageRes(map.getContent(), map.getPageable(), map.getTotalElements());
     }
 }

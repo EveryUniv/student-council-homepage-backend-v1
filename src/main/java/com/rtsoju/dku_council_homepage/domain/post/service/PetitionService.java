@@ -9,6 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -18,5 +21,10 @@ public class PetitionService {
     public Page<PetitionDto> petitionPage(Pageable pageable){
         Page<Petition> page = petitionRepository.findAll(pageable);
         return page.map(PetitionDto::new);
+    }
+
+    public List<PetitionDto> latestTop5(){
+        List<Petition> petitionList = petitionRepository.findTop5ByOrderByCreateDateDesc();
+        return petitionList.stream().map(PetitionDto::new).collect(Collectors.toList());
     }
 }
