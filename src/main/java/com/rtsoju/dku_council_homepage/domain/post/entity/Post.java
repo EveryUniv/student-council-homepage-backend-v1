@@ -36,10 +36,17 @@ public class Post extends BaseEntity {
     @Lob
     private String text;
 
-    @OneToMany(mappedBy = "post")
-    List<Comment> comments = new ArrayList<>();
+    private String fileUrl;
+//
+//    @OneToMany(mappedBy = "post")
+//    List<Comment> comments = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "post")
+//    List<PostHit> postHits = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post")
-    List<PostHit> postHits = new ArrayList<>();
+    public Post(String title, String text){
+        this.title = title;
+        this.text = text;
+    }
 }
 
