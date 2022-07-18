@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/conference")
@@ -22,6 +24,8 @@ public class ConferenceController {
     @GetMapping
     public PageRes<ConferenceDto> list(Pageable pageable){
         Page<ConferenceDto> map = conferenceService.conferencePage(pageable);
+        List<ConferenceDto> conferenceDtos = conferenceService.latestTop5();
+        System.out.println("conferenceDtos = " + conferenceDtos);
         return new PageRes<>(map.getContent(), map.getPageable(), map.getTotalElements());
     }
 

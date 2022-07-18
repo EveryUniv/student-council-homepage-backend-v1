@@ -9,6 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -19,4 +22,10 @@ public class NewsService {
         Page<News> page = newsRepository.findAll(pageable);
         return page.map(NewsDto::new);
     }
+
+    public List<NewsDto> latestTop5(){
+        List<News> newsList = newsRepository.findTop5ByOrderByCreateDateDesc();
+        return newsList.stream().map(NewsDto::new).collect(Collectors.toList());
+    }
+
 }
