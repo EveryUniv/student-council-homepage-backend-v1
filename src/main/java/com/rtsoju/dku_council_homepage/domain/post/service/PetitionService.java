@@ -1,5 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.post.service;
 
+import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
+import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.PetitionDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Petition;
 import com.rtsoju.dku_council_homepage.domain.post.repository.PetitionRepository;
@@ -23,8 +25,10 @@ public class PetitionService {
         return page.map(PetitionDto::new);
     }
 
-    public List<PetitionDto> latestTop5(){
+    public List<PostSummary> postPage(){
         List<Petition> petitionList = petitionRepository.findTop5ByOrderByCreateDateDesc();
-        return petitionList.stream().map(PetitionDto::new).collect(Collectors.toList());
+        return petitionList.stream().map(Post::summarize).collect(Collectors.toList());
     }
+
+
 }

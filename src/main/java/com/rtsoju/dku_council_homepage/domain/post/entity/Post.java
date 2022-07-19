@@ -1,8 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.post.entity;
 
 import com.rtsoju.dku_council_homepage.domain.base.BaseEntity;
-import com.rtsoju.dku_council_homepage.domain.comment.entity.Comment;
-import com.rtsoju.dku_council_homepage.domain.posthit.entity.PostHit;
+import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -37,16 +36,20 @@ public class Post extends BaseEntity {
     private String text;
 
     private String fileUrl;
-//
-//    @OneToMany(mappedBy = "post")
-//    List<Comment> comments = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "post")
-//    List<PostHit> postHits = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post")
+    List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post")
+    List<PostHit> postHits = new ArrayList<>();
 
     public Post(String title, String text){
         this.title = title;
         this.text = text;
+    }
+
+    public PostSummary summarize(){
+        return new PostSummary(id, title);
     }
 }
 

@@ -1,5 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.post.service;
 
+import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
+import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.ConferenceDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.NewsDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Announce;
@@ -26,9 +28,9 @@ public class ConferenceService {
         return page.map(ConferenceDto::new);
     }
 
-    public List<ConferenceDto> latestTop5(){
+    public List<PostSummary> postPage(){
         List<Conference> conferenceList = conferenceRepository.findTop5ByOrderByCreateDateDesc();
-        return conferenceList.stream().map(ConferenceDto::new).collect(Collectors.toList());
+        return conferenceList.stream().map(Post::summarize).collect(Collectors.toList());
     }
 
 }
