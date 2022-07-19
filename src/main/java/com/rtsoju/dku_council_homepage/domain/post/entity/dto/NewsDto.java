@@ -6,6 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+//pk값 넣기. -> d-day는 나중에..
 @Data
 public class NewsDto {
     private String title;

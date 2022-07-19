@@ -24,8 +24,6 @@ public class ConferenceController {
     @GetMapping
     public PageRes<ConferenceDto> list(Pageable pageable){
         Page<ConferenceDto> map = conferenceService.conferencePage(pageable);
-        List<ConferenceDto> conferenceDtos = conferenceService.latestTop5();
-        System.out.println("conferenceDtos = " + conferenceDtos);
         return new PageRes<>(map.getContent(), map.getPageable(), map.getTotalElements());
     }
 

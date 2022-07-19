@@ -1,4 +1,4 @@
-package com.rtsoju.dku_council_homepage.domain.comment.entity;
+package com.rtsoju.dku_council_homepage.domain.post.entity;
 
 import com.rtsoju.dku_council_homepage.domain.base.BaseEntity;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
@@ -13,9 +13,9 @@ public class Comment extends BaseEntity {
     @Column(name = "comment_id")
     private Long id;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "post_id")
-//    private Post post;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
