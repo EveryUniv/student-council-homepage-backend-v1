@@ -3,6 +3,8 @@ package com.rtsoju.dku_council_homepage.common.nhn.service;
 import com.rtsoju.dku_council_homepage.common.ExternalURLs;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
@@ -34,7 +36,7 @@ public class ObjectStorageService {
         return ExternalURLs.NHNObjectStorage(storageAccount, storageName, objectName);
     }
 
-    public void uploadObject(String tokenId, String containerName, String objectName, final InputStream inputStream) {
+    public void uploadObject(String tokenId, String objectName, final InputStream inputStream) {
         // InputStream을 요청 본문에 추가할 수 있도록 RequestCallback 오버라이드
         final RequestCallback requestCallback = request -> {
             request.getHeaders().add("X-Auth-Token", tokenId);
@@ -44,8 +46,14 @@ public class ObjectStorageService {
         HttpMessageConverterExtractor<String> responseExtractor
                 = new HttpMessageConverterExtractor<>(String.class, restTemplate.getMessageConverters());
 
-        // API 호출
         restTemplate.execute(getObjectURL(objectName), HttpMethod.PUT, requestCallback, responseExtractor);
     }
 
+    public void deleteObject(String tokenId, String objectName) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Auth-Token", tokenId);
+        HttpEntity<String> requestHttpEntity = new HttpEntity<String>(null, headers);
+
+        this.restTemplate.exchange(getObjectURL(objectName), HttpMethod.DELETE, requestHttpEntity, String.class);
+    }
 }

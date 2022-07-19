@@ -1,7 +1,9 @@
 package com.rtsoju.dku_council_homepage.domain.page.controller;
 
 import com.rtsoju.dku_council_homepage.common.PropertiesReader;
+import com.rtsoju.dku_council_homepage.common.nhn.service.NHNAuthService;
 import com.rtsoju.dku_council_homepage.common.nhn.service.ObjectStorageService;
+import com.rtsoju.dku_council_homepage.domain.page.repository.CarouselImageRepository;
 import com.rtsoju.dku_council_homepage.domain.page.service.MainPageService;
 import com.rtsoju.dku_council_homepage.domain.post.service.ConferenceService;
 import com.rtsoju.dku_council_homepage.domain.post.service.NewsService;
@@ -10,22 +12,29 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Arrays;
 @SpringBootTest
 class MainPageControllerTest {
 
-    @Autowired ConferenceService conferenceService;
+    @Autowired
+    NHNAuthService nhnAuthService;
+    @Autowired
+    ConferenceService conferenceService;
     @Autowired
     NewsService newsService;
     @Autowired
     PetitionService petitionService;
+    @Autowired
+    CarouselImageRepository carouselImageRepository;
+
     @Test
     void index() {
         PropertiesReader properties = PropertiesReader.INSTANCE;
         ObjectStorageService osService = new ObjectStorageService(
                 properties.getValue("nhn.os.storageAccount"),
                 properties.getValue("nhn.os.storageName"));
-        MainPageService service = new MainPageService(osService, conferenceService, newsService, petitionService);
-        System.out.println(Arrays.toString(service.getCarouselImageURLs()));
+        MainPageService service = new MainPageService(nhnAuthService, osService, conferenceService,
+                newsService, petitionService, carouselImageRepository);
+        System.out.println("===== carousel =====");
+        service.getCarouselImageURLs().forEach(System.out::println);
     }
 }
