@@ -12,7 +12,7 @@ class ObjectStorageServiceTest {
     @Test
     void uploadObject() throws FileNotFoundException {
         PropertiesReader properties = PropertiesReader.INSTANCE;
-        AuthService auth = new AuthService(
+        NHNAuthService auth = new NHNAuthService(
                 properties.getValue("nhn.os.tenantId"),
                 properties.getValue("nhn.os.username"),
                 properties.getValue("nhn.os.password"));
@@ -25,6 +25,6 @@ class ObjectStorageServiceTest {
         String testBinary = "/Users/psvm/Desktop/test.jpg";
         String objectName = "ttttt.png";
         InputStream is = new FileInputStream(testBinary);
-        osService.uploadObject(token, "main-storage", objectName, is);
+        osService.uploadObject(token, objectName, is);
     }
 }

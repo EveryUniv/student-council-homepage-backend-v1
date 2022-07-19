@@ -1,6 +1,8 @@
 package com.rtsoju.dku_council_homepage.common;
 
 public enum Messages {
+    ERROR_INVALID_ID("정확한 ID를 입력하세요."),
+    ERROR_ARGUMENT_NOT_SPECIFIED("필수 인자가 누락되었습니다."),
     ERROR_INCORRECT_PHONE("정확한 휴대폰 번호를 입력해주세요."),
     ERROR_SMS_AUTH_EXPIRED("SMS 인증 유효시간이 지났습니다. 인증을 다시 시작해주세요."),
     ERROR_INCORRECT_SMS_CODE("올바른 코드를 입력하세요."),
