@@ -26,6 +26,6 @@ class MainPageControllerTest {
                 properties.getValue("nhn.os.storageAccount"),
                 properties.getValue("nhn.os.storageName"));
         MainPageService service = new MainPageService(osService, conferenceService, newsService, petitionService);
-        System.out.println(Arrays.toString(service.getCarouselImageURLs()));
+        //System.out.println(Arrays.toString(service.getca()));
     }
 }

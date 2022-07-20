@@ -9,16 +9,18 @@ import java.time.format.DateTimeFormatter;
 
 @Data
 public class RuleDto {
+    private Long id;
     private String title;
-//    private User user;
-//    private int hitCount;
+    private String userName;
+    private int hitCount;
     private String createDate;
     private String fileUrl;
 
     public RuleDto(Rule rule){
+        this.id = rule.getId();
         this.title = rule.getTitle();
-//        this.user = rule.getUser();
-//        this.hitCount = rule.getPostHits().size();
+        this.userName = rule.getUser().getName();
+        this.hitCount = rule.getPostHits().size();
         this.createDate = ConvertDate(rule.getCreateDate());
         this.fileUrl = rule.getFileUrl();
     }

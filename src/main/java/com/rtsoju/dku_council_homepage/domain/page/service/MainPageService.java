@@ -5,6 +5,7 @@ import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
 import com.rtsoju.dku_council_homepage.domain.post.service.ConferenceService;
 import com.rtsoju.dku_council_homepage.domain.post.service.NewsService;
 import com.rtsoju.dku_council_homepage.domain.post.service.PetitionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class MainPageService {
     public static final String CAROUSEL_IMAGE_PREFIX = "carousel";
     public static final int CAROUSEL_IMAGE_COUNT = 3;
@@ -21,16 +23,10 @@ public class MainPageService {
     private final NewsService newsService;
     private final PetitionService petitionService;
 
-    public MainPageService(@Autowired ObjectStorageService s3service, ConferenceService conferenceService, NewsService newsService, PetitionService petitionService) {
-        this.s3service = s3service;
-        this.conferenceService = conferenceService;
-        this.newsService = newsService;
-        this.petitionService = petitionService;
-    }
 
-//    public List<String> getCarouselImageURLs() {
-//        return result;
-//    }
+    public List<String> getCarouselImageURLs() {
+        return null;
+    }
 
     /**
      * 최근 회의록 목록을 가져온다. (5개)

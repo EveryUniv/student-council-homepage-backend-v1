@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,6 +21,12 @@ public class PetitionController {
     @GetMapping
     public PageRes<PetitionDto> list(Pageable pageable){
         Page<PetitionDto> map = petitionService.petitionPage(pageable);
+        return new PageRes(map.getContent(), map.getPageable(), map.getTotalElements());
+    }
+
+    @GetMapping("/status")
+    public PageRes<PetitionDto> listStatus(@RequestParam(value = "status") String status,  Pageable pageable){
+        Page<PetitionDto> map = petitionService.petitionPageOnStatus(status, pageable);
         return new PageRes(map.getContent(), map.getPageable(), map.getTotalElements());
     }
 

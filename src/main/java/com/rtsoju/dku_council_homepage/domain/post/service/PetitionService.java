@@ -1,5 +1,6 @@
 package com.rtsoju.dku_council_homepage.domain.post.service;
 
+import com.rtsoju.dku_council_homepage.domain.base.PetitionStatus;
 import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.PetitionDto;
@@ -22,6 +23,28 @@ public class PetitionService {
 
     public Page<PetitionDto> petitionPage(Pageable pageable){
         Page<Petition> page = petitionRepository.findAll(pageable);
+        return page.map(PetitionDto::new);
+    }
+
+    public Page<PetitionDto> petitionPageOnStatus(String query,  Pageable pageable){
+        PetitionStatus status;
+        if(query.equals("A")){
+            status = PetitionStatus.진행중;
+            System.out.println("==========================================");
+        }else if(query.equals("B")){
+            status = PetitionStatus.완료;
+            System.out.println("==========================================");
+
+        }else if(query.equals("C")){
+            status = PetitionStatus.취소;
+            System.out.println("==========================================");
+
+        }else{
+            status = null;
+            System.out.println("==========================================");
+
+        }
+        Page<Petition> page = petitionRepository.findAllByStatus(status, pageable);
         return page.map(PetitionDto::new);
     }
 
