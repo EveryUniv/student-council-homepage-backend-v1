@@ -8,6 +8,11 @@ import lombok.Data;
  */
 @Data
 public class PostSummary {
+    private Long id;
     private String title;
-    private String url;
+
+    public PostSummary(Long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
 }
