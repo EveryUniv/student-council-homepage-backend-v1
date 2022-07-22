@@ -38,7 +38,7 @@ jobs:
         mkdir resources
         cd ./resources
         touch ./application.properties
-        echo "${{ secrets.PROPERTIES_PROD }}" >./application.preperties
+        echo "${{ secrets.PROPERTIES_PROD }}" > ./application.preperties
         shell: bash
         
     - name: make test properties
@@ -47,7 +47,7 @@ jobs:
         mkdir resources
         cd ./resources
         touch ./application.properties
-        echo "${{ secrets.PROPERTIES_TEST }}" >./application.preperties
+        echo "${{ secrets.PROPERTIES_TEST }}" > ./application.preperties
         shell: bash
         
     - name: Build with Gradle
