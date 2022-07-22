@@ -2,6 +2,7 @@ package com.rtsoju.dku_council_homepage.domain.post.entity.subentity;
 
 import com.rtsoju.dku_council_homepage.domain.base.PetitionStatus;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
+import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,13 @@ public class Petition extends Post {
         this.status = status;
     }
 
+    public Petition(User user, String title, String text, PetitionStatus status){
+        super(user, title, text);
+        this.status = status;
+
+    }
+
     @Enumerated(EnumType.STRING)
     private PetitionStatus status;
+
 }

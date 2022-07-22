@@ -1,14 +1,13 @@
 package com.rtsoju.dku_council_homepage.domain.user.service;
 
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
-import com.rtsoju.dku_council_homepage.domain.auth.email.dto.RequestEmailDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestLoginDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestReissueDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestSignupDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.response.BothTokenResponseDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.UserRole;
-import com.rtsoju.dku_council_homepage.domain.user.repository.UserInfoRepository;
+import com.rtsoju.dku_council_homepage.domain.user.repository.UserRepository;
 import com.rtsoju.dku_council_homepage.exception.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,13 +24,9 @@ import java.util.Optional;
 @Slf4j
 @Transactional
 public class UserService {
-    private final UserInfoRepository userInfoRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
-
-    public Optional<User> findById(Long userId) {
-        return userInfoRepository.findById(userId);
-    }
 
     public Long signup(RequestSignupDto dto, String emailValidationToken) {
         // Todo : 학번 중복 검사 -> 학번은 이메일을 통한 회원가입시 중복검사
@@ -49,7 +43,7 @@ public class UserService {
 
         user.allocateRole("ROLE_USER");
 
-        userInfoRepository.save(user);
+        userRepository.save(user);
         return user.getId();
     }
 
@@ -64,7 +58,7 @@ public class UserService {
     }
 
     public BothTokenResponseDto login(RequestLoginDto dto) {
-        User findUser = userInfoRepository.findByClassId(dto.getClassId()).orElseThrow(LoginUserNotFoundException::new);
+        User findUser = userRepository.findByClassId(dto.getClassId()).orElseThrow(LoginUserNotFoundException::new);
 
         if (passwordEncoder.matches(dto.getPassword(), findUser.getPassword())) {
             // Todo : 권한 부분 수정
@@ -78,7 +72,7 @@ public class UserService {
     }
 
     public void verifyExistMemberWithClassId(String classId) {
-        userInfoRepository.findByClassId(classId).ifPresent(user -> {
+        userRepository.findByClassId(classId).ifPresent(user -> {
             throw new EmailUserExistException("이미 존재하는 회원입니다.");
         });
     }
@@ -101,7 +95,7 @@ public class UserService {
             throw new RefreshTokenNotValidateException();
 
         Long userId = Long.parseLong(jwtProvider.getUserId(accessToken));
-        User user = userInfoRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
+        User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
         List<String> role = getRole(user);
 
         String newAccessToken = jwtProvider.createLoginAccessToken(userId, role);

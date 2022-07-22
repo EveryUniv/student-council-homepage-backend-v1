@@ -7,20 +7,20 @@ import lombok.Data;
 
 @Data
 public class PetitionDto {
+    private Long id;
     private String  petitionStatus;
     private String title;
-    //우선 작성자도 나중에 연동.. test하기 어려움.
-//    private User user;
+    private String userName;
 
-    //추천 수랑 댓글 수는 나중에 연동..
-//    private int hitCount;
-//    private int commentCount;
+    private int hitCount;
+    private int commentCount;
 
     public PetitionDto(Petition petition){
+        this.id = petition.getId();
         this.petitionStatus = petition.getStatus().toString();
         this.title = petition.getTitle();
-//        this.user = petition.getUser();
-//        this.hitCount = petition.getPostHits().size();
-//        this.commentCount = petition.getComments().size();
+        this.userName = petition.getUser().getName();
+        this.hitCount = petition.getPostHits().size();
+        this.commentCount = petition.getComments().size();
     }
 }

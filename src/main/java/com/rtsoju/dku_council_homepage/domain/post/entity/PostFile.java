@@ -18,6 +18,4 @@ public class PostFile extends BaseEntity {
 
     @Column(name = "file_url")
     private String url;
-
-
 }

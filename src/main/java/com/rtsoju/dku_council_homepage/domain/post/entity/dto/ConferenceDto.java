@@ -9,12 +9,15 @@ import java.time.format.DateTimeFormatter;
 
 @Data
 public class ConferenceDto {
+
+    private Long id;
     private int round;
     private LocalDate date;
     private String createDate;
     private String title;
     private String fileUrl;
     public ConferenceDto(Conference conference){
+        this.id = conference.getId();
         this.round = conference.getRound();
         this.date = conference.getDate();
         this.createDate = ConvertDate(conference.getCreateDate());

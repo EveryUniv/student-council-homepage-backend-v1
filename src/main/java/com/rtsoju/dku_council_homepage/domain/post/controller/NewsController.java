@@ -24,7 +24,6 @@ public class NewsController {
     public PageRes<NewsDto> list(Pageable pageable){
         Page<NewsDto> map = newsService.newsPage(pageable);
         List<NewsDto> list = newsService.latestTop5();
-//        System.out.println("list = " + list);
         return new PageRes(map.getContent(), map.getPageable(), map.getTotalElements());
     }
 }
