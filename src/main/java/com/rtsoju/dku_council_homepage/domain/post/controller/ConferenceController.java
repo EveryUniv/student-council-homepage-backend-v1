@@ -26,7 +26,7 @@ public class ConferenceController {
 
 //    @PostMapping
 //    public ResponseEntity<ResponseResult> create(@RequestBody RequestAnnounceDto data, HttpServletRequest httpServletRequest){
-//        String userToken = httpServletRequest.getHeader("X-AUHT-TOKEN");
+//        String userToken = httpServletRequest.getHeader("X-AUTH-TOKEN");
 //        String userId = jwtProvider.getUserId(userToken);
 //        long id = Long.parseLong(userId);
 //        IdResponseDto announce = conferenceService.createConference(id, data);
