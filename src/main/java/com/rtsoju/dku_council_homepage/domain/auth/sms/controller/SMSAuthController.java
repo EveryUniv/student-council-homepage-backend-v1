@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 public class SMSAuthController {
     private final SMSAuthService service;
 
-    @GetMapping("")
+    @GetMapping()
     public SMSAuthToken sendCode(@RequestParam String phone) {
         log.debug("Request sending SMS auth code: {}", phone);
         return service.sendSMSCode(phone);
     }
 
-    @PostMapping("")
+    @PostMapping()
     public SuccessResponseResult verifyCode(@RequestBody VerifyCodeRequest body) {
         log.debug("Let's verify {} -> {}", body.getToken(), body.getCode());
         service.verifyCode(body.getToken(), body.getCode());
