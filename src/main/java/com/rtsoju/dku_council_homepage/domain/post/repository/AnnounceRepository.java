@@ -13,11 +13,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AnnounceRepository extends JpaRepository<Announce, Long> {
-    @Override
-    @EntityGraph(attributePaths = {"comments"})
-    Page<Announce> findAll(Pageable pageable);
-
-
     Optional<Announce> findByTitle(String title);
 
 }

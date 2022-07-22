@@ -19,8 +19,8 @@ public class Conference extends Post {
         super(title, text);
     }
 
-    public Conference(User user, String title, String fileUrl) {
-        super(user, title, fileUrl);
+    public Conference(User user, String title, String text, String fileUrl) {
+        super(user, title, text, fileUrl);
     }
 
     @Column

@@ -58,11 +58,6 @@ public class Post extends BaseEntity {
         this.text = text;
     }
 
-//    public Post(User user, String title, String fileUrl){
-//        this.user = user;
-//        this.title = title;
-//        this.fileUrl = fileUrl;
-//    }
 
     public Post(User user, String title, String text, String fileUrl) {
         this.user = user;

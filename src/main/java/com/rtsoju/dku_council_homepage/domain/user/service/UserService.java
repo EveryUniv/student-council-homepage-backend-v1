@@ -28,10 +28,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
-    public Optional<User> findById(Long userId) {
-        return userRepository.findById(userId);
-    }
-
     public Long signup(RequestSignupDto dto, String emailValidationToken) {
         // Todo : 학번 중복 검사 -> 학번은 이메일을 통한 회원가입시 중복검사
         // Todo : 이메일 인증

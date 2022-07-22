@@ -10,10 +10,8 @@ public class PetitionDto {
     private Long id;
     private String  petitionStatus;
     private String title;
-//    우선 작성자도 나중에 연동.. test하기 어려움.
     private String userName;
 
-    //추천 수랑 댓글 수는 나중에 연동..
     private int hitCount;
     private int commentCount;
 

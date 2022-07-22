@@ -1,4 +1,4 @@
-package com.rtsoju.dku_council_homepage.domain.post.entity.request;
+package com.rtsoju.dku_council_homepage.domain.post.entity.dto.request;
 
 import lombok.Data;
 

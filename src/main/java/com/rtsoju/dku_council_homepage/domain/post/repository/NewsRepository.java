@@ -15,9 +15,6 @@ import java.util.List;
 public interface NewsRepository extends JpaRepository<News, Long> {
 //    @Query("select n from News n order by n.createDate desc")
 
-    @Override
-    @EntityGraph(attributePaths = {"comments"})
-    Page<News> findAll(Pageable pageable);
 
 
     List<News> findTop5ByOrderByCreateDateDesc();

@@ -12,7 +12,4 @@ import java.util.List;
 
 public interface RuleRepository extends JpaRepository<Rule, Long> {
 
-    @Override
-    @EntityGraph(attributePaths = {"comments"})
-    Page<Rule> findAll(Pageable pageable);
 }

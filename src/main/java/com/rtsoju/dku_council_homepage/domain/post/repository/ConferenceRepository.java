@@ -10,9 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ConferenceRepository extends JpaRepository<Conference, Long> {
-    @Override
-    @EntityGraph(attributePaths = {"comments"})
-    Page<Conference> findAll(Pageable pageable);
 
     List<Conference> findTop5ByOrderByCreateDateDesc();
 
