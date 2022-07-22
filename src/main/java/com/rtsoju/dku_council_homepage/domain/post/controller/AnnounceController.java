@@ -1,6 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.post.controller;
 
-import com.rtsoju.dku_council_homepage.common.RequestResult;
+import com.rtsoju.dku_council_homepage.common.ResponseResult;
+import com.rtsoju.dku_council_homepage.common.SuccessResponseResult;
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.AnnounceDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.PageRes;
@@ -24,23 +25,23 @@ public class AnnounceController {
     private final JwtProvider jwtProvider;
 
     @GetMapping
-    public PageRes<AnnounceDto> list(Pageable pageable){
+    public PageRes<AnnounceDto> list(Pageable pageable) {
         Page<AnnounceDto> map = announceService.announcePage(pageable);
-        return new PageRes(map.getContent(), map.getPageable(), map.getTotalElements());
+        return new PageRes<>(map.getContent(), map.getPageable(), map.getTotalElements());
     }
 
     @PostMapping
-    public ResponseEntity<RequestResult> create(@RequestBody RequestAnnounceDto data, HttpServletRequest httpServletRequest){
+    public ResponseEntity<ResponseResult> create(@RequestBody RequestAnnounceDto data, HttpServletRequest httpServletRequest) {
         String userToken = httpServletRequest.getHeader("X-AUHT-TOKEN");
         String userId = jwtProvider.getUserId(userToken);
         long id = Long.parseLong(userId);
         IdResponseDto announce = announceService.createAnnounce(id, data);
         return ResponseEntity.ok()
-                .body(new RequestResult("등록완료",announce));
+                .body(new SuccessResponseResult("등록완료", announce));
     }
 
     @GetMapping("/{id}")
-    public ResponseAnnounceDto findOne(@PathVariable("id") Long id){
+    public ResponseAnnounceDto findOne(@PathVariable("id") Long id) {
         ResponseAnnounceDto response = announceService.findOne(id);
 //        return ResponseEntity.ok()
 //                .body(new RequestResult("성공", response));
