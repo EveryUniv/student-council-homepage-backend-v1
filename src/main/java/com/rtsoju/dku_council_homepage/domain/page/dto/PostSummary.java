@@ -1,5 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.page.dto;
 
+import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
+import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.News;
 import lombok.Data;
 
 /**
@@ -8,6 +10,11 @@ import lombok.Data;
  */
 @Data
 public class PostSummary {
+    private Long id;
     private String title;
-    private String url;
+
+    public PostSummary(Long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
 }

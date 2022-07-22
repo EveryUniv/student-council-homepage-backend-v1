@@ -45,7 +45,7 @@ public class SecurityConfiguration{
                 .antMatchers(HttpMethod.POST, "/api/users/reissue").permitAll()
                 .antMatchers("/api/sms").permitAll()
                 .antMatchers("/api/email").permitAll()
-                .anyRequest().hasRole("USER") //이 외는 USER권한이 있는 사람만 접근
+                .anyRequest().permitAll() //이 외는 USER권한이 있는 사람만 접근
                 .and()
                 // 자동 주입으로 완성? OR new 생성자로 등록? 뭐가 좋을까...
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)

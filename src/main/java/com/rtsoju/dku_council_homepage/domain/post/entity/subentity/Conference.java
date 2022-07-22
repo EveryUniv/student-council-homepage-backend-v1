@@ -1,17 +1,32 @@
 package com.rtsoju.dku_council_homepage.domain.post.entity.subentity;
 
 import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
+import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue("C")
+@Getter
 public class Conference extends Post {
 
-    @Column
-    private Integer round;
+    public Conference(String title, String text) {
+        super(title, text);
+    }
+
+    public Conference(User user, String title, String text, String fileUrl) {
+        super(user, title, text, fileUrl);
+    }
 
     @Column
-    private LocalDateTime date;
+    private int round;
+
+    @Column
+    private LocalDate date;
+
 }
