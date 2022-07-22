@@ -26,6 +26,21 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+        
+    - name: make main properties
+      run: |
+        cd ./src/main/resources
+        touch ./application.properties
+        echo "${{ secrets.PROPERTIES_PROD }}" >./application.preperties
+        shell: bash
+        
+    - name: make test properties
+      run: |
+        cd ./src/test/resources
+        touch ./application.properties
+        echo "${{ secrets.PROPERTIES_TEST }}" >./application.preperties
+        shell: bash
+        
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
