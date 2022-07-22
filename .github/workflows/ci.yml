@@ -27,18 +27,12 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         
-    - name: echo properies
-      run: |
-        echo "${{ secrets.PROPERTIES_PROD }}"
-        echo "${{ secrets.PROPERTIES_TEST }}"
-        
     - name: make main properties
       run: |
         cd ./src/main
         mkdir resources
         cd ./resources
         touch ./application.properties
-        echo "${{ secrets.PROPERTIES_PROD }}" > ./application.preperties
         shell: bash
         
     - name: make test properties
@@ -47,7 +41,7 @@ jobs:
         mkdir resources
         cd ./resources
         touch ./application.properties
-        echo "${{ secrets.PROPERTIES_TEST }}" > ./application.preperties
+        echo "${{ secrets.PROPERTIES_PROD }}" > ./application.properties
         shell: bash
         
     - name: Build with Gradle
