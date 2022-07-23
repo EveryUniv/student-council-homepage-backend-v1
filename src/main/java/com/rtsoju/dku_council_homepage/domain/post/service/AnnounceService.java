@@ -25,7 +25,7 @@ public class AnnounceService {
     private final AnnounceRepository announceRepository;
     private final UserRepository userRepository;
 
-    public Page<PageAnnounceDto> announcePage(Pageable pageable){
+    public Page<PageAnnounceDto> announcePage(Pageable pageable) {
         Page<Announce> page = announceRepository.findAll(pageable);
         return page.map(PageAnnounceDto::new);
     }
@@ -42,8 +42,7 @@ public class AnnounceService {
     public ResponseAnnounceDto findOne(Long id) {
         Optional<Announce> announce = announceRepository.findById(id);
         //취소 됐을 때, 어떻게 처리할 것인지.. 삭제를 표기한다면 예외처리 필요함
-        ResponseAnnounceDto responseAnnounceDto = new ResponseAnnounceDto(announce.get());
-        return responseAnnounceDto;
+        return new ResponseAnnounceDto(announce.get());
     }
 
 //    public ResponseAnnounceDto

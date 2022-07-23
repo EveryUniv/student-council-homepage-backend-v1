@@ -29,8 +29,8 @@ public class JwtProvider {
     @Value("${auth.sms.expirationSeconds}")
     private int expirationSeconds;
 
-    private Long accessTokenValidMillisecond = 24 * 60 * 1000L; // 1 hour
-    private Long refreshTokenValidMillisecond = 14 * 24 * 60 * 60 * 1000L; // 14 day
+    private final Long accessTokenValidMillisecond = 24 * 60 * 1000L; // 1 hour
+    private final Long refreshTokenValidMillisecond = 14 * 24 * 60 * 60 * 1000L; // 14 day
 
     @PostConstruct
     protected void init() {

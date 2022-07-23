@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class MainPageResponse {
-    private List<String> carouses;
+    private List<String> carousels;
     private List<PostSummary> recentNews;
     private List<PostSummary> recentConferences;
     private List<PostSummary> popularPetitions;

@@ -19,9 +19,9 @@ public class NewsController {
     private final NewsService newsService;
 
     @GetMapping
-    public PageRes<PageNewsDto> list(Pageable pageable){
+    public PageRes<PageNewsDto> list(Pageable pageable) {
         Page<PageNewsDto> map = newsService.newsPage(pageable);
         List<PageNewsDto> list = newsService.latestTop5();
-        return new PageRes(map.getContent(), map.getPageable(), map.getTotalElements());
+        return new PageRes<>(map.getContent(), map.getPageable(), map.getTotalElements());
     }
 }
