@@ -1,4 +1,4 @@
-//package com.rtsoju.dku_council_homepage.domain.post.controller;
+//package co m.rtsoju.dku_council_homepage.domain.post.controller;
 //
 //
 //import com.rtsoju.dku_council_homepage.domain.base.Major;
