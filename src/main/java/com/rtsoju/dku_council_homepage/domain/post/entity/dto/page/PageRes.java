@@ -1,4 +1,4 @@
-package com.rtsoju.dku_council_homepage.domain.post.entity.dto;
+package com.rtsoju.dku_council_homepage.domain.post.entity.dto.page;
 
 import lombok.AccessLevel;
 import lombok.Getter;

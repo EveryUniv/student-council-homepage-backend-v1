@@ -1,6 +1,6 @@
 package com.rtsoju.dku_council_homepage.domain.post.service;
 
-import com.rtsoju.dku_council_homepage.domain.post.entity.dto.AnnounceDto;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageAnnounceDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestAnnounceDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.IdResponseDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.ResponseAnnounceDto;
@@ -25,9 +25,9 @@ public class AnnounceService {
     private final AnnounceRepository announceRepository;
     private final UserRepository userRepository;
 
-    public Page<AnnounceDto> announcePage(Pageable pageable){
+    public Page<PageAnnounceDto> announcePage(Pageable pageable){
         Page<Announce> page = announceRepository.findAll(pageable);
-        return page.map(AnnounceDto::new);
+        return page.map(PageAnnounceDto::new);
     }
 
     @Transactional
@@ -45,4 +45,6 @@ public class AnnounceService {
         ResponseAnnounceDto responseAnnounceDto = new ResponseAnnounceDto(announce.get());
         return responseAnnounceDto;
     }
+
+//    public ResponseAnnounceDto
 }

@@ -1,14 +1,13 @@
-package com.rtsoju.dku_council_homepage.domain.post.entity.dto;
+package com.rtsoju.dku_council_homepage.domain.post.entity.dto.page;
 
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Rule;
-import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Data
-public class RuleDto {
+public class PageRuleDto {
     private Long id;
     private String title;
     private String userName;
@@ -16,7 +15,7 @@ public class RuleDto {
     private String createDate;
     private String fileUrl;
 
-    public RuleDto(Rule rule){
+    public PageRuleDto(Rule rule){
         this.id = rule.getId();
         this.title = rule.getTitle();
         this.userName = rule.getUser().getName();

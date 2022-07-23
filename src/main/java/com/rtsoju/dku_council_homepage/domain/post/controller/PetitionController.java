@@ -2,12 +2,10 @@ package com.rtsoju.dku_council_homepage.domain.post.controller;
 
 import com.rtsoju.dku_council_homepage.common.RequestResult;
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
-import com.rtsoju.dku_council_homepage.domain.post.entity.dto.PageRes;
-import com.rtsoju.dku_council_homepage.domain.post.entity.dto.PetitionDto;
-import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestAnnounceDto;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageRes;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PagePetitionDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestPetitionDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.IdResponseDto;
-import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Petition;
 import com.rtsoju.dku_council_homepage.domain.post.service.PetitionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,14 +23,17 @@ public class PetitionController {
     private final JwtProvider jwtProvider;
 
     @GetMapping
-    public PageRes<PetitionDto> list(Pageable pageable){
-        Page<PetitionDto> map = petitionService.petitionPage(pageable);
+    public PageRes<PagePetitionDto> list(Pageable pageable){
+        Page<PagePetitionDto> map = petitionService.petitionPage(pageable);
         return new PageRes(map.getContent(), map.getPageable(), map.getTotalElements());
     }
 
+    /**
+     * 키워드 검색
+     */
     @GetMapping("/status")
-    public PageRes<PetitionDto> listStatus(@RequestParam(value = "status") String status,  Pageable pageable){
-        Page<PetitionDto> map = petitionService.petitionPageOnStatus(status, pageable);
+    public PageRes<PagePetitionDto> listStatus(@RequestParam(value = "status") String status, Pageable pageable){
+        Page<PagePetitionDto> map = petitionService.petitionPageOnStatus(status, pageable);
         return new PageRes(map.getContent(), map.getPageable(), map.getTotalElements());
     }
 
