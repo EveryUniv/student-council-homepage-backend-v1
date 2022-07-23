@@ -17,9 +17,9 @@ public class RuleController {
     private final RuleService ruleService;
 
     @GetMapping
-    public PageRes<PageRuleDto> list(Pageable pageable){
+    public PageRes<PageRuleDto> list(Pageable pageable) {
         Page<PageRuleDto> map = ruleService.rulePage(pageable);
-        return new PageRes(map.getContent(), map.getPageable(), map.getTotalElements());
+        return new PageRes<>(map.getContent(), map.getPageable(), map.getTotalElements());
     }
 
     /**

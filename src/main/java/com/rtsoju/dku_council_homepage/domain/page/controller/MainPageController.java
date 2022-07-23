@@ -21,7 +21,7 @@ public class MainPageController {
     @GetMapping("/main")
     public ResponseEntity<ResponseResult> index() {
         MainPageResponse response = new MainPageResponse();
-        response.setCarouses(service.getCarouselImageURLs());
+        response.setCarousels(service.getCarouselImageURLs());
         response.setPopularPetitions(service.getPopularPetitions());
         response.setRecentNews(service.getRecentNews());
         response.setRecentConferences(service.getRecentConferences());

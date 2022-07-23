@@ -26,4 +26,14 @@ public class ExternalURLs {
     public static String NHNObjectStorage(String storageAccount) {
         return String.format("https://api-storage.cloud.toast.com/v1/%s", storageAccount);
     }
+
+    /**
+     * Dankook Portal Schedule API URL
+     *
+     * @param start 요청할 스케줄 범위 시작 일자 (yyyymmdd)
+     * @param end   요청할 스케줄 범위 끝 일자 (yyyymmdd)
+     */
+    public static String DKUSchedule(String start, String end) {
+        return String.format("https://portal.dankook.ac.kr/ctt/sch/getScheduleData?startDt=%s&endDt=%s", start, end);
+    }
 }
