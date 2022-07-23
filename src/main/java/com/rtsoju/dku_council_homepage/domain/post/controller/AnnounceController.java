@@ -26,12 +26,13 @@ public class AnnounceController {
 
     /**
      * 목록조회 (keyWord로 조회하기)추가하기!
-     * api/announce 호출시 uri param ?page, size, sort custom가능
+     * api/announce 호출시 uri param ?page, size, sort, q(query) custom 가능!
      */
     @GetMapping
-    public PageRes<PageAnnounceDto> list(Pageable pageable) {
-        Page<PageAnnounceDto> map = announceService.announcePage(pageable);
+    public PageRes<PageAnnounceDto> list(@RequestParam(value = "q", required = false)String query, Pageable pageable){
+        Page<PageAnnounceDto> map = announceService.announcePageByTitleAndText(query, query, pageable);
         return new PageRes<>(map.getContent(), map.getPageable(), map.getTotalElements());
+
     }
 
     /**
@@ -62,12 +63,14 @@ public class AnnounceController {
      * 삭제
      * 메시지만? pk값 필요없고, only Message
      */
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<RequestResult> deleteOne(@PathVariable("id") Long id){
-//
-//
-//    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseResult> deleteOne(@PathVariable("id") Long id){
+        announceService.deleteOne(id);
+        return ResponseEntity.ok()
+                .body(new SuccessResponseResult("삭제완료"));
+    }
+
 
 
 }

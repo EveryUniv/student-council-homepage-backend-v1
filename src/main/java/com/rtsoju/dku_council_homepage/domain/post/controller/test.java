@@ -1,6 +1,5 @@
 //package com.rtsoju.dku_council_homepage.domain.post.controller;
 //
-//
 //import com.rtsoju.dku_council_homepage.domain.base.Major;
 //import com.rtsoju.dku_council_homepage.domain.base.PetitionStatus;
 //import com.rtsoju.dku_council_homepage.domain.base.Register;
@@ -43,7 +42,10 @@
 //            postRepository.save(new Petition(findUser.get(), "Petition"+i, "hihi"+i, PetitionStatus.진행중));
 //            Optional<Petition> findPetiton = petitionRepository.findByTitle("Petition"+i);
 //            commentRepository.save(new Comment(findPetiton.get(), findUser.get(), "hi"));
+//            commentRepository.save(new Comment(findPetiton.get(), findUser.get(), "hi"));
+//
 //            postRepository.save(new Rule("Rule"+i, "Rule"+i));
 //        }
 //    }
 //}
+//

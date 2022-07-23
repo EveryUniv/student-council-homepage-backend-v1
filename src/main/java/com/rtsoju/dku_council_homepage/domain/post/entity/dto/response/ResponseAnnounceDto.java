@@ -19,11 +19,7 @@ public class ResponseAnnounceDto {
         this.title = announce.getTitle();
         this.text = announce.getText();
         this.fileUrl = announce.getFileUrl();
-        this.createDate = ConvertDate(announce.getCreateDate());
+        this.createDate = announce.ConvertDate(announce.getCreateDate());
     }
 
-    private String ConvertDate(LocalDateTime time){
-        DateTimeFormatter patten = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return time.format(patten);
-    }
 }

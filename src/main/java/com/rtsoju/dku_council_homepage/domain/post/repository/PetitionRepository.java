@@ -1,6 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.post.repository;
 
 import com.rtsoju.dku_council_homepage.domain.base.PetitionStatus;
+import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Announce;
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.News;
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Petition;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,8 @@ public interface PetitionRepository extends JpaRepository<Petition, Long> {
     List<Petition> findTop5ByOrderByCreateDateDesc();
 
     Optional<Petition> findByTitle(String title);
+
+    Page<Petition> findAllByTitleContainsAndTextContains(String title, String text, Pageable pageable);
 
     @Modifying
     @Query("update Petition p set p.status = (:after) where p.createDate <= :now and p.status =(:before)")
