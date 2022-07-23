@@ -1,12 +1,10 @@
-package com.rtsoju.dku_council_homepage.domain.post.entity.dto;
+package com.rtsoju.dku_council_homepage.domain.post.entity.dto.page;
 
-import com.rtsoju.dku_council_homepage.domain.base.PetitionStatus;
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Petition;
-import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import lombok.Data;
 
 @Data
-public class PetitionDto {
+public class PagePetitionDto {
     private Long id;
     private String  petitionStatus;
     private String title;
@@ -15,7 +13,7 @@ public class PetitionDto {
     private int hitCount;
     private int commentCount;
 
-    public PetitionDto(Petition petition){
+    public PagePetitionDto(Petition petition){
         this.id = petition.getId();
         this.petitionStatus = petition.getStatus().toString();
         this.title = petition.getTitle();

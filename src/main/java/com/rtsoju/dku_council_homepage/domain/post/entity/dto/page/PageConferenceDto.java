@@ -1,4 +1,4 @@
-package com.rtsoju.dku_council_homepage.domain.post.entity.dto;
+package com.rtsoju.dku_council_homepage.domain.post.entity.dto.page;
 
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Conference;
 import lombok.Data;
@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Data
-public class ConferenceDto {
+public class PageConferenceDto {
 
     private Long id;
     private int round;
@@ -16,7 +16,7 @@ public class ConferenceDto {
     private String createDate;
     private String title;
     private String fileUrl;
-    public ConferenceDto(Conference conference){
+    public PageConferenceDto(Conference conference){
         this.id = conference.getId();
         this.round = conference.getRound();
         this.date = conference.getDate();

@@ -1,8 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.post.controller;
 
-import com.rtsoju.dku_council_homepage.domain.post.entity.dto.PageRes;
-import com.rtsoju.dku_council_homepage.domain.post.entity.dto.RuleDto;
-import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Rule;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageRes;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageRuleDto;
 import com.rtsoju.dku_council_homepage.domain.post.service.RuleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,8 +17,12 @@ public class RuleController {
     private final RuleService ruleService;
 
     @GetMapping
-    public PageRes<RuleDto> list(Pageable pageable){
-        Page<RuleDto> map = ruleService.rulePage(pageable);
-        return new PageRes(map.getContent(), map.getPageable(), map.getTotalElements());
+    public PageRes<PageRuleDto> list(Pageable pageable) {
+        Page<PageRuleDto> map = ruleService.rulePage(pageable);
+        return new PageRes<>(map.getContent(), map.getPageable(), map.getTotalElements());
     }
+
+    /**
+     * 본문 및 제목 검색 API
+     */
 }

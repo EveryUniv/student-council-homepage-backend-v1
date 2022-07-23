@@ -2,7 +2,7 @@ package com.rtsoju.dku_council_homepage.domain.post.service;
 
 import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
-import com.rtsoju.dku_council_homepage.domain.post.entity.dto.NewsDto;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageNewsDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.News;
 import com.rtsoju.dku_council_homepage.domain.post.repository.NewsRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,14 +22,14 @@ import java.util.stream.Collectors;
 public class NewsService {
     private final NewsRepository newsRepository;
 
-    public Page<NewsDto> newsPage(Pageable pageable){
+    public Page<PageNewsDto> newsPage(Pageable pageable){
         Page<News> page = newsRepository.findAll(pageable);
-        return page.map(NewsDto::new);
+        return page.map(PageNewsDto::new);
     }
 
-    public List<NewsDto> latestTop5(){
+    public List<PageNewsDto> latestTop5(){
         List<News> newsList = newsRepository.findTop5ByOrderByCreateDateDesc();
-        return newsList.stream().map(NewsDto::new).collect(Collectors.toList());
+        return newsList.stream().map(PageNewsDto::new).collect(Collectors.toList());
     }
 
     public List<PostSummary> postPage(){

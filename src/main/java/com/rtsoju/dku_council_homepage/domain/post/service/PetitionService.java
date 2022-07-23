@@ -3,7 +3,7 @@ package com.rtsoju.dku_council_homepage.domain.post.service;
 import com.rtsoju.dku_council_homepage.domain.base.PetitionStatus;
 import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
-import com.rtsoju.dku_council_homepage.domain.post.entity.dto.PetitionDto;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PagePetitionDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestPetitionDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.IdResponseDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Petition;
@@ -17,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Id;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,12 +29,12 @@ public class PetitionService {
     private final PetitionRepository petitionRepository;
     private final UserRepository userRepository;
 
-    public Page<PetitionDto> petitionPage(Pageable pageable){
+    public Page<PagePetitionDto> petitionPage(Pageable pageable){
         Page<Petition> page = petitionRepository.findAll(pageable);
-        return page.map(PetitionDto::new);
+        return page.map(PagePetitionDto::new);
     }
 
-    public Page<PetitionDto> petitionPageOnStatus(String query,  Pageable pageable){
+    public Page<PagePetitionDto> petitionPageOnStatus(String query, Pageable pageable){
         PetitionStatus status;
         if(query.equals("진행중")){
             status = PetitionStatus.진행중;
@@ -47,7 +46,7 @@ public class PetitionService {
             status = null;
         }
         Page<Petition> page = petitionRepository.findAllByStatus(status, pageable);
-        return page.map(PetitionDto::new);
+        return page.map(PagePetitionDto::new);
     }
 
 
