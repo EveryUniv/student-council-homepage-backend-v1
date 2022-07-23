@@ -5,6 +5,7 @@ import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -36,6 +37,9 @@ public class Post extends BaseEntity {
     private String text;
 
     private String fileUrl;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<PostFile> fileList = new ArrayList<>();
 
     //중복허용하면 fetch join 동시에 못날림 + 어차피 고유값들 들어가서 중복된 값이 들어갈 일도 없음..
     //나중에 필요하면 값비교 overrite할 예정.
@@ -69,6 +73,19 @@ public class Post extends BaseEntity {
 
     public PostSummary summarize(){
         return new PostSummary(id, title);
+    }
+
+    public void putFiles(List<PostFile> fileList) {
+        for (PostFile postFile : fileList) {
+            postFile.putPost(this);
+        }
+        this.fileList = fileList;
+    }
+
+    public void putUser(User user) {
+        this.user = user;
+        List<Post> postList = user.getPostList();
+        postList.add(this);
     }
 }
 
