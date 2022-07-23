@@ -44,7 +44,7 @@ public class Post extends BaseEntity {
     //중복허용하면 fetch join 동시에 못날림 + 어차피 고유값들 들어가서 중복된 값이 들어갈 일도 없음..
     //나중에 필요하면 값비교 overrite할 예정.
     @OneToMany(mappedBy = "post")
-    Set<Comment> comments = new HashSet<>();
+    List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "post")
     Set<PostHit> postHits = new HashSet<>();

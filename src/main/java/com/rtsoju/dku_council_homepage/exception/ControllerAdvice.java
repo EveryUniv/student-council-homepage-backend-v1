@@ -1,6 +1,7 @@
 package com.rtsoju.dku_council_homepage.exception;
 
 import com.rtsoju.dku_council_homepage.common.ErrorResponseResult;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -21,7 +22,9 @@ public class ControllerAdvice {
             RefreshTokenNotValidateException.class,
             FindUserWithIdNotFoundException.class,
             ReissueAccessTokenNotCorrectException.class,
-            FindPostWithIdNotFoundException.class
+            FindPostWithIdNotFoundException.class,
+            BadRequestException.class,
+            EmptyResultDataAccessException.class // JpaRepository error -> directory 다 반환되는데 어케 처리할지..
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponseResult exceptionHandler(HttpServletRequest request, Exception e) {

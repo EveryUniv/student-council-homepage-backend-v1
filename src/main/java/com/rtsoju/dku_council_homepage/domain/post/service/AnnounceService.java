@@ -8,10 +8,12 @@ import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Announce;
 import com.rtsoju.dku_council_homepage.domain.post.repository.AnnounceRepository;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import com.rtsoju.dku_council_homepage.domain.user.repository.UserRepository;
+import com.rtsoju.dku_council_homepage.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,10 +32,20 @@ public class AnnounceService {
         return page.map(PageAnnounceDto::new);
     }
 
+    public Page<PageAnnounceDto> announcePageByTitleAndText(String title, String text, Pageable pageable){
+        Page<Announce> page;
+        if(title == null) {
+            page = announceRepository.findAll(pageable);
+        }else{
+            page = announceRepository.findAllByTitleContainsAndTextContains(title,text,pageable);
+        }
+        return page.map(PageAnnounceDto::new);
+    }
+
     @Transactional
     public IdResponseDto createAnnounce(Long userId, RequestAnnounceDto data) {
-        Optional<User> user = userRepository.findById(userId);
-        Announce announce = new Announce(user.get(), data.getTitle(), data.getText(), data.getFileUrl());
+        User user = userRepository.findById(userId).orElseThrow(BadRequestException::new);
+        Announce announce = new Announce(user, data.getTitle(), data.getText(), data.getFileUrl());
         Announce save = announceRepository.save(announce);
         return new IdResponseDto(save.getId());
     }
@@ -41,9 +53,12 @@ public class AnnounceService {
 
     public ResponseAnnounceDto findOne(Long id) {
         Optional<Announce> announce = announceRepository.findById(id);
-        //취소 됐을 때, 어떻게 처리할 것인지.. 삭제를 표기한다면 예외처리 필요함
+        announce.orElseThrow(()->new BadRequestException("없어"));//메세지 넣고 싶당..
         return new ResponseAnnounceDto(announce.get());
     }
 
-//    public ResponseAnnounceDto
+    @Transactional
+    public void deleteOne(Long id) {
+        announceRepository.deleteById(id);
+    }
 }

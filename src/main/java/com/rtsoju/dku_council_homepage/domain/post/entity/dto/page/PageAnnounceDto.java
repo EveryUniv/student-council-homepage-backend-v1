@@ -16,13 +16,8 @@ public class PageAnnounceDto {
     public PageAnnounceDto(Announce announce){
         this.id = announce.getId();
         this.title = announce.getTitle();
-        this.createDate = ConvertDate(announce.getCreateDate());
+        this.createDate = announce.ConvertDate(announce.getCreateDate());
         this.fileUrl = announce.getFileUrl();
-    }
-
-    private String ConvertDate(LocalDateTime time){
-        DateTimeFormatter patten = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return time.format(patten);
     }
 
 }

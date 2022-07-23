@@ -20,13 +20,7 @@ public class PageRuleDto {
         this.title = rule.getTitle();
         this.userName = rule.getUser().getName();
         this.hitCount = rule.getPostHits().size();
-        this.createDate = ConvertDate(rule.getCreateDate());
+        this.createDate = rule.ConvertDate(rule.getCreateDate());
         this.fileUrl = rule.getFileUrl();
     }
-
-    private String ConvertDate(LocalDateTime time){
-        DateTimeFormatter patten = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return time.format(patten);
-    }
-
 }

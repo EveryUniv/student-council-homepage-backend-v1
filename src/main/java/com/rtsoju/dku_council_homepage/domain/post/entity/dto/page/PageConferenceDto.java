@@ -20,14 +20,9 @@ public class PageConferenceDto {
         this.id = conference.getId();
         this.round = conference.getRound();
         this.date = conference.getDate();
-        this.createDate = ConvertDate(conference.getCreateDate());
+        this.createDate = conference.ConvertDate(conference.getCreateDate());
         this.title = conference.getTitle();
         this.fileUrl = conference.getFileUrl();
-    }
-
-    private String ConvertDate(LocalDateTime time){
-        DateTimeFormatter patten = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return time.format(patten);
     }
 
 }

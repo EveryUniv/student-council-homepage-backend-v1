@@ -12,7 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+
 public interface AnnounceRepository extends JpaRepository<Announce, Long> {
     Optional<Announce> findByTitle(String title);
+
+    Page<Announce> findAllByTitleContainsAndTextContains(String title, String text, Pageable pageable);
+
 
 }
