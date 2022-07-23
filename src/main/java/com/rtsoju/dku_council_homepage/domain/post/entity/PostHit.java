@@ -3,6 +3,7 @@ package com.rtsoju.dku_council_homepage.domain.post.entity;
 import com.rtsoju.dku_council_homepage.domain.base.BaseEntity;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 

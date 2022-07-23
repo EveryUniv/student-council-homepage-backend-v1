@@ -32,9 +32,8 @@ class MainPageControllerTest {
         ObjectStorageService osService = new ObjectStorageService(
                 properties.getValue("nhn.os.storageAccount"),
                 properties.getValue("nhn.os.storageName"));
-        MainPageService service = new MainPageService(nhnAuthService, osService, conferenceService,
-                newsService, petitionService, carouselImageRepository);
-        System.out.println("===== carousel =====");
-        service.getCarouselImageURLs().forEach(System.out::println);
+
+        MainPageService service = new MainPageService(osService, conferenceService, newsService, petitionService);
+        //System.out.println(Arrays.toString(service.getca()));
     }
 }

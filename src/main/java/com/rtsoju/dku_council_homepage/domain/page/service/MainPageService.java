@@ -35,6 +35,7 @@ public class MainPageService {
                 .collect(Collectors.toList());
     }
 
+
     public void addCarouselImage(MultipartFile file) throws IOException {
         String fileId = "carousel-" + UUID.randomUUID();
         String token = nhnAuthService.requestToken();
