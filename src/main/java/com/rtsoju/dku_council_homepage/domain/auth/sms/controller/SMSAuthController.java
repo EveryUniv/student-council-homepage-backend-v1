@@ -1,7 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.auth.sms.controller;
 
 import com.rtsoju.dku_council_homepage.common.Messages;
-import com.rtsoju.dku_council_homepage.common.RequestResult;
+import com.rtsoju.dku_council_homepage.common.SuccessResponseResult;
 import com.rtsoju.dku_council_homepage.domain.auth.sms.dto.SMSAuthToken;
 import com.rtsoju.dku_council_homepage.domain.auth.sms.dto.request.VerifyCodeRequest;
 import com.rtsoju.dku_council_homepage.domain.auth.sms.service.SMSAuthService;
@@ -16,11 +16,6 @@ import org.springframework.web.bind.annotation.*;
 public class SMSAuthController {
     private final SMSAuthService service;
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public RequestResult handleError(IllegalArgumentException e) {
-        return new RequestResult(e);
-    }
-
     @GetMapping("")
     public SMSAuthToken sendCode(@RequestParam String phone) {
         log.debug("Request sending SMS auth code: {}", phone);
@@ -28,9 +23,9 @@ public class SMSAuthController {
     }
 
     @PostMapping("")
-    public RequestResult verifyCode(@RequestBody VerifyCodeRequest body) {
+    public SuccessResponseResult verifyCode(@RequestBody VerifyCodeRequest body) {
         log.debug("Let's verify {} -> {}", body.getToken(), body.getCode());
         service.verifyCode(body.getToken(), body.getCode());
-        return new RequestResult(Messages.SUCCESS_SMS_AUTH.getMessage());
+        return new SuccessResponseResult(Messages.SUCCESS_SMS_AUTH.getMessage());
     }
 }

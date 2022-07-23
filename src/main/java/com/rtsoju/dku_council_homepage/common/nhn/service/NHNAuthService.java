@@ -10,12 +10,12 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
-public class AuthService {
+public class NHNAuthService {
 
     private final TokenRequest tokenRequest;
     private final RestTemplate restTemplate;
 
-    public AuthService(
+    public NHNAuthService(
             @Value("${nhn.os.tenantId}") String tenantId,
             @Value("${nhn.os.username}") String username,
             @Value("${nhn.os.password}") String password) {

@@ -1,7 +1,5 @@
 package com.rtsoju.dku_council_homepage.domain.page.dto;
 
-import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
-import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.News;
 import lombok.Data;
 
 /**

@@ -3,7 +3,11 @@ package com.rtsoju.dku_council_homepage.domain.post.service;
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
 import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
+
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.ConferenceDto;
+
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageConferenceDto;
+
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Conference;
 import com.rtsoju.dku_council_homepage.domain.post.repository.ConferenceRepository;
 import com.rtsoju.dku_council_homepage.domain.user.repository.UserRepository;
