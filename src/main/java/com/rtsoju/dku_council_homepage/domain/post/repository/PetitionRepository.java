@@ -27,7 +27,7 @@ public interface PetitionRepository extends JpaRepository<Petition, Long> {
 
     Optional<Petition> findByTitle(String title);
 
-    Page<Petition> findAllByTitleContainsAndTextContains(String title, String text, Pageable pageable);
+    Page<Petition> findAllByTitleContainsOrTextContains(String title, String text, Pageable pageable);
 
     @Modifying
     @Query("update Petition p set p.status = (:after) where p.createDate <= :now and p.status =(:before)")

@@ -18,7 +18,7 @@ public class PagePetitionDto {
         this.petitionStatus = petition.getStatus().toString();
         this.title = petition.getTitle();
         this.userName = petition.getUser().getName();
-        this.hitCount = petition.getPostHits().size();
+//        this.hitCount = petition.getPostHits().size();
         this.commentCount = petition.getComments().size();
     }
 }

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/api")
 @RequiredArgsConstructor
 public class EmailController {
     private final GmailService gmailService;

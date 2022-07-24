@@ -12,6 +12,7 @@ import com.rtsoju.dku_council_homepage.domain.post.repository.PetitionRepository
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import com.rtsoju.dku_council_homepage.domain.user.repository.UserRepository;
 import com.rtsoju.dku_council_homepage.exception.BadRequestException;
+import com.rtsoju.dku_council_homepage.exception.FindUserWithIdNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -38,7 +39,7 @@ public class PetitionService {
             System.out.println("lookup = " + lookup);
             page = petitionRepository.findAllByStatus(lookup, pageable);
         } else if (query != null) {
-            page = petitionRepository.findAllByTitleContainsAndTextContains(query, query, pageable);
+            page = petitionRepository.findAllByTitleContainsOrTextContains(query, query, pageable);
         } else {
             page = petitionRepository.findAll(pageable);
         }
@@ -53,15 +54,22 @@ public class PetitionService {
 
     @Transactional
     public IdResponseDto createPetition(long id, RequestPetitionDto data) {
-        Optional<User> user = userRepository.findById(id);
-        Petition petition = new Petition(user.get(), data.getTitle(), data.getText(), PetitionStatus.진행중);
+        User user = userRepository.findById(id).orElseThrow(FindUserWithIdNotFoundException::new);
+        Petition petition = new Petition(user, data.getTitle(), data.getText());
         Petition save = petitionRepository.save(petition);
         return new IdResponseDto(save.getId());
     }
 
+
+
+    @Transactional
     public ResponsePetitionDto findOne(Long id) {
         Petition petition = petitionRepository.findById(id).orElseThrow(() -> new BadRequestException("없어"));
         return new ResponsePetitionDto(petition);
     }
 
+    @Transactional
+    public void deleteOne(Long id) {
+        petitionRepository.deleteById(id);
+    }
 }
