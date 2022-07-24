@@ -45,7 +45,7 @@ public class Post extends BaseEntity {
     //나중에 필요하면 값비교 overrite할 예정. id값으로 hash처리해서 중복될 일이 없음.
     //댓글이랑 post는 완전 종속적 관계이기에 삭제시 댓글까지 모두 삭제..
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    Set<Comment> comments = new HashSet<>();
+    List<Comment> comments = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "post")
 //    Set<PostHit> postHits = new HashSet<>();
