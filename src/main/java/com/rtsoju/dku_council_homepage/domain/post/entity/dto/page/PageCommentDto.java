@@ -10,7 +10,6 @@ public class PageCommentDto {
     private String major;
     private String createDate;
     private String text;
-
     public PageCommentDto(Comment comment){
         this.major = comment.getUser().getMajor().getDepartment().toString();
         this.createDate = comment.ConvertDate(comment.getCreateDate());

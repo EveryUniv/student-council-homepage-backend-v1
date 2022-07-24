@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,22 +30,22 @@ public class AnnounceController {
      * api/announce 호출시 uri param ?page, size, sort, q(query) custom 가능!
      */
     @GetMapping
-    public PageRes<PageAnnounceDto> list(@RequestParam(value = "q", required = false)String query, Pageable pageable){
+    public PageRes<PageAnnounceDto> list(@RequestParam(value = "query", required = false)String query, Pageable pageable){
         Page<PageAnnounceDto> map = announceService.announcePageByTitleAndText(query, query, pageable);
         return new PageRes<>(map.getContent(), map.getPageable(), map.getTotalElements());
-
     }
 
     /**
-     * 등록 API는 ADMIN만 허용
-     * 반환값은 id
-     **/
+     * 단건 등록
+     * @param data : title, text, url(null)
+     * @param request : header
+     * @return :announce PK
+     */
     @PostMapping
-    public ResponseEntity<ResponseResult> create(@RequestBody RequestAnnounceDto data, HttpServletRequest httpServletRequest) {
-        String userToken = httpServletRequest.getHeader("X-AUTH-TOKEN");
-        String userId = jwtProvider.getUserId(userToken);
-        long id = Long.parseLong(userId);
-        IdResponseDto announce = announceService.createAnnounce(id, data);
+    public ResponseEntity<ResponseResult> create(@Valid @ModelAttribute RequestAnnounceDto data, HttpServletRequest request) {
+        String token = jwtProvider.getTokenInHttpServletRequest(request);
+        Long userId = Long.parseLong(jwtProvider.getUserId(token));
+        IdResponseDto announce = announceService.createAnnounce(userId, data);
         return ResponseEntity.ok()
                 .body(new SuccessResponseResult("등록완료", announce));
     }
@@ -62,8 +63,8 @@ public class AnnounceController {
     /**
      * 삭제
      * 메시지만? pk값 필요없고, only Message
+     * 주의!! 공지사항은 ADMIN계정만 삭제할 수 있음!!!
      */
-
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseResult> deleteOne(@PathVariable("id") Long id){
         announceService.deleteOne(id);

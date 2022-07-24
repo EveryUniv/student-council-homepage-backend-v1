@@ -22,7 +22,6 @@ public class PageConferenceDto {
         this.date = conference.getDate();
         this.createDate = conference.ConvertDate(conference.getCreateDate());
         this.title = conference.getTitle();
-        this.fileUrl = conference.getFileUrl();
     }
 
 }

@@ -19,8 +19,7 @@ public class PageRuleDto {
         this.id = rule.getId();
         this.title = rule.getTitle();
         this.userName = rule.getUser().getName();
-        this.hitCount = rule.getPostHits().size();
+//        this.hitCount = rule.getPostHits().size();
         this.createDate = rule.ConvertDate(rule.getCreateDate());
-        this.fileUrl = rule.getFileUrl();
     }
 }

@@ -16,7 +16,7 @@ public class PostFile extends BaseEntity {
     @Column(name = "post_file_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
 

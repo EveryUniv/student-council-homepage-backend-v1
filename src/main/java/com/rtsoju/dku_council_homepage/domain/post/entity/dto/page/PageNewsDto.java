@@ -17,7 +17,6 @@ public class PageNewsDto {
         this.id = news.getId();
         this.title = news.getTitle();
         this.createDate = ConvertDate(news.getCreateDate());
-        this.fileUrl = news.getFileUrl();
     }
 
     private String ConvertDate(LocalDateTime time){

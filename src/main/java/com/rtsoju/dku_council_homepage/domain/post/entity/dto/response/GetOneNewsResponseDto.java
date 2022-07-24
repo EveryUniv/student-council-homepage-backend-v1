@@ -19,7 +19,7 @@ public class GetOneNewsResponseDto {
     private String title;
     private String text;
     private List<String> files = new ArrayList<>();
-    private List<Comment> commentList = new ArrayList<>();
+    private Set<Comment> commentList = new HashSet<>();
     private String writer;
 
 
