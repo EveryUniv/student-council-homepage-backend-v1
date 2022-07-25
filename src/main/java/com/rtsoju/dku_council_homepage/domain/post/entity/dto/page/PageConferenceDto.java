@@ -20,7 +20,7 @@ public class PageConferenceDto {
         this.id = conference.getId();
         this.round = conference.getRound();
         this.date = conference.getDate();
-        this.createDate = conference.ConvertDate(conference.getCreateDate());
+        this.createDate = conference.convertDate(conference.getCreateDate());
         this.title = conference.getTitle();
     }
 

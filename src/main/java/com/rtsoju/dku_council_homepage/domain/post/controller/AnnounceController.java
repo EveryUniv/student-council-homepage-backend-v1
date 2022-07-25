@@ -31,7 +31,7 @@ public class AnnounceController {
      */
     @GetMapping
     public PageRes<PageAnnounceDto> list(@RequestParam(value = "query", required = false)String query, Pageable pageable){
-        Page<PageAnnounceDto> map = announceService.announcePageByTitleAndText(query, query, pageable);
+        Page<PageAnnounceDto> map = announceService.announcePage(query, query, pageable);
         return new PageRes<>(map.getContent(), map.getPageable(), map.getTotalElements());
     }
 

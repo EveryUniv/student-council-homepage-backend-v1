@@ -21,4 +21,14 @@ public class RuleService {
         Page<Rule> page = ruleRepository.findAll(pageable);
         return page.map(PageRuleDto::new);
     }
+
+    public Page<PageRuleDto> rulePageByTitleOrText(String title, String text, Pageable pageable) {
+        Page<Rule> page;
+        if(title == null){
+            page = ruleRepository.findAll(pageable);
+        }else{
+            page = ruleRepository.findAllByTitleContainsOrTextContains(title,text,pageable);
+        }
+        return page.map(PageRuleDto::new);
+    }
 }
