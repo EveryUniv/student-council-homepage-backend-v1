@@ -19,6 +19,6 @@ public interface NewsRepository extends JpaRepository<News, Long> {
 //    @Query("select distinct n from News n join fetch n.fileList join fetch n.comments join fetch n.user where n.id =:id")
 //    Optional<News> findById(@Param("id") Long id);
 
-    @EntityGraph(attributePaths = {"fileList", "comments", "user"})
+    @EntityGraph(attributePaths = {"user"})
     Optional<News> findById(Long id);
 }
