@@ -16,10 +16,6 @@ import java.util.ArrayList;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue("A")
 public class Announce extends Post {
-    public Announce(String title, String text) {
-        super(title, text);
-    }
-
     public Announce(User user, RequestAnnounceDto data, ArrayList<PostFile> files){
         super(user, data, files);
     }

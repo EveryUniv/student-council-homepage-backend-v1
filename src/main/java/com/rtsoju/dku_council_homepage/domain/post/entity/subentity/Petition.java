@@ -21,5 +21,4 @@ public class Petition extends Post {
 
     @Enumerated(EnumType.STRING)
     private PetitionStatus status;
-
 }

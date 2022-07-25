@@ -15,7 +15,6 @@ public class PageConferenceDto {
     private LocalDate date;
     private String createDate;
     private String title;
-    private String fileUrl;
     private int postHits;
     public PageConferenceDto(Conference conference){
         this.id = conference.getId();

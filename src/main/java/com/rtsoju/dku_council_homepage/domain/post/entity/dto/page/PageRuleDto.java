@@ -13,7 +13,6 @@ public class PageRuleDto {
     private String title;
     private String userName;
     private String createDate;
-    private String fileUrl;
     private List<String> fileList;
     private int postHits;
 
