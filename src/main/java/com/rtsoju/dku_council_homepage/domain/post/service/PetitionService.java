@@ -71,7 +71,7 @@ public class PetitionService {
 
     @Transactional //연관관계 땡겨와야하기에 나중에 repository jpql로 설정하면 지울 예정...
     public ResponsePetitionDto findOne(Long id) {
-        Petition petition = petitionRepository.findById(id).orElseThrow(() -> new BadRequestException("없어"));
+        Petition petition = petitionRepository.findById(id).orElseThrow(FindPostWithIdNotFoundException::new);
         petition.plusHits();
         return new ResponsePetitionDto(petition);
     }

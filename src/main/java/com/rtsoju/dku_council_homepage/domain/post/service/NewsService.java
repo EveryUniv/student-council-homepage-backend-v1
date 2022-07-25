@@ -41,8 +41,8 @@ public class NewsService {
     private final ObjectStorageService s3Service;
     private final NHNAuthService nhnAuthService;
 
-    public Page<PageNewsDto> newsPage(Pageable pageable){
-        Page<News> page = newsRepository.findAll(pageable);
+    public Page<PageNewsDto> newsPage(String title, String text, Pageable pageable){
+        Page<News> page = newsRepository.findAllByTitleContainsOrTextContains(title, text, pageable);
         return page.map(PageNewsDto::new);
     }
 
@@ -69,10 +69,11 @@ public class NewsService {
         return newsRepository.save(newNews);
     }
 
+    @Transactional
     public GetOneNewsResponseDto getOneNews(Long postId) {
         News news = newsRepository.findById(postId).orElseThrow(() -> new FindPostWithIdNotFoundException("id와 일치하는 news가 존재하지 않습니다."));
 
-        news.plusHits();
+        news.plusHits(); //얘 때문에 transactional
 
         GetOneNewsResponseDto response = new GetOneNewsResponseDto(news);
         return response;

@@ -17,10 +17,6 @@ import java.util.ArrayList;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue("R")
 public class Rule extends Post {
-    public Rule(String title, String text) {
-        super(title, text);
-    }
-
     public Rule(User user, RequestRuleDto data, ArrayList<PostFile> files){
         super(user, data, files);
     }

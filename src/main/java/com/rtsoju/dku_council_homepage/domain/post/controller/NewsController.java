@@ -2,6 +2,7 @@ package com.rtsoju.dku_council_homepage.domain.post.controller;
 
 import com.rtsoju.dku_council_homepage.common.SuccessResponseResult;
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageAnnounceDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageNewsDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageRes;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestNewsDto;
@@ -27,10 +28,15 @@ public class NewsController {
     private final NewsService newsService;
     private final JwtProvider jwtProvider;
 
+    /**
+     * 페이지 반환
+     * @param query : 검색 조건
+     * @param pageable : size, sort, page 설정
+     * @return : Paging
+     */
     @GetMapping
-    public PageRes<PageNewsDto> list(Pageable pageable) {
-        Page<PageNewsDto> map = newsService.newsPage(pageable);
-        List<PageNewsDto> list = newsService.latestTop5();
+    public PageRes<PageNewsDto> list(@RequestParam(value = "query", required = false)String query,  Pageable pageable) {
+        Page<PageNewsDto> map = newsService.newsPage(query, query, pageable);
         return new PageRes<>(map.getContent(), map.getPageable(), map.getTotalElements());
     }
 

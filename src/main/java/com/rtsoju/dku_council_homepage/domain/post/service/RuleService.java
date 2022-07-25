@@ -10,6 +10,7 @@ import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Rule;
 import com.rtsoju.dku_council_homepage.domain.post.repository.RuleRepository;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import com.rtsoju.dku_council_homepage.domain.user.repository.UserRepository;
+import com.rtsoju.dku_council_homepage.exception.FindPostWithIdNotFoundException;
 import com.rtsoju.dku_council_homepage.exception.FindUserWithIdNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,8 +50,9 @@ public class RuleService {
     }
 
 
+    @Transactional
     public ResponseRuleDto findOne(Long id) {
-        Rule rule = ruleRepository.findById(id).orElseThrow(FindUserWithIdNotFoundException::new);
+        Rule rule = ruleRepository.findById(id).orElseThrow(FindPostWithIdNotFoundException::new);
         rule.plusHits();
         return new ResponseRuleDto(rule);
     }
