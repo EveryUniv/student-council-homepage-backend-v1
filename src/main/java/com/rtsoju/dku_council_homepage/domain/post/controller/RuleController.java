@@ -55,7 +55,7 @@ public class RuleController {
 
     /**
      * 단건 조회
-     * @param id : pk
+     * @param id : pk..
      * @return : title, text, createDate, fileUrl
      */
 
