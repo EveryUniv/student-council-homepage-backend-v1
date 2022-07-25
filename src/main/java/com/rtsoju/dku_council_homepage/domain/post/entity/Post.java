@@ -52,7 +52,7 @@ public class Post extends BaseEntity {
 
 //    @OneToMany(mappedBy = "post")
 //    Set<PostHit> postHits = new HashSet<>();
-    private Long hitCount;
+    private int hitCount;
 
 
     public Post(String title, String text){
@@ -115,10 +115,9 @@ public class Post extends BaseEntity {
                 .collect(Collectors.toList());
     }
 
-//    public void plusHits(){
-//        this.hitCount++;
-//    }
-
+    public void plusHits(){
+        this.hitCount++;
+    }
 
 }
 

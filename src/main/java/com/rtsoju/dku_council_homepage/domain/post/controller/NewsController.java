@@ -57,4 +57,14 @@ public class NewsController {
 
         return ResponseEntity.ok().body(new SuccessResponseResult(response));
     }
+
+    /**
+     * 총학소식 삭제
+     */
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<SuccessResponseResult> deleteNews(@PathVariable("postId") Long postId) {
+        newsService.deleteNews(postId);
+
+        return ResponseEntity.ok().body(new SuccessResponseResult(postId + "번 news가 삭제되었습니다."));
+    }
 }

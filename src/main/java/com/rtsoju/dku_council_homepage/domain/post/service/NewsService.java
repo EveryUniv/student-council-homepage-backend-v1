@@ -17,6 +17,7 @@ import com.rtsoju.dku_council_homepage.exception.FindPostWithIdNotFoundException
 import com.rtsoju.dku_council_homepage.exception.FindUserWithIdNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,9 +37,9 @@ import java.util.stream.Collectors;
 public class NewsService {
     private final NewsRepository newsRepository;
     private final FileUploadService fileUploadService;
-
-    // service로 입력받느냐 repo로 입력받느냐 뭐가 좋을까...?
     private final UserRepository userRepository;
+    private final ObjectStorageService s3Service;
+    private final NHNAuthService nhnAuthService;
 
     public Page<PageNewsDto> newsPage(Pageable pageable){
         Page<News> page = newsRepository.findAll(pageable);
@@ -57,13 +58,13 @@ public class NewsService {
 
     @Transactional
     public News createNews(Long userId, RequestNewsDto dto) {
+        News newNews = dto.toNewsEntity();
+
         User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
+        newNews.putUser(user);
 
         ArrayList<PostFile> postFiles = fileUploadService.uploadFiles(dto.getFiles(),"news");
-        News newNews = dto.toNewsEntity();
         newNews.putFiles(postFiles);
-
-        newNews.putUser(user);
 
         return newsRepository.save(newNews);
     }
@@ -71,10 +72,27 @@ public class NewsService {
     public GetOneNewsResponseDto getOneNews(Long postId) {
         News news = newsRepository.findById(postId).orElseThrow(() -> new FindPostWithIdNotFoundException("id와 일치하는 news가 존재하지 않습니다."));
 
+        news.plusHits();
+
         GetOneNewsResponseDto response = new GetOneNewsResponseDto(news);
         return response;
     }
 
+    @Transactional
+    public void deleteNews(Long postId) {
+        News news = newsRepository.findById(postId).orElseThrow(() -> new FindPostWithIdNotFoundException("해당 id와 일치하는 news가 없습니다."));
 
+        List<PostFile> fileList = news.getFileList();
+        deletePostFiles(fileList);
 
+        newsRepository.delete(news);
+    }
+
+    // news에 해당하는 file들 스토리지에서 삭제
+    private void deletePostFiles(List<PostFile> fileList) {
+        String token = nhnAuthService.requestToken();
+        for (PostFile file : fileList) {
+            s3Service.deleteObject(token, file.getUrl());
+        }
+    }
 }
