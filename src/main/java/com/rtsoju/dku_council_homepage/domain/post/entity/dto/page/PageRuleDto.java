@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Data
 public class PageRuleDto {
@@ -14,11 +15,13 @@ public class PageRuleDto {
     private int hitCount;
     private String createDate;
     private String fileUrl;
+    private List<String> fileList;
 
     public PageRuleDto(Rule rule){
         this.id = rule.getId();
         this.title = rule.getTitle();
         this.userName = rule.getUser().getName();
+        this.fileList = rule.convertUrl();
 //        this.hitCount = rule.getPostHits().size();
         this.createDate = rule.convertDate(rule.getCreateDate());
     }
