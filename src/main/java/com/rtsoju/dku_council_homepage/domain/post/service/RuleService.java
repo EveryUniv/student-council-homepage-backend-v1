@@ -51,6 +51,7 @@ public class RuleService {
 
     public ResponseRuleDto findOne(Long id) {
         Rule rule = ruleRepository.findById(id).orElseThrow(FindUserWithIdNotFoundException::new);
+        rule.plusHits();
         return new ResponseRuleDto(rule);
     }
 

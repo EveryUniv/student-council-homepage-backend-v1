@@ -54,7 +54,6 @@ public class Post extends BaseEntity {
 //    Set<PostHit> postHits = new HashSet<>();
     private int hitCount;
 
-
     public Post(String title, String text){
         this.title = title;
         this.text = text;

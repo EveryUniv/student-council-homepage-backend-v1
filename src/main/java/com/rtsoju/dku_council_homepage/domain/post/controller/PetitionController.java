@@ -4,9 +4,11 @@ import com.rtsoju.dku_council_homepage.common.ResponseResult;
 import com.rtsoju.dku_council_homepage.common.SuccessResponseResult;
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
 import com.rtsoju.dku_council_homepage.domain.base.PetitionStatus;
+import com.rtsoju.dku_council_homepage.domain.post.entity.Comment;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageAnnounceDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PagePetitionDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageRes;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.CommentRequestDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestAnnounceDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestPetitionDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.IdResponseDto;
@@ -86,5 +88,15 @@ public class PetitionController {
                 .body(new SuccessResponseResult("삭제완료"));
     }
 
+
+    @PostMapping("/comment/{id}")
+    public ResponseEntity<ResponseResult> createComment(@PathVariable("id")Long id, @RequestBody CommentRequestDto data, HttpServletRequest request){
+        String token = jwtProvider.getTokenInHttpServletRequest(request);
+        Long userId = Long.parseLong(jwtProvider.getUserId(token));
+        petitionService.checkDuplicateCommentByUser(id, userId);
+        Comment comment = petitionService.createComment(id, userId, data);
+        return ResponseEntity.ok()
+                .body(new SuccessResponseResult("댓글 생성 성공!"));
+    }
 
 }

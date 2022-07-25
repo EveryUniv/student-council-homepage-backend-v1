@@ -12,10 +12,12 @@ public class PageNewsDto {
     private Long id;
     private String title;
     private String  createDate;
+    private int postHits;
     public PageNewsDto(News news){
         this.id = news.getId();
         this.title = news.getTitle();
         this.createDate = news.convertDate(news.getCreateDate());
+        this.postHits = news.getHitCount();
     }
 
 }

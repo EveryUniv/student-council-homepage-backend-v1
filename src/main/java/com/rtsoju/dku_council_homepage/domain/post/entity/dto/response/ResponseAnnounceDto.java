@@ -17,6 +17,7 @@ public class ResponseAnnounceDto {
     private String text;
     private List<String> fileList;
     private String createDate;
+    private int postHits;
 
     public ResponseAnnounceDto(Announce announce){
         this.id = announce.getId();
@@ -24,6 +25,7 @@ public class ResponseAnnounceDto {
         this.text = announce.getText();
         this.fileList = announce.convertUrl();
         this.createDate = announce.convertDate(announce.getCreateDate());
+        this.postHits = announce.getHitCount();
     }
 
 }

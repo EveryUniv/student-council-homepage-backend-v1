@@ -12,17 +12,17 @@ public class PageRuleDto {
     private Long id;
     private String title;
     private String userName;
-    private int hitCount;
     private String createDate;
     private String fileUrl;
     private List<String> fileList;
+    private int postHits;
 
     public PageRuleDto(Rule rule){
         this.id = rule.getId();
         this.title = rule.getTitle();
         this.userName = rule.getUser().getName();
         this.fileList = rule.convertUrl();
-//        this.hitCount = rule.getPostHits().size();
         this.createDate = rule.convertDate(rule.getCreateDate());
+        this.postHits = rule.getHitCount();
     }
 }
