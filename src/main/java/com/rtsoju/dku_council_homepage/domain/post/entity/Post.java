@@ -54,6 +54,10 @@ public class Post extends BaseEntity {
 //    Set<PostHit> postHits = new HashSet<>();
     private int hitCount;
 
+    public Post(String title) {
+        this.title = title;
+    }
+
     public Post(String title, String text){
         this.title = title;
         this.text = text;
@@ -110,7 +114,7 @@ public class Post extends BaseEntity {
         final String storageName = "main-storage";
         final String url = s3Domain + storageAccount + "/" + storageName + "/";
         return this.getFileList()
-                .stream().map(postFile -> url+postFile.getUrl())
+                .stream().map(postFile -> url + postFile.getUrl())
                 .collect(Collectors.toList());
     }
 
