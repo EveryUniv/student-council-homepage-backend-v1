@@ -9,16 +9,16 @@ public class PagePetitionDto {
     private String  petitionStatus;
     private String title;
     private String userName;
-
-    private int hitCount;
     private int commentCount;
+    private int postHits;
+
 
     public PagePetitionDto(Petition petition){
         this.id = petition.getId();
         this.petitionStatus = petition.getStatus().toString();
         this.title = petition.getTitle();
         this.userName = petition.getUser().getName();
-//        this.hitCount = petition.getPostHits().size();
         this.commentCount = petition.getComments().size();
+        this.postHits = petition.getHitCount();
     }
 }

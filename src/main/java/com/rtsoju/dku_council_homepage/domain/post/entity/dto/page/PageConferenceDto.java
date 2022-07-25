@@ -16,12 +16,14 @@ public class PageConferenceDto {
     private String createDate;
     private String title;
     private String fileUrl;
+    private int postHits;
     public PageConferenceDto(Conference conference){
         this.id = conference.getId();
         this.round = conference.getRound();
         this.date = conference.getDate();
         this.createDate = conference.convertDate(conference.getCreateDate());
         this.title = conference.getTitle();
+        this.postHits = conference.getHitCount();
     }
 
 }

@@ -52,10 +52,9 @@ public class AnnounceService {
         return new IdResponseDto(save.getId());
     }
 
-
-
     public ResponseAnnounceDto findOne(Long id) {
         Announce announce = announceRepository.findById(id).orElseThrow(FindUserWithIdNotFoundException::new);
+        announce.plusHits();
         return new ResponseAnnounceDto(announce);
     }
 

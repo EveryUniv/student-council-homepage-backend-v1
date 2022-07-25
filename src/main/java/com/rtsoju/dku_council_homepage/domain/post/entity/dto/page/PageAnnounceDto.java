@@ -18,12 +18,14 @@ public class PageAnnounceDto {
     private String createDate;
 
     private List<String> fileList;
+    private int postHits;
 
     public PageAnnounceDto(Announce announce) {
         this.id = announce.getId();
         this.title = announce.getTitle();
         this.fileList = announce.convertUrl();
         this.createDate = announce.convertDate(announce.getCreateDate());
+        this.postHits = announce.getHitCount();
     }
 
 }

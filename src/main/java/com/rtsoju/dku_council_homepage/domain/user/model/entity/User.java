@@ -42,8 +42,8 @@ public class User extends BaseEntity {
     @Column(name = "last_petition_time")
     private LocalDateTime petitionTime;
 
-    @Column(name = "email_verify")
-    private boolean emailVerified;
+    @Column(name = "petition_create")
+    private boolean petitionCreate;
 
     //권한 들어가야함.
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -54,8 +54,8 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> postList = new ArrayList<>();
 
-    public void emailVerifiedSuccess() {
-        this.emailVerified = true;
+    public void createPetition() {
+        this.petitionCreate = true;
     }
 
 //    // 2022-07-09 임시 사용 예정
@@ -73,7 +73,6 @@ public class User extends BaseEntity {
         this.major = major;
         this.register = register;
         this.phone = phone;
-        this.emailVerified = false;
     }
 
 

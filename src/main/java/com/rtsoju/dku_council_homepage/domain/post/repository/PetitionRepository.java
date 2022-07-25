@@ -21,16 +21,12 @@ public interface PetitionRepository extends JpaRepository<Petition, Long> {
 
     //pagination이랑 fetchjoin은 같이 쓰면 안됨..
     Page<Petition> findAllByStatus(PetitionStatus status, Pageable pageable);
-
-
     List<Petition> findTop5ByOrderByCreateDateDesc();
-
-    Optional<Petition> findByTitle(String title);
 
     Page<Petition> findAllByTitleContainsOrTextContains(String title, String text, Pageable pageable);
 
     @Modifying
     @Query("update Petition p set p.status = (:after) where p.createDate <= :now and p.status =(:before)")
-    int bulkStatusChange(@Param("after")PetitionStatus after, @Param("now")LocalDateTime now, @Param("before")PetitionStatus before);
+    void bulkStatusChange(@Param("after")PetitionStatus after, @Param("now")LocalDateTime now, @Param("before")PetitionStatus before);
 
 }
