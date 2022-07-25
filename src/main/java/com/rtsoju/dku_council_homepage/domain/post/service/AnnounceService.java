@@ -13,6 +13,7 @@ import com.rtsoju.dku_council_homepage.domain.post.repository.AnnounceRepository
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import com.rtsoju.dku_council_homepage.domain.user.repository.UserRepository;
 import com.rtsoju.dku_council_homepage.exception.BadRequestException;
+import com.rtsoju.dku_council_homepage.exception.FindPostWithIdNotFoundException;
 import com.rtsoju.dku_council_homepage.exception.FindUserWithIdNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,8 +53,9 @@ public class AnnounceService {
         return new IdResponseDto(save.getId());
     }
 
+    @Transactional
     public ResponseAnnounceDto findOne(Long id) {
-        Announce announce = announceRepository.findById(id).orElseThrow(FindUserWithIdNotFoundException::new);
+        Announce announce = announceRepository.findById(id).orElseThrow(FindPostWithIdNotFoundException::new);
         announce.plusHits();
         return new ResponseAnnounceDto(announce);
     }

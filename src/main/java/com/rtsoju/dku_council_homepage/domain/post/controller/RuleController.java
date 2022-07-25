@@ -58,7 +58,6 @@ public class RuleController {
      * @param id : pk..
      * @return : title, text, createDate, fileUrl
      */
-
     @GetMapping("/{id}")
     public ResponseEntity<ResponseResult> findOne(@PathVariable("id")Long id){
         ResponseRuleDto response = ruleService.findOne(id);
