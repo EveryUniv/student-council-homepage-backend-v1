@@ -37,11 +37,13 @@ public class PetitionService {
 
     public Page<PagePetitionDto> petitionPage(String query, String status, Pageable pageable) {
         Page<Petition> page;
-        if (status != null) {
+        if (status != null && query != null) {
             PetitionStatus lookup = PetitionStatus.lookup(status);
-            System.out.println("lookup = " + lookup);
+            page = petitionRepository.findAllByStatusAndTitleContainsOrTextContains(lookup,query, query, pageable);
+        }else if(status != null && query == null){
+            PetitionStatus lookup = PetitionStatus.lookup(status);
             page = petitionRepository.findAllByStatus(lookup, pageable);
-        } else if (query != null) {
+        }else if (query != null && status == null) {
             page = petitionRepository.findAllByTitleContainsOrTextContains(query, query, pageable);
         } else {
             page = petitionRepository.findAll(pageable);

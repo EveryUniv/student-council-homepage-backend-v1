@@ -24,6 +24,7 @@ public interface PetitionRepository extends JpaRepository<Petition, Long> {
     List<Petition> findTop5ByOrderByCreateDateDesc();
 
     Page<Petition> findAllByTitleContainsOrTextContains(String title, String text, Pageable pageable);
+    Page<Petition> findAllByStatusAndTitleContainsOrTextContains(PetitionStatus status, String title, String text, Pageable pageable);
 
     @Modifying
     @Query("update Petition p set p.status = (:after) where p.createDate <= :now and p.status =(:before)")
