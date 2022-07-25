@@ -3,6 +3,7 @@ package com.rtsoju.dku_council_homepage.domain.post.entity;
 import com.rtsoju.dku_council_homepage.domain.base.BaseEntity;
 import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestAnnounceDto;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestRuleDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
@@ -67,6 +68,16 @@ public class Post extends BaseEntity {
 
 
     public Post(User user, RequestAnnounceDto data, ArrayList<PostFile> files) {
+        this.user = user;
+        this.title = data.getTitle();
+        this.text = data.getText();
+        for(PostFile postFile : files){
+            postFile.putPost(this);
+        }
+        this.fileList = files;
+    }
+
+    public Post(User user, RequestRuleDto data, ArrayList<PostFile> files) {
         this.user = user;
         this.title = data.getTitle();
         this.text = data.getText();

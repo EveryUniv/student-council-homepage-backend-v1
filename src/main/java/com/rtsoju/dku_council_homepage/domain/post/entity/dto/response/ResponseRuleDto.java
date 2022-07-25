@@ -1,4 +1,20 @@
 package com.rtsoju.dku_council_homepage.domain.post.entity.dto.response;
 
+import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Rule;
+
+import java.util.List;
+
 public class ResponseRuleDto {
+    private Long id;
+    private String title;
+    private String text;
+    private List<String> fileList;
+    private String createDate;
+    public ResponseRuleDto(Rule rule) {
+        this.id = rule.getId();
+        this.title = rule.getTitle();
+        this.text = rule.getText();
+        this.fileList = rule.convertUrl();
+        this.createDate = rule.convertDate(rule.getCreateDate());
+    }
 }

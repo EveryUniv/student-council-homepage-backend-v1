@@ -12,4 +12,6 @@ import java.util.List;
 
 public interface RuleRepository extends JpaRepository<Rule, Long> {
 
+    Page<Rule> findAllByTitleContainsOrTextContains(String title, String text, Pageable pageable);
+
 }
