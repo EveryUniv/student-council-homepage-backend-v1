@@ -20,6 +20,6 @@ public class PageRuleDto {
         this.title = rule.getTitle();
         this.userName = rule.getUser().getName();
 //        this.hitCount = rule.getPostHits().size();
-        this.createDate = rule.ConvertDate(rule.getCreateDate());
+        this.createDate = rule.convertDate(rule.getCreateDate());
     }
 }

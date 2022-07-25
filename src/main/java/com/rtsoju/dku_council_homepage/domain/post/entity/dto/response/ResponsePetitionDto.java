@@ -22,8 +22,8 @@ public class ResponsePetitionDto {
     public ResponsePetitionDto(Petition petition) {
         this.status = petition.getStatus().toString();
         this.title = petition.getTitle();
-        this.createDate = petition.ConvertDate(petition.getCreateDate());
-        this.deleteDate = petition.ConvertDate(petition.getCreateDate().plusDays(14));
+        this.createDate = petition.convertDate(petition.getCreateDate());
+        this.deleteDate = petition.convertDate(petition.getCreateDate().plusDays(14));
         this.username = petition.getUser().getName(); //익명인 경우 익명 네이밍..
         this.text = petition.getText();
         this.count = petition.getComments().size();

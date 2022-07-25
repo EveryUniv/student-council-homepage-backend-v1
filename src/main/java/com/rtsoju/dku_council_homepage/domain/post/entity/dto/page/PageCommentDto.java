@@ -12,7 +12,7 @@ public class PageCommentDto {
     private String text;
     public PageCommentDto(Comment comment){
         this.major = comment.getUser().getMajor().getDepartment().toString();
-        this.createDate = comment.ConvertDate(comment.getCreateDate());
+        this.createDate = comment.convertDate(comment.getCreateDate());
         this.text = comment.getText();
     }
 }

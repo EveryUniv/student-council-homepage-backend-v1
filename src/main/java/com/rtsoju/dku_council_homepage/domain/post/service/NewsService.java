@@ -1,5 +1,6 @@
 package com.rtsoju.dku_council_homepage.domain.post.service;
 
+import com.rtsoju.dku_council_homepage.common.nhn.service.FileUploadService;
 import com.rtsoju.dku_council_homepage.common.nhn.service.NHNAuthService;
 import com.rtsoju.dku_council_homepage.common.nhn.service.ObjectStorageService;
 import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
@@ -34,8 +35,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class NewsService {
     private final NewsRepository newsRepository;
-    private final NHNAuthService nhnAuthService;
-    private final ObjectStorageService s3service;
+    private final FileUploadService fileUploadService;
 
     // service로 입력받느냐 repo로 입력받느냐 뭐가 좋을까...?
     private final UserRepository userRepository;
@@ -57,11 +57,12 @@ public class NewsService {
 
     @Transactional
     public News createNews(Long userId, RequestNewsDto dto) {
-        ArrayList<PostFile> postFiles = uploadFiles(dto.getFiles());
+        User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
+
+        ArrayList<PostFile> postFiles = fileUploadService.uploadFiles(dto.getFiles(),"news");
         News newNews = dto.toNewsEntity();
         newNews.putFiles(postFiles);
 
-        User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
         newNews.putUser(user);
 
         return newsRepository.save(newNews);
@@ -74,21 +75,6 @@ public class NewsService {
         return response;
     }
 
-    private ArrayList<PostFile> uploadFiles(List<MultipartFile> files) {
-        String token = nhnAuthService.requestToken();
-        ArrayList<PostFile> postFiles = new ArrayList<>();
-        files.stream()
-                .forEach(file -> {
-                    String fileId = "news-" + UUID.randomUUID();
-                    try {
-                        s3service.uploadObject(token, fileId, file.getInputStream());
-                        postFiles.add(new PostFile(fileId));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-        return postFiles;
-    }
 
 
 }

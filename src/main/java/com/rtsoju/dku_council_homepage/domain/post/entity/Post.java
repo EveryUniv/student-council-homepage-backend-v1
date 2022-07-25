@@ -8,10 +8,12 @@ import lombok.*;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
@@ -92,8 +94,20 @@ public class Post extends BaseEntity {
         postList.add(this);
     }
 
+    public List<String> convertUrl(){
+        final String s3Domain = "https://api-storage.cloud.toast.com/v1/";
+        final String storageAccount = "AUTH_34f4838a2b3047f39ac9cb0701558e46";
+        final String storageName = "main-storage";
+        final String url = s3Domain + storageAccount + "/" + storageName + "/";
+        return this.getFileList()
+                .stream().map(postFile -> url+postFile.getUrl())
+                .collect(Collectors.toList());
+    }
+
 //    public void plusHits(){
 //        this.hitCount++;
 //    }
+
+
 }
 

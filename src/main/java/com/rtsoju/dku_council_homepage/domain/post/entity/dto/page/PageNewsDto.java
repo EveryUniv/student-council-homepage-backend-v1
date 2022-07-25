@@ -12,15 +12,10 @@ public class PageNewsDto {
     private Long id;
     private String title;
     private String  createDate;
-    private String fileUrl;
     public PageNewsDto(News news){
         this.id = news.getId();
         this.title = news.getTitle();
-        this.createDate = ConvertDate(news.getCreateDate());
+        this.createDate = news.convertDate(news.getCreateDate());
     }
 
-    private String ConvertDate(LocalDateTime time){
-        DateTimeFormatter patten = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return time.format(patten);
-    }
 }

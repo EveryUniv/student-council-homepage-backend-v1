@@ -22,29 +22,12 @@ public class GetOneNewsResponseDto {
     private List<Comment> commentList = new ArrayList<>();
     private String writer;
 
-
-    private final String s3Domain = "https://api-storage.cloud.toast.com/v1/";
-
-    // 빈이 아니라 주입이 안되나..?
-//    @Value("${nhn.os.storageAccount}")
-//    private String storageAccount;
-//    @Value("${nhn.os.storageName}")
-//    private String storageName;
-
-    private final String storageAccount = "AUTH_34f4838a2b3047f39ac9cb0701558e46";
-    private final String storageName = "main-storage";
-
     public GetOneNewsResponseDto(News news) {
         this.writer = news.getUser().getName();
         this.title = news.getTitle();
         this.text = news.getText();
         this.commentList = news.getComments();
-
-        List<PostFile> fileList = news.getFileList();
-        String url = s3Domain + storageAccount + "/" + storageName + "/";
-        for (PostFile file : fileList) {
-            this.files.add(url + file.getUrl());
-        }
+        this.files = news.convertUrl();
     }
 
 

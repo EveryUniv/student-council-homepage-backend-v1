@@ -33,8 +33,7 @@ public class AnnounceService {
     private final AnnounceRepository announceRepository;
     private final UserRepository userRepository;
     private final FileUploadService fileUploadService;
-
-    public Page<PageAnnounceDto> announcePageByTitleAndText(String title, String text, Pageable pageable){
+    public Page<PageAnnounceDto> announcePage(String title, String text, Pageable pageable){
         Page<Announce> page;
         if(title == null) {
             page = announceRepository.findAll(pageable);
@@ -63,6 +62,12 @@ public class AnnounceService {
     @Transactional
     public void deleteOne(Long id) {
         announceRepository.deleteById(id);
+//        try{
+////            announceRepository.deleteById("hello"); IlleArg
+////            announceRepository.deleteById(14); Empty
+//        }catch (BadRequestException e){
+//
+//        }
     }
 
 
