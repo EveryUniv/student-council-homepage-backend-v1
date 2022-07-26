@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -59,6 +60,9 @@ public class RuleService {
 
     @Transactional
     public void deleteOne(Long id) {
-        ruleRepository.deleteById(id);
+        Rule rule = ruleRepository.findById(id).orElseThrow(FindPostWithIdNotFoundException::new);
+        List<PostFile> fileList = rule.getFileList();
+        fileUploadService.deletePostFiles(fileList);
+        ruleRepository.delete(rule);
     }
 }

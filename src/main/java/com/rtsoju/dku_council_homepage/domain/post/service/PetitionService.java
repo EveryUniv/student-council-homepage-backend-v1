@@ -80,7 +80,8 @@ public class PetitionService {
 
     @Transactional
     public void deleteOne(Long id) {
-        petitionRepository.deleteById(id);
+        Petition petition = petitionRepository.findById(id).orElseThrow(FindPostWithIdNotFoundException::new);
+        petitionRepository.delete(petition);
     }
 
 

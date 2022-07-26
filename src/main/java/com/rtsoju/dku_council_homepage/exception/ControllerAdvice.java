@@ -27,6 +27,7 @@ public class ControllerAdvice {
             EmptyResultDataAccessException.class, // JpaRepository error -> directory 다 반환되는데 어케 처리할지..
             DuplicateCommentException.class,
             DuplicateCreatePetition.class,
+            DuplicateSignInException.class,
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponseResult exceptionHandler(HttpServletRequest request, Exception e) {

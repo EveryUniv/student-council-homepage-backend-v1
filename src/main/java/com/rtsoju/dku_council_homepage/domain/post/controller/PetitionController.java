@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -57,8 +58,8 @@ public class PetitionController {
         String token = jwtProvider.getTokenInHttpServletRequest(request);
         long userId = Long.parseLong(jwtProvider.getUserId(token));
         IdResponseDto petition = petitionService.createPetition(userId, data);
-        return ResponseEntity.ok()
-                .body(new SuccessResponseResult("등록완료", petition));
+        return ResponseEntity.created(URI.create("/api/petition/"+petition.getId()))
+                .body(new SuccessResponseResult("등록 완료", petition));
     }
 
 
@@ -71,7 +72,7 @@ public class PetitionController {
     public ResponseEntity<ResponseResult> findOne(@PathVariable("id") Long id) {
         ResponsePetitionDto response = petitionService.findOne(id);
         return ResponseEntity.ok() //200
-                .body(new SuccessResponseResult("성공", response));
+                .body(new SuccessResponseResult(response));
     }
 
     /**
@@ -85,7 +86,7 @@ public class PetitionController {
 
         petitionService.deleteOne(id);
         return ResponseEntity.ok()
-                .body(new SuccessResponseResult("삭제완료"));
+                .body(new SuccessResponseResult(id+"번 petition 삭제완료"));
     }
 
 

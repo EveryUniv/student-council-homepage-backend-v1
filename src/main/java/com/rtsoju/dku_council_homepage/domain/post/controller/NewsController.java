@@ -2,15 +2,13 @@ package com.rtsoju.dku_council_homepage.domain.post.controller;
 
 import com.rtsoju.dku_council_homepage.common.SuccessResponseResult;
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
-import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageAnnounceDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageNewsDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageRes;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestNewsDto;
-import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.GetOneNewsResponseDto;
-import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.News;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.ResponseNewsDto;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.IdResponseDto;
 import com.rtsoju.dku_council_homepage.domain.post.service.NewsService;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -48,10 +45,10 @@ public class NewsController {
         String token = jwtProvider.getTokenInHttpServletRequest(request);
         Long userId = Long.parseLong(jwtProvider.getUserId(token));
 
-        News news = newsService.createNews(userId, dto);
+        IdResponseDto news = newsService.createNews(userId, dto);
 
         return ResponseEntity.created(URI.create("/api/news/" + news.getId()))
-                .body(new SuccessResponseResult("등록 완료"));
+                .body(new SuccessResponseResult("등록 완료", news));
     }
 
     /**
@@ -59,7 +56,7 @@ public class NewsController {
      */
     @GetMapping("/{postId}")
     public ResponseEntity<SuccessResponseResult> getOneNews(@PathVariable("postId") Long postId) {
-        GetOneNewsResponseDto response = newsService.getOneNews(postId);
+        ResponseNewsDto response = newsService.getOneNews(postId);
 
         return ResponseEntity.ok().body(new SuccessResponseResult(response));
     }
@@ -71,6 +68,6 @@ public class NewsController {
     public ResponseEntity<SuccessResponseResult> deleteNews(@PathVariable("postId") Long postId) {
         newsService.deleteNews(postId);
 
-        return ResponseEntity.ok().body(new SuccessResponseResult(postId + "번 news가 삭제되었습니다."));
+        return ResponseEntity.ok().body(new SuccessResponseResult(postId + "번 news 삭제완료."));
     }
 }

@@ -16,11 +16,6 @@ import java.time.LocalDate;
 @Getter
 public class Conference extends Post {
 
-    public Conference(String title, String text) {
-        super(title, text);
-    }
-
-
     @Column
     private Integer round;
 

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -49,8 +50,8 @@ public class RuleController {
         String token = jwtProvider.getTokenInHttpServletRequest(request);
         Long userId = Long.parseLong(jwtProvider.getUserId(token));
         IdResponseDto rule = ruleService.createRule(userId, data);
-        return ResponseEntity.ok()
-                .body(new SuccessResponseResult("등록완료", rule));
+        return ResponseEntity.created(URI.create("/api/rule/"+rule.getId()))
+                .body(new SuccessResponseResult("등록 완료", rule));
     }
 
     /**
@@ -62,7 +63,7 @@ public class RuleController {
     public ResponseEntity<ResponseResult> findOne(@PathVariable("id")Long id){
         ResponseRuleDto response = ruleService.findOne(id);
         return ResponseEntity.ok()
-                .body(new SuccessResponseResult("성공", response));
+                .body(new SuccessResponseResult(response));
     }
 
     /**
@@ -74,7 +75,7 @@ public class RuleController {
     public ResponseEntity<ResponseResult> deleteOne(@PathVariable("id") Long id){
         ruleService.deleteOne(id);
         return ResponseEntity.ok()
-                .body(new SuccessResponseResult("삭제완료"));
+                .body(new SuccessResponseResult(id+"번 rule 삭제완료"));
     }
 
 }
