@@ -3,6 +3,7 @@ package com.rtsoju.dku_council_homepage.domain.page.service;
 import com.rtsoju.dku_council_homepage.common.Messages;
 import com.rtsoju.dku_council_homepage.common.nhn.service.NHNAuthService;
 import com.rtsoju.dku_council_homepage.common.nhn.service.ObjectStorageService;
+import com.rtsoju.dku_council_homepage.domain.page.dto.CarouselImageResponse;
 import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
 import com.rtsoju.dku_council_homepage.domain.page.entity.CarouselImage;
 import com.rtsoju.dku_council_homepage.domain.page.repository.CarouselImageRepository;
@@ -29,9 +30,9 @@ public class MainPageService {
     private final PetitionService petitionService;
     private final CarouselImageRepository carouselImageRepository;
 
-    public List<String> getCarouselImageURLs() {
+    public List<CarouselImageResponse> getCarouselImages() {
         return carouselImageRepository.findAll().stream()
-                .map((image) -> s3service.getObjectURL(image.getFileId()))
+                .map((image) -> new CarouselImageResponse(s3service, image))
                 .collect(Collectors.toList());
     }
 
