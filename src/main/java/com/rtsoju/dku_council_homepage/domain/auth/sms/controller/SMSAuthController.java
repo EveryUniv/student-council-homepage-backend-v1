@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/sms-code")
+@RequestMapping("/api/auth/sms-code")
 @RequiredArgsConstructor
 public class SMSAuthController {
     private final SMSAuthService service;
