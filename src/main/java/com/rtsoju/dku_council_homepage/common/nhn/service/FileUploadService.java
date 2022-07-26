@@ -33,5 +33,12 @@ public class FileUploadService {
         return postFiles;
     }
 
+    public void deletePostFiles(List<PostFile> files){
+        String token = nhnAuthService.requestToken();
+        for(PostFile file : files){
+            s3service.deleteObject(token, file.getUrl());
+        }
+    }
+
 
 }

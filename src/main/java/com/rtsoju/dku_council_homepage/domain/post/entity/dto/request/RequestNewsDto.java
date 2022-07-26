@@ -15,7 +15,7 @@ public class RequestNewsDto {
     @NotBlank(message = "title(제목)은 비어있으면 안됩니다.")
     private String title;
 
-    @NotNull(message = "text(본문)이 null이면 안됩니다.")
+    @NotBlank(message = "text(본문)이 비어있으면 안됩니다.")
     private String text;
 
     private List<MultipartFile> files = new ArrayList<>();

@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -31,7 +32,7 @@ public class PostController {
     @PostMapping("/posts/{postId}")
     public ResponseEntity<SuccessResponseResult> createComment(
             @PathVariable("postId") Long postId,
-            @RequestBody CommentRequestDto dto,
+            @Valid @RequestBody CommentRequestDto dto,
             HttpServletRequest request) {
         String token = jwtProvider.getTokenInHttpServletRequest(request);
         Long userId = Long.parseLong(jwtProvider.getUserId(token));

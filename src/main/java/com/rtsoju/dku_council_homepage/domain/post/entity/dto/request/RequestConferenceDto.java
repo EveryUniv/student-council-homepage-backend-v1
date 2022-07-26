@@ -16,7 +16,7 @@ public class RequestConferenceDto {
     @NotBlank(message = "title(제목) 은 비어있으면 안됩니다.")
     private String title;
 
-    @NotNull(message = "date(개최 일자)는 필수 값 입니다.")
+    @NotBlank(message = "date(개최 일자)는 필수 값 입니다.")
     private String date;
 
     @NotNull(message = "round(회차)는 필수 값 입니다.")

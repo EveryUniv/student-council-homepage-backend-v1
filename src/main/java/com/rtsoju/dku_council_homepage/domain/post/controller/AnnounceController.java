@@ -8,6 +8,7 @@ import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageRes;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestAnnounceDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.IdResponseDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.ResponseAnnounceDto;
+import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Announce;
 import com.rtsoju.dku_council_homepage.domain.post.service.AnnounceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,8 +48,8 @@ public class AnnounceController {
         String token = jwtProvider.getTokenInHttpServletRequest(request);
         Long userId = Long.parseLong(jwtProvider.getUserId(token));
         IdResponseDto announce = announceService.createAnnounce(userId, data);
-        return ResponseEntity.ok()
-                .body(new SuccessResponseResult("등록완료", announce));
+        return ResponseEntity.created(URI.create("/api/announce/"+announce.getId()))
+                .body(new SuccessResponseResult("등록 완료", announce));
     }
 
     /**
@@ -57,7 +59,7 @@ public class AnnounceController {
     public ResponseEntity<ResponseResult> findOne(@PathVariable("id") Long id) {
         ResponseAnnounceDto response = announceService.findOne(id);
         return ResponseEntity.ok() //200
-                .body(new SuccessResponseResult("성공", response));
+                .body(new SuccessResponseResult(response));
     }
 
     /**
@@ -69,7 +71,7 @@ public class AnnounceController {
     public ResponseEntity<ResponseResult> deleteOne(@PathVariable("id") Long id){
         announceService.deleteOne(id);
         return ResponseEntity.ok()
-                .body(new SuccessResponseResult("삭제완료"));
+                .body(new SuccessResponseResult(id+"번 announce 삭제완료"));
     }
 
 

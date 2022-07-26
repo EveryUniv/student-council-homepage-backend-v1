@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -62,13 +63,10 @@ public class AnnounceService {
 
     @Transactional
     public void deleteOne(Long id) {
-        announceRepository.deleteById(id);
-//        try{
-////            announceRepository.deleteById("hello"); IlleArg
-////            announceRepository.deleteById(14); Empty
-//        }catch (BadRequestException e){
-//
-//        }
+        Announce announce = announceRepository.findById(id).orElseThrow(FindPostWithIdNotFoundException::new);
+        List<PostFile> fileList = announce.getFileList();
+        fileUploadService.deletePostFiles(fileList);
+        announceRepository.delete(announce);
     }
 
 
