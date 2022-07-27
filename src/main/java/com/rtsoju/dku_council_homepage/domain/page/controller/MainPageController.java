@@ -21,7 +21,7 @@ public class MainPageController {
     @GetMapping("/main")
     public ResponseEntity<ResponseResult> index() {
         MainPageResponse response = new MainPageResponse();
-        response.setCarouses(service.getCarouselImageURLs());
+        response.setCarousels(service.getCarouselImages());
         response.setPopularPetitions(service.getPopularPetitions());
         response.setRecentNews(service.getRecentNews());
         response.setRecentConferences(service.getRecentConferences());
@@ -30,9 +30,19 @@ public class MainPageController {
 
     @PostMapping("/carousel")
     public ResponseEntity<ResponseResult> uploadCarouselImage(@RequestBody MultipartFile imageFile) throws IOException {
-        if (imageFile.isEmpty()) {
+        if (imageFile == null || imageFile.isEmpty()) {
             throw new IllegalArgumentException(Messages.ERROR_ARGUMENT_NOT_SPECIFIED.getMessage());
         }
+
+        String fileName = imageFile.getOriginalFilename();
+        if (fileName != null) {
+            if (!isImageFile(fileName)) {
+                throw new IllegalArgumentException(Messages.ERROR_NOT_SUPPORTED_IMAGE_FILE.getMessage());
+            }
+        } else {
+            throw new IllegalArgumentException(Messages.ERROR_ARGUMENT_NOT_SPECIFIED.getMessage());
+        }
+
         service.addCarouselImage(imageFile);
         return ResponseEntity.ok().body(new SuccessResponseResult());
     }
@@ -41,5 +51,14 @@ public class MainPageController {
     public ResponseEntity<ResponseResult> deleteCarouselImage(@PathVariable("id") Long carouselId) {
         service.deleteCarouselImage(carouselId);
         return ResponseEntity.ok().body(new SuccessResponseResult());
+    }
+
+    private static boolean isImageFile(String name) {
+        return name.endsWith(".jpg") ||
+                name.endsWith(".jpeg") ||
+                name.endsWith(".png") ||
+                name.endsWith(".gif") ||
+                name.endsWith(".svg") ||
+                name.endsWith(".webp");
     }
 }

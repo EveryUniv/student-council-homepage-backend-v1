@@ -4,7 +4,6 @@ import com.rtsoju.dku_council_homepage.common.PropertiesReader;
 import com.rtsoju.dku_council_homepage.common.nhn.service.NHNAuthService;
 import com.rtsoju.dku_council_homepage.common.nhn.service.ObjectStorageService;
 import com.rtsoju.dku_council_homepage.domain.page.repository.CarouselImageRepository;
-import com.rtsoju.dku_council_homepage.domain.page.service.MainPageService;
 import com.rtsoju.dku_council_homepage.domain.post.service.ConferenceService;
 import com.rtsoju.dku_council_homepage.domain.post.service.NewsService;
 import com.rtsoju.dku_council_homepage.domain.post.service.PetitionService;
@@ -32,9 +31,8 @@ class MainPageControllerTest {
         ObjectStorageService osService = new ObjectStorageService(
                 properties.getValue("nhn.os.storageAccount"),
                 properties.getValue("nhn.os.storageName"));
-        MainPageService service = new MainPageService(nhnAuthService, osService, conferenceService,
-                newsService, petitionService, carouselImageRepository);
-        System.out.println("===== carousel =====");
-        service.getCarouselImageURLs().forEach(System.out::println);
+
+        //MainPageService service = new MainPageService(osService, conferenceService, newsService, petitionService);
+        //System.out.println(Arrays.toString(service.getca()));
     }
 }

@@ -56,4 +56,5 @@ public class ObjectStorageService {
 
         this.restTemplate.exchange(getObjectURL(objectName), HttpMethod.DELETE, requestHttpEntity, String.class);
     }
+
 }

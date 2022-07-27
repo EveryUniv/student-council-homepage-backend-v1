@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @MappedSuperclass //슈퍼타입 지정
 @EntityListeners(AuditingEntityListener.class)
@@ -21,5 +22,10 @@ public abstract class BaseEntity {
     @LastModifiedDate
     @Column(name = "update_at")
     private LocalDateTime updateDate;
+
+    public String convertDate(LocalDateTime time){
+        DateTimeFormatter patten = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return time.format(patten);
+    }
 
 }
