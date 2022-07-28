@@ -2,16 +2,14 @@ package com.rtsoju.dku_council_homepage.domain.post.entity;
 
 import com.rtsoju.dku_council_homepage.domain.base.BaseEntity;
 import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
-import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestAnnounceDto;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestPostDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import lombok.*;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
@@ -47,35 +45,35 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Comment> comments = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "post")
+    //    @OneToMany(mappedBy = "post")
 //    Set<PostHit> postHits = new HashSet<>();
     private Long hitCount;
 
 
-    public Post(String title, String text){
+    public Post(String title, String text) {
         this.title = title;
         this.text = text;
     }
 
-    public Post(User user, String title, String text){
+    public Post(User user, String title, String text) {
         this.user = user;
         this.title = title;
         this.text = text;
     }
 
 
-    public Post(User user, RequestAnnounceDto data, ArrayList<PostFile> files) {
+    public Post(User user, RequestPostDto data, ArrayList<PostFile> files) {
         this.user = user;
         this.title = data.getTitle();
         this.text = data.getText();
-        for(PostFile postFile : files){
+        for (PostFile postFile : files) {
             postFile.putPost(this);
         }
         this.fileList = files;
     }
 
 
-    public PostSummary summarize(){
+    public PostSummary summarize() {
         return new PostSummary(id, title);
     }
 
