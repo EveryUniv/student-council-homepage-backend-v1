@@ -6,6 +6,7 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Data
 public class PageConferenceDto {
@@ -15,13 +16,17 @@ public class PageConferenceDto {
     private LocalDate date;
     private String createDate;
     private String title;
-    private String fileUrl;
+    private List<String> files;
+    private int postHits;
+
     public PageConferenceDto(Conference conference){
         this.id = conference.getId();
         this.round = conference.getRound();
         this.date = conference.getDate();
-        this.createDate = conference.ConvertDate(conference.getCreateDate());
+        this.createDate = conference.convertDate(conference.getCreateDate());
         this.title = conference.getTitle();
+        this.files = conference.convertUrl();
+        this.postHits = conference.getHitCount();
     }
 
 }

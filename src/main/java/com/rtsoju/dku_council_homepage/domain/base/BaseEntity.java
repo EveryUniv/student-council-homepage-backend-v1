@@ -23,7 +23,7 @@ public abstract class BaseEntity {
     @Column(name = "update_at")
     private LocalDateTime updateDate;
 
-    public String ConvertDate(LocalDateTime time){
+    public String convertDate(LocalDateTime time){
         DateTimeFormatter patten = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return time.format(patten);
     }

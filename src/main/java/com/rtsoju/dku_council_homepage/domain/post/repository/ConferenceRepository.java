@@ -14,4 +14,5 @@ public interface ConferenceRepository extends JpaRepository<Conference, Long> {
     List<Conference> findTop5ByOrderByCreateDateDesc();
 
 
+    Page<Conference> findALlByTitleContainsOrTextContains(String title, String text, Pageable pageable);
 }

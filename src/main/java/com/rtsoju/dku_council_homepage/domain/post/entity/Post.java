@@ -2,14 +2,19 @@ package com.rtsoju.dku_council_homepage.domain.post.entity;
 
 import com.rtsoju.dku_council_homepage.domain.base.BaseEntity;
 import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
-import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestPostDto;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestAnnounceDto;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestRuleDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
@@ -45,35 +50,46 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Comment> comments = new ArrayList<>();
 
-    //    @OneToMany(mappedBy = "post")
-//    Set<PostHit> postHits = new HashSet<>();
-    private Long hitCount;
+    private int hitCount;
 
+    public Post(String title) {
+        this.title = title;
+    }
 
-    public Post(String title, String text) {
+    public Post(String title, String text){
         this.title = title;
         this.text = text;
     }
 
-    public Post(User user, String title, String text) {
+    public Post(User user, String title, String text){
         this.user = user;
         this.title = title;
         this.text = text;
     }
 
 
-    public Post(User user, RequestPostDto data, ArrayList<PostFile> files) {
+    public Post(User user, RequestAnnounceDto data, ArrayList<PostFile> files) {
         this.user = user;
         this.title = data.getTitle();
         this.text = data.getText();
-        for (PostFile postFile : files) {
+        for(PostFile postFile : files){
+            postFile.putPost(this);
+        }
+        this.fileList = files;
+    }
+
+    public Post(User user, RequestRuleDto data, ArrayList<PostFile> files) {
+        this.user = user;
+        this.title = data.getTitle();
+        this.text = data.getText();
+        for(PostFile postFile : files){
             postFile.putPost(this);
         }
         this.fileList = files;
     }
 
 
-    public PostSummary summarize() {
+    public PostSummary summarize(){
         return new PostSummary(id, title);
     }
 
@@ -90,8 +106,19 @@ public class Post extends BaseEntity {
         postList.add(this);
     }
 
-//    public void plusHits(){
-//        this.hitCount++;
-//    }
+    public List<String> convertUrl(){
+        final String s3Domain = "https://api-storage.cloud.toast.com/v1/";
+        final String storageAccount = "AUTH_34f4838a2b3047f39ac9cb0701558e46";
+        final String storageName = "main-storage";
+        final String url = s3Domain + storageAccount + "/" + storageName + "/";
+        return this.getFileList()
+                .stream().map(postFile -> url + postFile.getUrl())
+                .collect(Collectors.toList());
+    }
+
+    public void plusHits(){
+        this.hitCount++;
+    }
+
 }
 

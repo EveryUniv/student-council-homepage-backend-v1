@@ -17,16 +17,18 @@ public class ResponsePetitionDto {
     private String deleteDate;
     private String username;
     private String text;
-    private int count;
+    private int commentCount;
     private List<PageCommentDto> comments;
+    private int postHits;
     public ResponsePetitionDto(Petition petition) {
         this.status = petition.getStatus().toString();
         this.title = petition.getTitle();
-        this.createDate = petition.ConvertDate(petition.getCreateDate());
-        this.deleteDate = petition.ConvertDate(petition.getCreateDate().plusDays(14));
+        this.createDate = petition.convertDate(petition.getCreateDate());
+        this.deleteDate = petition.convertDate(petition.getCreateDate().plusDays(14));
         this.username = petition.getUser().getName(); //익명인 경우 익명 네이밍..
         this.text = petition.getText();
-        this.count = petition.getComments().size();
+        this.commentCount = petition.getComments().size();
         this.comments = petition.getComments().stream().map(PageCommentDto::new).collect(Collectors.toList());
+        this.postHits = petition.getHitCount();
     }
 }

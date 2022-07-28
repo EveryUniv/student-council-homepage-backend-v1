@@ -36,6 +36,8 @@ public class UserService {
 
         checkEmailValidationToken(emailValidationToken, dto.getClassId());
 
+
+
         String bcryptPwd = passwordEncoder.encode(dto.getPassword());
         dto.setPassword(bcryptPwd);
 
@@ -55,6 +57,10 @@ public class UserService {
         if(!jwtProvider.validateEmailValidationToken(token, classId)){
             throw new RefreshTokenNotValidateException("학번이 조작되었습니다.");
         }
+        if(userRepository.findByClassId(classId).isPresent()){
+            throw new DuplicateSignInException("이미 회원가입이 되었습니다.");
+        }
+
     }
 
     public BothTokenResponseDto login(RequestLoginDto dto) {
