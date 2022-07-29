@@ -14,6 +14,7 @@ import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestPet
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.IdResponseDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.ResponseAnnounceDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.ResponsePetitionDto;
+import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Petition;
 import com.rtsoju.dku_council_homepage.domain.post.service.PetitionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -40,8 +41,8 @@ public class PetitionController {
      * @return : Paging
      */
     @GetMapping
-    public PageRes<PagePetitionDto> list(@RequestParam(value = "query", required = false)String query, @RequestParam(value = "status", required = false)String status,  Pageable pageable) {
-        Page<PagePetitionDto> map = petitionService.petitionPage(query, status, pageable);
+    public PageRes<PagePetitionDto> list(@RequestParam(value = "query", required = false)String query, @RequestParam(value = "status", required = false)String status, @RequestParam(value = "category", required = false)String category, Pageable pageable) {
+        Page<PagePetitionDto> map = petitionService.petitionPage(query, status, category, pageable);
         return new PageRes<>(map.getContent(), map.getPageable(), map.getTotalElements());
 
     }
@@ -96,8 +97,38 @@ public class PetitionController {
         Long userId = Long.parseLong(jwtProvider.getUserId(token));
         petitionService.checkDuplicateCommentByUser(id, userId);
         Comment comment = petitionService.createComment(id, userId, data);
-        return ResponseEntity.ok()
+        return ResponseEntity.created(URI.create("/api/petition/"+id+"/"+comment.getId()))
                 .body(new SuccessResponseResult("댓글 생성 성공!"));
     }
+
+    /**
+     * ONLY_ADMIN만 호출 가능함.
+     * @param id
+     * @param data
+     * @return
+     */
+    @PostMapping("/comment/admin/{id}")
+    public ResponseEntity<ResponseResult> createCommentByAdmin(@PathVariable("id")Long id, @RequestBody CommentRequestDto data){
+        IdResponseDto commentByAdmin = petitionService.createCommentByAdmin(id, data);
+        return ResponseEntity.created(URI.create("/api/petition/"+id+"/admin/"+commentByAdmin.getId()))
+                .body(new SuccessResponseResult("댓글 생성 성공!", commentByAdmin));
+
+    }
+
+    /**
+     * ONLY_ADMIN
+     * @param id
+     * @return
+     */
+    @PostMapping("/blind/{id}")
+    public ResponseEntity<ResponseResult> blindPetitionByAdmin(@PathVariable("id")Long id){
+        Petition petition = petitionService.changeBlind(id);
+        return ResponseEntity.ok()
+                .body(new SuccessResponseResult("상태 변경 완료! blind = " + petition.isBlind()));
+    }
+
+
+
+
 
 }

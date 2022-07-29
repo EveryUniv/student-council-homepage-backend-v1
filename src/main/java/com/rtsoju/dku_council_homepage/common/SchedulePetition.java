@@ -21,7 +21,7 @@ public class SchedulePetition {
     @Scheduled(cron = "0 0 0 * * *")
     public void updatePetitionStatus(){
         log.info("Petition상태 없데이트");
-        petitionRepository.bulkStatusChange(PetitionStatus.취소, LocalDateTime.now().minusDays(14), PetitionStatus.진행중);
+        petitionRepository.bulkStatusChange(PetitionStatus.기간만료, LocalDateTime.now().minusDays(14), PetitionStatus.진행중);
         log.info("Petition Create 초기화");
         userRepository.bulkPetitionCreateReset();
     }

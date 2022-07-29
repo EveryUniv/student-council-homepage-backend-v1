@@ -32,8 +32,8 @@ public class AnnounceController {
      * api/announce 호출시 uri param ?page, size, sort, q(query) custom 가능!
      */
     @GetMapping
-    public PageRes<PageAnnounceDto> list(@RequestParam(value = "query", required = false)String query, Pageable pageable){
-        Page<PageAnnounceDto> map = announceService.announcePage(query, query, pageable);
+    public PageRes<PageAnnounceDto> list(@RequestParam(value = "query", required = false)String query, @RequestParam(value = "category",required = false)String category,  Pageable pageable){
+        Page<PageAnnounceDto> map = announceService.announcePage(query, category, pageable);
         return new PageRes<>(map.getContent(), map.getPageable(), map.getTotalElements());
     }
 
