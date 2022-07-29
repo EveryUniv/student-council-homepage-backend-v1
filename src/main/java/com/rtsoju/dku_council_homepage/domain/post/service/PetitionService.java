@@ -35,7 +35,9 @@ public class PetitionService {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
-    public Page<PagePetitionDto> petitionPage(String query, String status, Pageable pageable) {
+    private final int accept = 20;
+
+    public Page<PagePetitionDto> petitionPage(String query, String status, String category, Pageable pageable) {
         Page<Petition> page;
         if (status != null && query != null) {
             PetitionStatus lookup = PetitionStatus.lookup(status);
@@ -45,7 +47,12 @@ public class PetitionService {
             page = petitionRepository.findAllByStatus(lookup, pageable);
         }else if (query != null && status == null) {
             page = petitionRepository.findAllByTitleContainsOrTextContains(query, query, pageable);
-        } else {
+        } else if(category != null && status != null){
+            PetitionStatus lookup = PetitionStatus.lookup(status);
+            page = petitionRepository.findAllByStatusAndCategory(lookup, category, pageable);
+        } else if(category != null && status == null){
+            page = petitionRepository.findAllByCategory(category, pageable);
+        } else{
             page = petitionRepository.findAll(pageable);
         }
         return page.map(PagePetitionDto::new);
@@ -63,7 +70,7 @@ public class PetitionService {
         if(user.isPetitionCreate()){
             throw new DuplicateCreatePetition("1일 1회만 청원 등록이 가능합니다.");
         }
-        Petition petition = new Petition(user, data.getTitle(), data.getText());
+        Petition petition = new Petition(user, data.getTitle(), data.getText(), data.getCategory());
         Petition save = petitionRepository.save(petition);
         user.createPetition();
         return new IdResponseDto(save.getId());
@@ -100,7 +107,29 @@ public class PetitionService {
         Petition petition = petitionRepository.findById(postId).orElseThrow(FindPostWithIdNotFoundException::new);
         User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
         Comment comment = new Comment(petition, user, data.getText());
+        if(petition.getComments().size() >= accept){
+            petition.UpdateStandBy();
+        }
         return commentRepository.save(comment);
     }
 
+    public IdResponseDto createCommentByAdmin(Long id, CommentRequestDto data) {
+        Petition petition = petitionRepository.findById(id).orElseThrow(FindPostWithIdNotFoundException::new);
+//        checkAlreadyExistCommentByAdmin(petition);
+        petition.createCommentByAdmin(data.getText());
+        return new IdResponseDto(petition.getId());
+    }
+
+    private void checkAlreadyExistCommentByAdmin(Petition petition){
+        if(!petition.getAdminComment().isBlank()){
+            throw new DuplicateCommentException();
+        }
+    }
+
+
+    public Petition changeBlind(Long id) {
+        Petition petition = petitionRepository.findById(id).orElseThrow(FindPostWithIdNotFoundException::new);
+        petition.changeBlind();
+        return petition;
+    }
 }

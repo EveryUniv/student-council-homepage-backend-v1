@@ -28,6 +28,8 @@ public class ControllerAdvice {
             DuplicateCommentException.class,
             DuplicateCreatePetition.class,
             DuplicateSignInException.class,
+            AlreadyExistException.class,
+            FindCategoryWithIdNotFoundException.class,
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponseResult exceptionHandler(HttpServletRequest request, Exception e) {

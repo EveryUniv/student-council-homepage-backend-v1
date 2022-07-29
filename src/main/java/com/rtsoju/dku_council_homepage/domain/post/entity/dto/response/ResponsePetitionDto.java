@@ -12,20 +12,21 @@ import java.util.stream.Collectors;
 @Data
 public class ResponsePetitionDto {
     private String status;
+    private String category;
     private String title;
     private String createDate;
     private String deleteDate;
-    private String username;
     private String text;
     private int commentCount;
     private List<PageCommentDto> comments;
+
     private int postHits;
     public ResponsePetitionDto(Petition petition) {
         this.status = petition.getStatus().toString();
+        this.category = petition.getCategory();
         this.title = petition.getTitle();
         this.createDate = petition.convertDate(petition.getCreateDate());
         this.deleteDate = petition.convertDate(petition.getCreateDate().plusDays(14));
-        this.username = petition.getUser().getName(); //익명인 경우 익명 네이밍..
         this.text = petition.getText();
         this.commentCount = petition.getComments().size();
         this.comments = petition.getComments().stream().map(PageCommentDto::new).collect(Collectors.toList());

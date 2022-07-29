@@ -35,12 +35,17 @@ public class AnnounceService {
     private final AnnounceRepository announceRepository;
     private final UserRepository userRepository;
     private final FileUploadService fileUploadService;
-    public Page<PageAnnounceDto> announcePage(String title, String text, Pageable pageable){
+    public Page<PageAnnounceDto> announcePage(String query, String category, Pageable pageable){
         Page<Announce> page;
-        if(title == null) {
+        if(query == null && category == null) {
             page = announceRepository.findAll(pageable);
+        }else if(query != null && category == null){
+            page = announceRepository.findAllByTitleContainsOrTextContains(query,query,pageable);
+        }
+        else if(query == null && category != null){
+            page = announceRepository.findAllByCategory(category, pageable);
         }else{
-            page = announceRepository.findAllByTitleContainsOrTextContains(title,text,pageable);
+            page = announceRepository.findAllByCategoryAndTitleContainsOrTextContains(category, query, query, pageable);
         }
         return page.map(PageAnnounceDto::new);
     }

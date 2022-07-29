@@ -9,6 +9,9 @@ import java.util.List;
 
 @Data
 public class RequestPostDto {
+    @NotBlank(message = "category(카테고리)를 지정해주세요")
+    private String category;
+
     @NotBlank(message = "title(제목)은 비어있으면 안됩니다.")
     private String title;
 
