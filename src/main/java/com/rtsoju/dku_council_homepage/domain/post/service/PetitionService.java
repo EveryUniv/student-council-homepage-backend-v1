@@ -35,7 +35,7 @@ public class PetitionService {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
-    private final int accept = 20;
+    private final int accept = 1;
 
     public Page<PagePetitionDto> petitionPage(String query, String status, String category, Pageable pageable) {
         Page<Petition> page;
@@ -113,6 +113,7 @@ public class PetitionService {
         return commentRepository.save(comment);
     }
 
+    @Transactional
     public IdResponseDto createCommentByAdmin(Long id, CommentRequestDto data) {
         Petition petition = petitionRepository.findById(id).orElseThrow(FindPostWithIdNotFoundException::new);
 //        checkAlreadyExistCommentByAdmin(petition);
