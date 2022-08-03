@@ -16,7 +16,6 @@ public class PageAnnounceDto {
     private Long id;
     private String title;
     private String createDate;
-
     private List<String> fileList;
     private int postHits;
 

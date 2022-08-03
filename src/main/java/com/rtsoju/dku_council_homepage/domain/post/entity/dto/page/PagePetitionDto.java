@@ -12,6 +12,8 @@ public class PagePetitionDto {
     private int commentCount;
     private int postHits;
 
+    private boolean isBlind;
+
 
     public PagePetitionDto(Petition petition){
         this.id = petition.getId();
@@ -20,5 +22,6 @@ public class PagePetitionDto {
         this.userName = petition.getUser().getName();
         this.commentCount = petition.getComments().size();
         this.postHits = petition.getHitCount();
+        this.isBlind = petition.isBlind();
     }
 }

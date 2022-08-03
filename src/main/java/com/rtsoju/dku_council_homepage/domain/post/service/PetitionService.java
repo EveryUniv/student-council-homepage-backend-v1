@@ -121,16 +121,17 @@ public class PetitionService {
         return new IdResponseDto(petition.getId());
     }
 
-    private void checkAlreadyExistCommentByAdmin(Petition petition){
-        if(!petition.getAdminComment().isBlank()){
-            throw new DuplicateCommentException();
-        }
-    }
 
-
+    @Transactional
     public Petition changeBlind(Long id) {
         Petition petition = petitionRepository.findById(id).orElseThrow(FindPostWithIdNotFoundException::new);
         petition.changeBlind();
         return petition;
+    }
+
+    private void checkAlreadyExistCommentByAdmin(Petition petition){
+        if(!petition.getAdminComment().isBlank()){
+            throw new DuplicateCommentException();
+        }
     }
 }
