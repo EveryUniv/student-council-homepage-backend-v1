@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 @Data
 public class ResponseAnnounceDto {
     private Long id;
+    private String category;
     private String title;
     private String text;
     private List<String> fileList;
@@ -21,6 +22,7 @@ public class ResponseAnnounceDto {
 
     public ResponseAnnounceDto(Announce announce){
         this.id = announce.getId();
+        this.category = announce.getCategory();
         this.title = announce.getTitle();
         this.text = announce.getText();
         this.fileList = announce.convertUrl();

@@ -26,6 +26,10 @@ public interface PetitionRepository extends JpaRepository<Petition, Long> {
     Page<Petition> findAllByTitleContainsOrTextContains(String title, String text, Pageable pageable);
     Page<Petition> findAllByStatusAndTitleContainsOrTextContains(PetitionStatus status, String title, String text, Pageable pageable);
 
+    Page<Petition> findAllByCategory(String category, Pageable pageable);
+
+    Page<Petition> findAllByStatusAndCategory(PetitionStatus status, String category, Pageable pageable);
+
     @Modifying
     @Query("update Petition p set p.status = (:after) where p.createDate <= :now and p.status =(:before)")
     void bulkStatusChange(@Param("after")PetitionStatus after, @Param("now")LocalDateTime now, @Param("before")PetitionStatus before);

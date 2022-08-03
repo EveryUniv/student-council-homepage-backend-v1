@@ -16,6 +16,10 @@ import java.util.Optional;
 public interface AnnounceRepository extends JpaRepository<Announce, Long> {
 
     Page<Announce> findAllByTitleContainsOrTextContains(String title, String text, Pageable pageable);
+    Page<Announce> findAllByCategory(String category, Pageable pageable);
+
+    Page<Announce> findAllByCategoryAndTitleContainsOrTextContains(String category, String title, String text, Pageable pageable);
+
 
 
 }
