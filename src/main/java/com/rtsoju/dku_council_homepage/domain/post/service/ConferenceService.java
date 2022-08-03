@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class ConferenceService {
     private final ConferenceRepository conferenceRepository;
-    private final JwtProvider jwtProvider;
     private final UserRepository userRepository;
     private final FileUploadService fileUploadService;
 

@@ -36,13 +36,9 @@ public class UserService {
 
         checkEmailValidationToken(emailValidationToken, dto.getClassId());
 
-
-
         String bcryptPwd = passwordEncoder.encode(dto.getPassword());
         dto.setPassword(bcryptPwd);
-
         User user = dto.toUserEntity();
-
         user.allocateRole("ROLE_USER");
 
         userRepository.save(user);

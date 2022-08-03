@@ -6,19 +6,23 @@ import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageSuggestio
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestPostDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.IdResponseDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.ResponseSuggestionDto;
+import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Rule;
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Suggestion;
 import com.rtsoju.dku_council_homepage.domain.post.repository.SuggestionRepository;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import com.rtsoju.dku_council_homepage.domain.user.repository.UserRepository;
+import com.rtsoju.dku_council_homepage.exception.FindPostWithIdNotFoundException;
 import com.rtsoju.dku_council_homepage.exception.FindUserWithIdNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.graph.internal.parse.SubGraphGenerator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -50,15 +54,19 @@ public class SuggestionService {
     }
 
 
+    @Transactional
     public ResponseSuggestionDto findOne(Long id) {
         Suggestion suggestion = suggestionRepository.findById(id).orElseThrow(FindUserWithIdNotFoundException::new);
+        suggestion.plusHits();
         return new ResponseSuggestionDto(suggestion);
     }
 
     @Transactional
-    public void deleteOne(Long id) {
-        suggestionRepository.deleteById(id);
+    public void deleteOne(Long id){
+        Suggestion suggestion = suggestionRepository.findById(id).orElseThrow(FindPostWithIdNotFoundException::new);
+        List<PostFile> fileList = suggestion.getFileList();
+        fileUploadService.deletePostFiles(fileList);
+        suggestionRepository.delete(suggestion);
     }
-
 
 }
