@@ -54,8 +54,8 @@ jobs:
     - name: Docker build and push
       run: |
         docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-        docker build -t ppyooy336/dku_council:${GITHUB_SHA::7} .
-        docker push ppyooy336/dku_council:${GITHUB_SHA::7}
+        docker build -t ${{ secrets.USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${GITHUB_SHA::7} .
+        docker push ${{ secrets.USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${GITHUB_SHA::7}
         
           
     - name: SSH Remote Commands
@@ -66,8 +66,8 @@ jobs:
         key: ${{ secrets.SERVER_KEY }}
         envs: GITHUB_SHA
         script: |
-          docker pull ppyooy336/dku_council:${GITHUB_SHA::7}
-          docker tag ppyooy336/dku_council:${GITHUB_SHA::7} dku_council
-          docker stop server
-          docker run -d --rm --name server -p 8080:8080 dku_council
+          docker pull ${{ secrets.USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${GITHUB_SHA::7}
+          docker tag ${{ secrets.USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${GITHUB_SHA::7} ${{ secrets.DOCKER_REPOSITORY }}
+          docker stop ${{ secrets.DOCKER_REPOSITORY }}
+          docker run -d --rm --name server -p 8080:8080 ${{ secrets.DOCKER_REPOSITORY }}
         
