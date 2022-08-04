@@ -69,5 +69,5 @@ jobs:
           docker pull ${{ secrets.USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${GITHUB_SHA::7}
           docker tag ${{ secrets.USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${GITHUB_SHA::7} ${{ secrets.DOCKER_REPOSITORY }}
           docker stop ${{ secrets.DOCKER_REPOSITORY }}
-          docker run -d --rm --name server -p 8080:8080 ${{ secrets.DOCKER_REPOSITORY }}
+          docker run -d --rm --name ${{ secrets.DOCKER_REPOSITORY }} -p 8080:8080 ${{ secrets.DOCKER_REPOSITORY }}
         
