@@ -11,7 +11,6 @@ public class PagePetitionDto {
     private String userName;
     private int commentCount;
     private int postHits;
-
     private boolean isBlind;
 
 
