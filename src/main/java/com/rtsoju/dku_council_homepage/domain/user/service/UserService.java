@@ -4,7 +4,7 @@ import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestLoginDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestReissueDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestSignupDto;
-import com.rtsoju.dku_council_homepage.domain.user.model.dto.response.BothTokenResponseDto;
+import com.rtsoju.dku_council_homepage.domain.user.model.dto.response.RoleAndTokenResponseDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.UserRole;
 import com.rtsoju.dku_council_homepage.domain.user.repository.UserRepository;
@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -59,7 +58,7 @@ public class UserService {
 
     }
 
-    public BothTokenResponseDto login(RequestLoginDto dto) {
+    public RoleAndTokenResponseDto login(RequestLoginDto dto) {
         User findUser = userRepository.findByClassId(dto.getClassId()).orElseThrow(LoginUserNotFoundException::new);
 
         if (passwordEncoder.matches(dto.getPassword(), findUser.getPassword())) {
@@ -67,7 +66,7 @@ public class UserService {
             List<String> role = getRole(findUser);
             String loginAccessToken = jwtProvider.createLoginAccessToken(findUser.getId(), role);
             String loginRefreshToken = jwtProvider.createLoginRefreshToken(findUser.getId());
-            return new BothTokenResponseDto(loginAccessToken, loginRefreshToken);
+            return new RoleAndTokenResponseDto(loginAccessToken, loginRefreshToken, role);
         } else {
             throw new LoginPwdDifferentException("Wrong pwd");
         }
@@ -89,7 +88,7 @@ public class UserService {
         return role;
     }
 
-    public BothTokenResponseDto tokenReissue(RequestReissueDto dto) {
+    public RoleAndTokenResponseDto tokenReissue(RequestReissueDto dto) {
         String accessToken = dto.getAccessToken();
         String refreshToken = dto.getRefreshToken();
 
@@ -103,7 +102,7 @@ public class UserService {
         String newAccessToken = jwtProvider.createLoginAccessToken(userId, role);
         String newRefreshToken = jwtProvider.createLoginRefreshToken(userId);
 
-        return new BothTokenResponseDto(newAccessToken, newRefreshToken);
+        return new RoleAndTokenResponseDto(newAccessToken, newRefreshToken, role);
 
     }
 
