@@ -19,7 +19,6 @@ public class ResponsePetitionDto {
     private String text;
     private int commentCount;
     private List<PageCommentDto> comments;
-
     private String adminComment;
     private int postHits;
     private boolean isBlind;
@@ -28,7 +27,7 @@ public class ResponsePetitionDto {
         this.category = petition.getCategory();
         this.title = petition.getTitle();
         this.createDate = petition.convertDate(petition.getCreateDate());
-        this.deleteDate = petition.convertDate(petition.getCreateDate().plusDays(14));
+        this.deleteDate = petition.convertDate(petition.getCreateDate().plusDays(15));
         this.text = petition.getText();
         this.commentCount = petition.getComments().size();
         this.comments = petition.getComments().stream().map(PageCommentDto::new).collect(Collectors.toList());
