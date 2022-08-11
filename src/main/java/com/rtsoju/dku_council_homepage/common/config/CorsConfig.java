@@ -22,7 +22,6 @@ public class CorsConfig {
 //        config.setAllowedOrigins("*"); // 모든 Ip에 응답을 허용
 //        config.setAllowedHeaders("*"); // 모든 header에 응답을 허용
 //        config.setAllowedMethods("*"); // 모든 post, get ,put 등등 요청을 허용
-
         source.registerCorsConfiguration("/api/**", config);
         return new CorsFilter(source);
     }

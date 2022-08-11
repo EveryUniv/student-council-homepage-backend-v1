@@ -10,7 +10,6 @@ import java.util.List;
 
 @Data
 public class PageConferenceDto {
-
     private Long id;
     private int round;
     private LocalDate date;

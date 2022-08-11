@@ -127,8 +127,4 @@ public class PetitionController {
                 .body(new SuccessResponseResult("상태 변경 완료! blind = " + petition.isBlind()));
     }
 
-
-
-
-
 }

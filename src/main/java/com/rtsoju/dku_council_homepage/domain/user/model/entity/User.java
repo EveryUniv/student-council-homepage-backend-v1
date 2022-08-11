@@ -39,9 +39,6 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Register register;
 
-    @Column(name = "last_petition_time")
-    private LocalDateTime petitionTime;
-
     @Column(name = "petition_create")
     private boolean petitionCreate;
 

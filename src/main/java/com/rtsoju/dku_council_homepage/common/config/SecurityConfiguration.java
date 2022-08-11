@@ -41,11 +41,25 @@ public class SecurityConfiguration{
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/users/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/users").permitAll() //추후, access등록이 필요한 부 ex)mypage
+                .antMatchers(HttpMethod.POST, "/api/users").permitAll() //회원가입
                 .antMatchers(HttpMethod.POST, "/api/users/reissue").permitAll()
+                .antMatchers(HttpMethod.POST,
+                        "/api/announce",//공지
+                        "/api/conference",//회의
+                        "/api/news",//소식
+                        "/api/rule")//회칙
+                            .hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,
+                        "/api/petition",//청원
+                        "/api/suggestion")//건의
+                .hasAnyRole("ADMIN","USER")
+                .antMatchers(HttpMethod.POST, "/api/announce/*").hasAuthority("ROLE_ADMIN") //공지 등록,
+                .antMatchers(HttpMethod.POST, "/api/petition/*").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/rule/*").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/suggestion/*").permitAll()
                 .antMatchers("/api/sms").permitAll()
                 .antMatchers("/api/email").permitAll()
-                .anyRequest().permitAll() //이 외는 USER권한이 있는 사람만 접근
+//                .anyRequest().permitAll() //이 외는 USER권한이 있는 사람만 접근
                 .and()
                 // 자동 주입으로 완성? OR new 생성자로 등록? 뭐가 좋을까...
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)

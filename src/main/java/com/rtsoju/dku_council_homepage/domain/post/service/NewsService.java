@@ -44,12 +44,6 @@ public class NewsService {
         return page.map(PageNewsDto::new);
     }
 
-
-    public List<PageNewsDto> latestTop5(){
-        List<News> newsList = newsRepository.findTop5ByOrderByCreateDateDesc();
-        return newsList.stream().map(PageNewsDto::new).collect(Collectors.toList());
-    }
-
     public List<PostSummary> postPage(){
         List<News> newsList = newsRepository.findTop5ByOrderByCreateDateDesc();
         return newsList.stream().map(Post::summarize).collect(Collectors.toList());
