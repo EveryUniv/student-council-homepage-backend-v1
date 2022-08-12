@@ -10,6 +10,6 @@ import java.util.List;
 public class RoleAndTokenResponseDto {
     private String accessToken;
     private String refreshToken;
-    private List<String> role;
+    private boolean isAdmin;
 
 }
