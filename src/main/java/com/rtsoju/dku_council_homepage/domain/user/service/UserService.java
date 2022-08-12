@@ -63,10 +63,14 @@ public class UserService {
 
         if (passwordEncoder.matches(dto.getPassword(), findUser.getPassword())) {
             // Todo : 권한 부분 수정
+            boolean isAdmin = false;
             List<String> role = getRole(findUser);
             String loginAccessToken = jwtProvider.createLoginAccessToken(findUser.getId(), role);
             String loginRefreshToken = jwtProvider.createLoginRefreshToken(findUser.getId());
-            return new RoleAndTokenResponseDto(loginAccessToken, loginRefreshToken, role);
+            if(role.contains("ROLE_ADMIN")){
+                isAdmin = true;
+            }
+            return new RoleAndTokenResponseDto(loginAccessToken, loginRefreshToken, isAdmin);
         } else {
             throw new LoginPwdDifferentException("Wrong pwd");
         }
@@ -91,7 +95,7 @@ public class UserService {
     public RoleAndTokenResponseDto tokenReissue(RequestReissueDto dto) {
         String accessToken = dto.getAccessToken();
         String refreshToken = dto.getRefreshToken();
-
+        boolean isAdmin = false;
         if (!jwtProvider.validationToken(refreshToken))
             throw new RefreshTokenNotValidateException();
 
@@ -101,8 +105,10 @@ public class UserService {
 
         String newAccessToken = jwtProvider.createLoginAccessToken(userId, role);
         String newRefreshToken = jwtProvider.createLoginRefreshToken(userId);
-
-        return new RoleAndTokenResponseDto(newAccessToken, newRefreshToken, role);
+        if(role.contains("ROLE_ADMIN")){
+            isAdmin = true;
+        }
+        return new RoleAndTokenResponseDto(newAccessToken, newRefreshToken, isAdmin);
 
     }
 

@@ -27,7 +27,7 @@ public class GmailService {
         String emailToken = jwtProvider.createEmailValidationToken(dto.getClassId());
         smm.setTo(dto.getClassId()+"@dankook.ac.kr");
         smm.setSubject("단국대학교 총학생회 이메일 인증");
-        smm.setText("http://133.186.132.198/login?token="+emailToken+"&id="+dto.getClassId());
+        smm.setText("http://133.186.132.198/sign-up?token="+emailToken+"&id="+dto.getClassId());
         javaMailSender.send(smm);
         return (emailToken);
     }
