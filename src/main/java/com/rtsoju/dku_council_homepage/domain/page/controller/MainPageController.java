@@ -3,6 +3,7 @@ package com.rtsoju.dku_council_homepage.domain.page.controller;
 import com.rtsoju.dku_council_homepage.common.Messages;
 import com.rtsoju.dku_council_homepage.common.ResponseResult;
 import com.rtsoju.dku_council_homepage.common.SuccessResponseResult;
+import com.rtsoju.dku_council_homepage.domain.page.dto.CarouselImageResponse;
 import com.rtsoju.dku_council_homepage.domain.page.dto.MainPageResponse;
 import com.rtsoju.dku_council_homepage.domain.page.service.MainPageService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -26,6 +28,13 @@ public class MainPageController {
         response.setRecentNews(service.getRecentNews());
         response.setRecentConferences(service.getRecentConferences());
         return ResponseEntity.ok().body(new SuccessResponseResult(response));
+    }
+
+    @GetMapping("/carousel")
+    public ResponseEntity<List<CarouselImageResponse>> getCarouselImages(){
+        List<CarouselImageResponse> response = service.getCarouselImages();
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/carousel")
