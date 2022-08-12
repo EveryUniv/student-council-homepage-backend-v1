@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -29,8 +30,8 @@ public class JwtProvider {
     @Value("${auth.sms.expirationSeconds}")
     private int expirationSeconds;
 
-    private Long accessTokenValidMillisecond = 24 * 60 * 1000L; // 1 hour
-    private Long refreshTokenValidMillisecond = 14 * 24 * 60 * 60 * 1000L; // 14 day
+    private final Long accessTokenValidMillisecond = 24 * 60 * 60 * 1000L; // 1 hour
+    private final Long refreshTokenValidMillisecond = 14 * 24 * 60 * 60 * 1000L; // 14 day
 
     @PostConstruct
     protected void init() {
@@ -130,6 +131,12 @@ public class JwtProvider {
     public String getUserId(String token) {
         return parseClaims(token).getSubject();
     }
+
+    // HttpServletRequest 에서 토큰
+    public String getTokenInHttpServletRequest(HttpServletRequest request) {
+        return request.getHeader("X-AUTH-TOKEN");
+    }
+
 
 
 

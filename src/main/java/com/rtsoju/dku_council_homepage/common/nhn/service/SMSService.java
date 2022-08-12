@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 @Service
 public class SMSService {
-    private static final RestTemplate REST_TEMPLATE = new RestTemplate();
+    private final RestTemplate restTemplate;
     private final String appKey;
     private final String secretKey;
     private final String senderPhone;
@@ -27,6 +27,7 @@ public class SMSService {
         this.appKey = appKey;
         this.secretKey = secretKey;
         this.senderPhone = senderPhone;
+        this.restTemplate = new RestTemplate();
     }
 
     /**
@@ -44,7 +45,7 @@ public class SMSService {
         NHNCloudSMSRequest request = new NHNCloudSMSRequest(senderPhone, phone, body);
         HttpEntity<NHNCloudSMSRequest> entity = new HttpEntity<>(request, headers);
         String url = ExternalURLs.NHNSMS(appKey);
-        NHNCloudSMSResponse response = REST_TEMPLATE.postForObject(url, entity, NHNCloudSMSResponse.class);
+        NHNCloudSMSResponse response = restTemplate.postForObject(url, entity, NHNCloudSMSResponse.class);
 
         // handle response
         String failReason = null;

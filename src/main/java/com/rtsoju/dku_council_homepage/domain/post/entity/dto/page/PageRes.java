@@ -1,4 +1,4 @@
-package com.rtsoju.dku_council_homepage.domain.post.entity.dto;
+package com.rtsoju.dku_council_homepage.domain.post.entity.dto.page;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,7 +23,6 @@ public class PageRes<T> implements Serializable {
 
     public PageRes(List<T> content, Pageable pageable, long totalCount){
         final PageImpl<T> page = new PageImpl<>(content, pageable, totalCount);
-
         this.content = content;
         this.hasNext = page.hasNext();
         this.totalPages = page.getTotalPages();
