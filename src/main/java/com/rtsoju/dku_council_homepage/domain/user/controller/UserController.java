@@ -5,8 +5,8 @@ import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestLoginDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestReissueDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestSignupDto;
-import com.rtsoju.dku_council_homepage.domain.user.model.dto.response.BothTokenResponseDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
+import com.rtsoju.dku_council_homepage.domain.user.model.dto.response.RoleAndTokenResponseDto;
 import com.rtsoju.dku_council_homepage.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,8 +36,8 @@ public class UserController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("test", "1234");
 */
-        BothTokenResponseDto bothTokenResponseDto = userService.login(dto);
-        SuccessResponseResult result = new SuccessResponseResult("Login Success", bothTokenResponseDto);
+        RoleAndTokenResponseDto roleAndTokenResponseDto = userService.login(dto);
+        SuccessResponseResult result = new SuccessResponseResult("Login Success", roleAndTokenResponseDto);
         return new ResponseEntity<>(result, HttpStatus.valueOf(200));
 //        return ResponseEntity.ok()
 //                .body(new RequestResult("Login Success", loginResponseDto)).
@@ -51,9 +51,9 @@ public class UserController {
 
     @PostMapping("/users/reissue")
     public ResponseEntity<SuccessResponseResult> reissue(@RequestBody RequestReissueDto dto) {
-        BothTokenResponseDto bothTokenResponseDto = userService.tokenReissue(dto);
+        RoleAndTokenResponseDto roleAndTokenResponseDto = userService.tokenReissue(dto);
         return ResponseEntity.ok()
-                .body(new SuccessResponseResult("Reissue Success", bothTokenResponseDto));
+                .body(new SuccessResponseResult("Reissue Success", roleAndTokenResponseDto));
     }
 
     @PostMapping("/users/upgrade")
