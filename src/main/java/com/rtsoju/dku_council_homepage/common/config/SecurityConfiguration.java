@@ -40,12 +40,34 @@ public class SecurityConfiguration{
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                // 회원가입
+                .antMatchers(HttpMethod.POST, "/api/email").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/auth/sms-code").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/auth/sms-code").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/users/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/users").permitAll() //추후, access등록이 필요한 부 ex)mypage
                 .antMatchers(HttpMethod.POST, "/api/users/reissue").permitAll()
-                .antMatchers("/api/sms").permitAll()
-                .antMatchers("/api/email").permitAll()
-                .anyRequest().permitAll() //이 외는 USER권한이 있는 사람만 접근
+                // 메인페이지
+                .antMatchers(HttpMethod.GET,"/api/main").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/schedule").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/carousel").permitAll()
+                // admin
+                .antMatchers(HttpMethod.POST,"/api/carousel").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/api/carousel/").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/api/petition/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/api/petition/comment/admin/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/api/petition/blind/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/api/announce").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/api/announce/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/api/news").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/api/news/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/api/conference").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/api/conference/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/api/rule").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/api/rule/{id}").hasRole("ADMIN")
+                .antMatchers("/api/category").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/api/category").hasRole("USER")
+                .anyRequest().hasRole("USER") //이 외는 USER권한이 있는 사람만 접근
                 .and()
                 // 자동 주입으로 완성? OR new 생성자로 등록? 뭐가 좋을까...
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)

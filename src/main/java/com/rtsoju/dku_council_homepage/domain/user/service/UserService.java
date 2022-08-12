@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -111,4 +110,10 @@ public class UserService {
 
     }
 
+    public User addRoleAdmin(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
+        user.allocateRole("ROLE_ADMIN");
+
+        return user;
+    }
 }

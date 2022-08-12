@@ -1,10 +1,12 @@
 package com.rtsoju.dku_council_homepage.domain.user.controller;
 
 import com.rtsoju.dku_council_homepage.common.SuccessResponseResult;
+import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestLoginDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestReissueDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestSignupDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.response.BothTokenResponseDto;
+import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import com.rtsoju.dku_council_homepage.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final JwtProvider jwtProvider;
 
     @PostMapping("/users")
     public ResponseEntity<SuccessResponseResult> signup(@RequestBody RequestSignupDto dto, HttpServletRequest request) {
@@ -53,8 +56,13 @@ public class UserController {
                 .body(new SuccessResponseResult("Reissue Success", bothTokenResponseDto));
     }
 
-    @GetMapping("/test")
-    public SuccessResponseResult test() {
-        return new SuccessResponseResult("Test Success");
+    @PostMapping("/users/upgrade")
+    public ResponseEntity<SuccessResponseResult> addRoleToAdmin(HttpServletRequest request) {
+        String token = jwtProvider.getTokenInHttpServletRequest(request);
+        Long userId = Long.parseLong(jwtProvider.getUserId(token));
+        User user = userService.addRoleAdmin(userId);
+
+        return ResponseEntity.ok()
+                .body(new SuccessResponseResult(user.getClassId() + "유저는 ADMIN 권한을 가지게 되었습니다"));
     }
 }
