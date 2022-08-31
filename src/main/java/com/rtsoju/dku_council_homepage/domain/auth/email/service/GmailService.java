@@ -20,7 +20,7 @@ public class GmailService {
 
     private final JwtProvider jwtProvider;
 
-    public String send(RequestEmailDto dto){
+    public void sendEmailForSignUp(RequestEmailDto dto){
         userService.verifyExistMemberWithClassId(dto.getClassId());
         checkClassId(dto.getClassId());
         SimpleMailMessage smm = new SimpleMailMessage();
@@ -29,8 +29,23 @@ public class GmailService {
         smm.setSubject("단국대학교 총학생회 이메일 인증");
         smm.setText("http://133.186.132.198/sign-up?token="+emailToken+"&id="+dto.getClassId());
         javaMailSender.send(smm);
-        return (emailToken);
+        return;
     }
+
+    public void sendEmailForChangePW(RequestEmailDto dto){
+        userService.verifyExistMemberWithClassId(dto.getClassId());
+        checkClassId(dto.getClassId());
+        SimpleMailMessage smm = new SimpleMailMessage();
+        String emailToken = jwtProvider.createEmailValidationToken(dto.getClassId());
+        smm.setTo(dto.getClassId()+"@dankook.ac.kr");
+        smm.setSubject("단국대학교 총학생회 비밀번호 변경");
+        smm.setText("http://133.186.132.198/password?token="+emailToken+"&id="+dto.getClassId());
+        javaMailSender.send(smm);
+        return;
+    }
+
+
+
 
     private void checkClassId(String classId){
         if(!classIdCheckPattern.matcher(classId).matches()){
