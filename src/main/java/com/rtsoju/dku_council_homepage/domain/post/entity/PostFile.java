@@ -23,8 +23,16 @@ public class PostFile extends BaseEntity {
     @Column(name = "file_url")
     private String url;
 
+    @Column(name = "origin_name")
+    private String name;
+
     public PostFile(String url) {
         this.url = url;
+    }
+
+    public PostFile(String url, String name) {
+        this.url = url;
+        this.name = name;
     }
 
     public void putPost(Post post) {

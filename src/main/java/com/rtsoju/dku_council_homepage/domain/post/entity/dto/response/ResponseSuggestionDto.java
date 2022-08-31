@@ -10,7 +10,7 @@ public class ResponseSuggestionDto {
     private Long id;
     private String title;
     private String text;
-    private List<String> fileList;
+    private List<FileUrlWithNameDto> fileList;
     private String createDate;
     private int postHits;
 
@@ -18,7 +18,7 @@ public class ResponseSuggestionDto {
         this.id = suggestion.getId();
         this.title = suggestion.getTitle();
         this.text = suggestion.getText();
-        this.fileList = suggestion.convertUrl();
+        this.fileList = suggestion.getFiles();
         this.createDate = suggestion.convertDate(suggestion.getCreateDate());
         this.postHits = suggestion.getHitCount();
     }

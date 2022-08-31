@@ -1,6 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.post.entity.dto.page;
 
 import com.rtsoju.dku_council_homepage.domain.post.entity.PostFile;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.FileUrlWithNameDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Announce;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,13 +17,13 @@ public class PageAnnounceDto {
     private Long id;
     private String title;
     private String createDate;
-    private List<String> fileList;
+    private List<FileUrlWithNameDto> fileList;
     private int postHits;
 
     public PageAnnounceDto(Announce announce) {
         this.id = announce.getId();
         this.title = announce.getTitle();
-        this.fileList = announce.convertUrl();
+        this.fileList = announce.getFiles();
         this.createDate = announce.convertDate(announce.getCreateDate());
         this.postHits = announce.getHitCount();
     }

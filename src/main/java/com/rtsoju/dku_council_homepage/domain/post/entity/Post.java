@@ -3,6 +3,7 @@ package com.rtsoju.dku_council_homepage.domain.post.entity;
 import com.rtsoju.dku_council_homepage.domain.base.BaseEntity;
 import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestPostDto;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.FileUrlWithNameDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -92,13 +93,9 @@ public class Post extends BaseEntity {
         postList.add(this);
     }
 
-    public List<String> convertUrl() {
-        final String s3Domain = "https://api-storage.cloud.toast.com/v1/";
-        final String storageAccount = "AUTH_34f4838a2b3047f39ac9cb0701558e46";
-        final String storageName = "main-storage";
-        final String url = s3Domain + storageAccount + "/" + storageName + "/";
+    public List<FileUrlWithNameDto> getFiles(){
         return this.getFileList()
-                .stream().map(postFile -> url + postFile.getUrl())
+                .stream().map(FileUrlWithNameDto::new)
                 .collect(Collectors.toList());
     }
 
