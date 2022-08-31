@@ -16,7 +16,7 @@ public class ResponseAnnounceDto {
     private String category;
     private String title;
     private String text;
-    private List<String> fileList;
+    private List<FileUrlWithNameDto> fileList;
     private String createDate;
     private int postHits;
 
@@ -25,7 +25,7 @@ public class ResponseAnnounceDto {
         this.category = announce.getCategory();
         this.title = announce.getTitle();
         this.text = announce.getText();
-        this.fileList = announce.convertUrl();
+        this.fileList = announce.getFiles();
         this.createDate = announce.convertDate(announce.getCreateDate());
         this.postHits = announce.getHitCount();
     }

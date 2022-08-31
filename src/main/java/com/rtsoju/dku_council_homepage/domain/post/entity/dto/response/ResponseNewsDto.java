@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class ResponseNewsDto {
     private String title;
     private String text;
-    private List<String> files = new ArrayList<>();
+    private List<FileUrlWithNameDto> files = new ArrayList<>();
     private List<PageCommentDto> commentList = new ArrayList<>();
     private String writer;
 
@@ -23,7 +23,7 @@ public class ResponseNewsDto {
         this.title = news.getTitle();
         this.text = news.getText();
         this.commentList = news.getComments().stream().map(PageCommentDto::new).collect(Collectors.toList());
-        this.files = news.convertUrl();
+        this.files = news.getFiles();
     }
 
 
