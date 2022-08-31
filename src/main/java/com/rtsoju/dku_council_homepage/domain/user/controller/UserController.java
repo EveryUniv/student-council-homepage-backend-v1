@@ -2,6 +2,7 @@ package com.rtsoju.dku_council_homepage.domain.user.controller;
 
 import com.rtsoju.dku_council_homepage.common.SuccessResponseResult;
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
+import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestChangePWDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestLoginDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestReissueDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestSignupDto;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api")
@@ -64,5 +66,11 @@ public class UserController {
 
         return ResponseEntity.ok()
                 .body(new SuccessResponseResult(user.getClassId() + "유저는 ADMIN 권한을 가지게 되었습니다"));
+    }
+
+    @PatchMapping("/users/password")
+    public  ResponseEntity<SuccessResponseResult> changePW(RequestChangePWDto request){
+        userService.changePW(request);
+        return ResponseEntity.ok().body(new SuccessResponseResult());
     }
 }

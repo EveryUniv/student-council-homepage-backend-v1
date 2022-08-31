@@ -25,6 +25,7 @@ public class CategoryController {
                 .body(new SuccessResponseResult(list));
     }
 
+
     @PostMapping
     public ResponseEntity<ResponseResult> insert(@RequestBody CategoryDto data){
         String save = categoryService.save(data);
