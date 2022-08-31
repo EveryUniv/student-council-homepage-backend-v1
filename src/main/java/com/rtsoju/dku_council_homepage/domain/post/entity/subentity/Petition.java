@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue("P")
 @Getter
-public class Petition extends Post {
+public class  Petition extends Post {
 
     private String  category;
     @Enumerated(EnumType.STRING)

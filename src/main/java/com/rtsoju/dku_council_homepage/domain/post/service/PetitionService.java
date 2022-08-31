@@ -1,6 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.post.service;
 
 import com.rtsoju.dku_council_homepage.domain.base.PetitionStatus;
+import com.rtsoju.dku_council_homepage.domain.page.dto.PetitionSummary;
 import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Comment;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
@@ -58,9 +59,9 @@ public class PetitionService {
         return page.map(PagePetitionDto::new);
     }
 
-    public List<PostSummary> postPage() {
+    public List<PetitionSummary> postPage() {
         List<Petition> petitionList = petitionRepository.findTop5ByOrderByCreateDateDesc();
-        return petitionList.stream().map(Post::summarize).collect(Collectors.toList());
+        return petitionList.stream().map(PetitionSummary::new).collect(Collectors.toList());
     }
 
 
