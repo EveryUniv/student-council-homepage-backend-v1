@@ -24,6 +24,11 @@ public class UserController {
     private final UserService userService;
     private final JwtProvider jwtProvider;
 
+    @GetMapping
+    public ResponseEntity<SuccessResponseResult> healthCheck() {
+        return ResponseEntity.ok(new SuccessResponseResult("health checking success"));
+    }
+
     @PostMapping("/users")
     public ResponseEntity<SuccessResponseResult> signup(@RequestBody RequestSignupDto dto, HttpServletRequest request) {
         String token = request.getHeader("EMAIL-VALIDATION-TOKEN");
