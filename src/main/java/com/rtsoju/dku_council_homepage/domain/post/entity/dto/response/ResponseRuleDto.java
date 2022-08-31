@@ -10,14 +10,14 @@ public class ResponseRuleDto {
     private Long id;
     private String title;
     private String text;
-    private List<String> fileList;
+    private List<FileUrlWithNameDto> fileList;
     private String createDate;
     private int postHits;
     public ResponseRuleDto(Rule rule) {
         this.id = rule.getId();
         this.title = rule.getTitle();
         this.text = rule.getText();
-        this.fileList = rule.convertUrl();
+        this.fileList = rule.getFiles();
         this.createDate = rule.convertDate(rule.getCreateDate());
         this.postHits = rule.getHitCount();
     }

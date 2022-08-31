@@ -78,5 +78,10 @@ public class User extends BaseEntity {
         roles.add(userRole);
         return;
     }
+
+    public void changePassword(String pw){
+        this.password = pw;
+        return;
+    }
 }
 

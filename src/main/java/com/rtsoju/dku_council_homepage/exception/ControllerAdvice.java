@@ -36,6 +36,7 @@ public class ControllerAdvice {
         return new ErrorResponseResult(e);
     }
 
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErrorResponseResult handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         String errorMessage = e.getBindingResult()

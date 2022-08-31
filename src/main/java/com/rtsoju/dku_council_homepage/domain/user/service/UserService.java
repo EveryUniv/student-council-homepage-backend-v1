@@ -1,6 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.user.service;
 
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
+import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestChangePWDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestLoginDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestReissueDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestSignupDto;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -117,5 +119,17 @@ public class UserService {
         user.allocateRole("ROLE_ADMIN");
 
         return user;
+    }
+
+    public void changePW(RequestChangePWDto request) {
+        String token = request.getToken();
+        String userId = request.getUserId();
+        if(!jwtProvider.validateEmailValidationToken(token, userId)){
+            throw new BadRequestException("학번이 조작됐습니다.");
+        }
+        User user = userRepository.findById(Long.parseLong(userId)).orElseThrow(FindUserWithIdNotFoundException::new);
+        String bcryptPWD = passwordEncoder.encode(request.getNewPW());
+        user.changePassword(bcryptPWD);
+        return;
     }
 }

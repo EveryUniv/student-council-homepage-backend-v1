@@ -4,6 +4,7 @@ import com.rtsoju.dku_council_homepage.common.Messages;
 import com.rtsoju.dku_council_homepage.common.nhn.service.NHNAuthService;
 import com.rtsoju.dku_council_homepage.common.nhn.service.ObjectStorageService;
 import com.rtsoju.dku_council_homepage.domain.page.dto.CarouselImageResponse;
+import com.rtsoju.dku_council_homepage.domain.page.dto.PetitionSummary;
 import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
 import com.rtsoju.dku_council_homepage.domain.page.entity.CarouselImage;
 import com.rtsoju.dku_council_homepage.domain.page.repository.CarouselImageRepository;
@@ -72,7 +73,7 @@ public class MainPageService {
      * 진행중인 인기청원 목록을 가져온다. (n개) 추후 인기청원 맵핑하면 개선
      * 최근 청원 목록을 가져온다 (5개)
      */
-    public List<PostSummary> getPopularPetitions() {
+    public List<PetitionSummary> getPopularPetitions() {
         return petitionService.postPage();
     }
 }

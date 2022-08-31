@@ -23,9 +23,10 @@ public class FileUploadService {
         files.stream()
                 .forEach(file -> {
                     String fileId = post + "-" + UUID.randomUUID();
+                    String originName = file.getOriginalFilename();
                     try{
                         s3service.uploadObject(token, fileId, file.getInputStream());
-                        postFiles.add(new PostFile(fileId));
+                        postFiles.add(new PostFile(fileId,originName));
                     }catch (IOException e){
                         e.printStackTrace();
                     }

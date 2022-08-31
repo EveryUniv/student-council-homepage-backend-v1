@@ -20,7 +20,14 @@ public class EmailController {
     private final GmailService gmailService;
 
     @PostMapping("/email")
-    public SuccessResponseResult email(@RequestBody RequestEmailDto dto) {
-        return new SuccessResponseResult(Messages.SUCCESS_EMAIL_SEND.getMessage(), new EmailResponseDto(dto.getClassId(), gmailService.send(dto)));
+    public SuccessResponseResult emailSendForSignUp(@RequestBody RequestEmailDto dto) {
+        gmailService.sendEmailForSignUp(dto);
+        return new SuccessResponseResult(Messages.SUCCESS_EMAIL_SEND.getMessage());
+    }
+
+    @PostMapping("/email/password")
+    public SuccessResponseResult emailSendForChangePW(@RequestBody RequestEmailDto dto) {
+        gmailService.sendEmailForChangePW(dto);
+        return new SuccessResponseResult(Messages.SUCCESS_EMAIL_SEND.getMessage());
     }
 }

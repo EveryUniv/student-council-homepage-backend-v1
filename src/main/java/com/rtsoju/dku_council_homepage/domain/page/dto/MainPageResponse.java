@@ -9,5 +9,5 @@ public class MainPageResponse {
     private List<CarouselImageResponse> carousels;
     private List<PostSummary> recentNews;
     private List<PostSummary> recentConferences;
-    private List<PostSummary> popularPetitions;
+    private List<PetitionSummary> popularPetitions;
 }
