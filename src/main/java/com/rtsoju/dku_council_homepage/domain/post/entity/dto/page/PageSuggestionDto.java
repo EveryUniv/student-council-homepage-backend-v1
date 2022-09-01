@@ -1,5 +1,6 @@
 package com.rtsoju.dku_council_homepage.domain.post.entity.dto.page;
 
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.FileUrlWithNameDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Suggestion;
 import lombok.Data;
 
@@ -11,13 +12,13 @@ public class PageSuggestionDto {
     private String title;
     private String createDate;
 
-    private List<String> fileList;
+    private List<FileUrlWithNameDto> fileList;
     private int postHits;
 
     public PageSuggestionDto(Suggestion suggestion) {
         this.id = suggestion.getId();
         this.title = suggestion.getTitle();
-        this.fileList = suggestion.convertUrl();
+        this.fileList = suggestion.getFiles();
         this.createDate = suggestion.convertDate(suggestion.getCreateDate());
         this.postHits = suggestion.getHitCount();
     }

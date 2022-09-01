@@ -1,5 +1,6 @@
 package com.rtsoju.dku_council_homepage.domain.post.entity.dto.page;
 
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.FileUrlWithNameDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Conference;
 import lombok.Data;
 
@@ -15,8 +16,9 @@ public class PageConferenceDto {
     private LocalDate date;
     private String createDate;
     private String title;
-    private List<String> files;
+    private List<FileUrlWithNameDto> files;
     private int postHits;
+
 
     public PageConferenceDto(Conference conference){
         this.id = conference.getId();
@@ -24,7 +26,7 @@ public class PageConferenceDto {
         this.date = conference.getDate();
         this.createDate = conference.convertDate(conference.getCreateDate());
         this.title = conference.getTitle();
-        this.files = conference.convertUrl();
+        this.files = conference.getFiles();
         this.postHits = conference.getHitCount();
     }
 

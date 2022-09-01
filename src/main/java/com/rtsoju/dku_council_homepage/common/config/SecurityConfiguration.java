@@ -47,10 +47,18 @@ public class SecurityConfiguration{
                 .antMatchers(HttpMethod.POST, "/api/users/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/users").permitAll() //회원가입
                 .antMatchers(HttpMethod.POST, "/api/users/reissue").permitAll()
+                .antMatchers(HttpMethod.PATCH,"/api/users/password").permitAll()
                 // 메인페이지
                 .antMatchers(HttpMethod.GET,"/api/main").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/schedule").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/carousel").permitAll()
+                // 게시글 목록 가져오기
+                .antMatchers(HttpMethod.GET, "/api/announce").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/petition").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/conference").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/rule").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/news").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/suggestion").permitAll()
                 // admin
                 .antMatchers(HttpMethod.POST,"/api/carousel").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE,"/api/carousel/").hasRole("ADMIN")
