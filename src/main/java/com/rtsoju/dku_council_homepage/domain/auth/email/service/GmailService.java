@@ -5,6 +5,7 @@ import com.rtsoju.dku_council_homepage.domain.auth.email.dto.RequestEmailDto;
 import com.rtsoju.dku_council_homepage.domain.user.service.UserService;
 import com.rtsoju.dku_council_homepage.exception.ClassIdNotMatchException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -20,14 +21,17 @@ public class GmailService {
 
     private final JwtProvider jwtProvider;
 
-    public void sendEmailForSignUp(RequestEmailDto dto){
+    @Value("${env_port}")
+    private String port;
+
+    public void sendEmailForSignUp(RequestEmailDto dto) {
         userService.verifyExistMemberWithClassId(dto.getClassId());
         checkClassId(dto.getClassId());
         SimpleMailMessage smm = new SimpleMailMessage();
         String emailToken = jwtProvider.createEmailValidationToken(dto.getClassId());
-        smm.setTo(dto.getClassId()+"@dankook.ac.kr");
+        smm.setTo(dto.getClassId() + "@dankook.ac.kr");
         smm.setSubject("단국대학교 총학생회 이메일 인증");
-        smm.setText("http://133.186.132.198/sign-up?token="+emailToken+"&id="+dto.getClassId());
+        smm.setText("http://www.dku54play.site:" + port + "/sign-up?token=" + emailToken + "&id=" + dto.getClassId());
         javaMailSender.send(smm);
         return;
     }
@@ -39,7 +43,7 @@ public class GmailService {
         String emailToken = jwtProvider.createEmailValidationToken(dto.getClassId());
         smm.setTo(dto.getClassId()+"@dankook.ac.kr");
         smm.setSubject("단국대학교 총학생회 비밀번호 변경");
-        smm.setText("http://133.186.132.198/password?token="+emailToken+"&id="+dto.getClassId());
+        smm.setText("http://www.dku54play.site:" + port + "/password?token=" + emailToken + "&id=" + dto.getClassId());
         javaMailSender.send(smm);
         return;
     }
