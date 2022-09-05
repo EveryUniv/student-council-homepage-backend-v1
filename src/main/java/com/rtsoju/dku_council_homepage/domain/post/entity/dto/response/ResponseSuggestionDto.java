@@ -1,9 +1,12 @@
 package com.rtsoju.dku_council_homepage.domain.post.entity.dto.response;
 
+import com.rtsoju.dku_council_homepage.domain.base.SuggestionStatus;
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Suggestion;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class ResponseSuggestionDto {
@@ -14,6 +17,11 @@ public class ResponseSuggestionDto {
     private String createDate;
     private int postHits;
 
+    private SuggestionStatus status;
+    private String category;
+    private List<CommentResponseDto> commentList;
+
+
     public ResponseSuggestionDto(Suggestion suggestion) {
         this.id = suggestion.getId();
         this.title = suggestion.getTitle();
@@ -21,5 +29,9 @@ public class ResponseSuggestionDto {
         this.fileList = suggestion.getFiles();
         this.createDate = suggestion.convertDate(suggestion.getCreateDate());
         this.postHits = suggestion.getHitCount();
+
+        this.status = suggestion.getStatus();
+        this.category = suggestion.getCategory();
+        this.commentList = suggestion.getComments().stream().map(CommentResponseDto::new).collect(Collectors.toList());
     }
 }
