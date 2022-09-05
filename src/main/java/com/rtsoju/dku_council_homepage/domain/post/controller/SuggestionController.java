@@ -3,9 +3,12 @@ package com.rtsoju.dku_council_homepage.domain.post.controller;
 import com.rtsoju.dku_council_homepage.common.ResponseResult;
 import com.rtsoju.dku_council_homepage.common.SuccessResponseResult;
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
+import com.rtsoju.dku_council_homepage.domain.post.entity.Comment;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageRes;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageSuggestionDto;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.CommentRequestDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestPostDto;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestSuggestionDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.IdResponseDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.ResponseSuggestionDto;
 import com.rtsoju.dku_council_homepage.domain.post.service.SuggestionService;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,12 +42,12 @@ public class SuggestionController {
     /**
      * 단건 등록
      *
-     * @param data    : title, text, url(null)
+     * @param data    : title, text, files, category
      * @param request : header
      * @return :suggestion PK
      */
     @PostMapping
-    public ResponseEntity<ResponseResult> create(@Valid @ModelAttribute RequestPostDto data, HttpServletRequest request) {
+    public ResponseEntity<ResponseResult> create(@Valid @ModelAttribute RequestSuggestionDto data, HttpServletRequest request) {
         String token = jwtProvider.getTokenInHttpServletRequest(request);
         Long userId = Long.parseLong(jwtProvider.getUserId(token));
         IdResponseDto suggestion = suggestionService.createSuggestion(userId, data);
@@ -71,6 +75,29 @@ public class SuggestionController {
         suggestionService.deleteOne(id);
         return ResponseEntity.ok()
                 .body(new SuccessResponseResult("삭제완료"));
+    }
+
+    /**
+     * 답변 등록
+     * ONLY ADMIN
+     */
+    @PostMapping("/comment/admin/{postId}")
+    public ResponseEntity<SuccessResponseResult> answerSuggestion(@PathVariable("postId") Long postId, @RequestBody CommentRequestDto dto) {
+        suggestionService.answerSuggestion(postId, dto);
+
+        return ResponseEntity.ok()
+                .body(new SuccessResponseResult("답변을 등록하였습니다."));
+    }
+
+    @PostMapping("/comment/{postId}")
+    public ResponseEntity<SuccessResponseResult> makeCommentSuggestion(@PathVariable("postId") Long postId, @RequestBody CommentRequestDto dto, HttpServletRequest request) {
+        String token = jwtProvider.getTokenInHttpServletRequest(request);
+        Long userId = Long.parseLong(jwtProvider.getUserId(token));
+
+        Comment comment = suggestionService.createComment(postId, userId, dto);
+        return ResponseEntity
+                .created(URI.create("/api/suggestion/comments/" + postId + "/" + comment.getId()))
+                .body(new SuccessResponseResult("댓글을 등록하였습니다."));
     }
 
 

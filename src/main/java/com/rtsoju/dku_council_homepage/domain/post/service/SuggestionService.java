@@ -1,13 +1,15 @@
 package com.rtsoju.dku_council_homepage.domain.post.service;
 
 import com.rtsoju.dku_council_homepage.common.nhn.service.FileUploadService;
+import com.rtsoju.dku_council_homepage.domain.post.entity.Comment;
 import com.rtsoju.dku_council_homepage.domain.post.entity.PostFile;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageSuggestionDto;
-import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestPostDto;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.CommentRequestDto;
+import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestSuggestionDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.IdResponseDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.ResponseSuggestionDto;
-import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Rule;
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Suggestion;
+import com.rtsoju.dku_council_homepage.domain.post.repository.CommentRepository;
 import com.rtsoju.dku_council_homepage.domain.post.repository.SuggestionRepository;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import com.rtsoju.dku_council_homepage.domain.user.repository.UserRepository;
@@ -15,7 +17,6 @@ import com.rtsoju.dku_council_homepage.exception.FindPostWithIdNotFoundException
 import com.rtsoju.dku_council_homepage.exception.FindUserWithIdNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.graph.internal.parse.SubGraphGenerator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ public class SuggestionService {
     private final SuggestionRepository suggestionRepository;
     private final UserRepository userRepository;
     private final FileUploadService fileUploadService;
+    private final CommentRepository commentRepository;
 
     public Page<PageSuggestionDto> suggestionPageByTitleAndText(String title, String text, Pageable pageable) {
         Page<Suggestion> page;
@@ -45,7 +47,7 @@ public class SuggestionService {
     }
 
     @Transactional
-    public IdResponseDto createSuggestion(Long userId, RequestPostDto data) {
+    public IdResponseDto createSuggestion(Long userId, RequestSuggestionDto data) {
         User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
         ArrayList<PostFile> postFiles = fileUploadService.uploadFiles(data.getFiles(), "suggestion");
         Suggestion suggestion = new Suggestion(user, data, postFiles);
@@ -69,4 +71,19 @@ public class SuggestionService {
         suggestionRepository.delete(suggestion);
     }
 
+    @Transactional
+    public void answerSuggestion(Long postId, CommentRequestDto dto) {
+        Suggestion suggestion = suggestionRepository.findById(postId).orElseThrow(FindPostWithIdNotFoundException::new);
+        suggestion.answerSuggestion(dto.getText());
+        return;
+    }
+
+    @Transactional
+    public Comment createComment(Long postId, Long userId, CommentRequestDto dto) {
+        Suggestion suggestion = suggestionRepository.findById(postId).orElseThrow(FindPostWithIdNotFoundException::new);
+        User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
+        Comment comment = new Comment(suggestion, user, dto.getText());
+
+        return commentRepository.save(comment);
+    }
 }
