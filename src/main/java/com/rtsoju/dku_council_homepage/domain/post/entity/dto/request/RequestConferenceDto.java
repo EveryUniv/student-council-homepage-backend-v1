@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,15 +14,16 @@ import java.util.List;
 @Data
 public class RequestConferenceDto {
 
-    @NotBlank(message = "title(제목) 은 비어있으면 안됩니다.")
+    @NotBlank(message = "title(제목)은 비어있으면 안됩니다.")
     private String title;
 
     @NotBlank(message = "date(개최 일자)는 필수 값 입니다.")
     private String date;
 
-    @NotNull(message = "round(회차)는 필수 값 입니다.")
+    @NotBlank(message = "round(회차)는 필수 값 입니다.")
     private Integer round;
 
+    @NotEmpty(message = "file(회의록)은 필수 값 입니다.")
     private List<MultipartFile> files = new ArrayList<>();
 
     public Conference toEntity() {
