@@ -43,3 +43,6 @@ out/
 ### properties ###
 application-smtp.properties
 application.properties
+applicatioin-dev.properties
+applicatioin-prod.properties
+applicatioin-local.properties
