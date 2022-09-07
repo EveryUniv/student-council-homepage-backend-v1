@@ -37,9 +37,7 @@ jobs:
             
     - name: make test properties
       run: |
-        cd ./src/test
-        mkdir resources
-        cd ./resources
+        cd ./src/test/resources
         touch ./application.properties
         echo "${{ secrets.PROPERTIES_test }}" > ./application.properties
       shell: bash
