@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -34,20 +35,11 @@ public class ControllerAdvice {
             DuplicateSignInException.class,
             AlreadyExistException.class,
             FindCategoryWithIdNotFoundException.class,
+            FileIsEmptyException.class,
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponseResult exceptionHandler(HttpServletRequest request, Exception e) {
         return new ErrorResponseResult(e);
-    }
-
-    @ExceptionHandler({BindException.class})
-    public ErrorResponseResult handleValidationExceptions(BindException e){
-        String errorMessage = e.getBindingResult()
-                .getAllErrors()
-                .get(0)
-                .getDefaultMessage();
-
-        return new ErrorResponseResult(errorMessage);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -56,7 +48,15 @@ public class ControllerAdvice {
                 .getAllErrors()
                 .get(0)
                 .getDefaultMessage();
+        return new ErrorResponseResult(errorMessage);
+    }
 
+    @ExceptionHandler(BindException.class)
+    public ErrorResponseResult handleBindException(BindException e) {
+        String errorMessage = e.getBindingResult()
+                .getAllErrors()
+                .get(0)
+                .getDefaultMessage();
         return new ErrorResponseResult(errorMessage);
     }
 }

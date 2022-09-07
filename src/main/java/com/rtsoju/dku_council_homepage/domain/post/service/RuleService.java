@@ -10,6 +10,7 @@ import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Rule;
 import com.rtsoju.dku_council_homepage.domain.post.repository.RuleRepository;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import com.rtsoju.dku_council_homepage.domain.user.repository.UserRepository;
+import com.rtsoju.dku_council_homepage.exception.FileIsEmptyException;
 import com.rtsoju.dku_council_homepage.exception.FindPostWithIdNotFoundException;
 import com.rtsoju.dku_council_homepage.exception.FindUserWithIdNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,7 @@ public class RuleService {
     @Transactional
     public IdResponseDto createRule(Long userId, RequestRuleDto data) {
         User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
+        if(data.getFiles().get(0).isEmpty()) throw new FileIsEmptyException();
         ArrayList<PostFile> postFiles = fileUploadService.uploadFiles(data.getFiles(), "rule");
         Rule rule = new Rule(user, data, postFiles);
         Rule save = ruleRepository.save(rule);
