@@ -5,10 +5,15 @@ import com.rtsoju.dku_council_homepage.exception.CannotReadResourceException;
 import com.rtsoju.dku_council_homepage.exception.InvalidKeyException;
 import org.springframework.core.io.ClassPathResource;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -30,10 +35,14 @@ public class TextTemplateEngine {
     public String readHtmlFromResource(String htmlResourcePath) {
         ClassPathResource resource = new ClassPathResource(htmlResourcePath);
 
-        List<String> lines;
+        List<String> lines = new ArrayList<>();
         try {
-            Path path = Paths.get(resource.getURI());
-            lines = Files.readAllLines(path);
+            InputStreamReader reader = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8);
+            BufferedReader bReader = new BufferedReader(reader);
+            String buffer;
+            while ((buffer = bReader.readLine()) != null) {
+                lines.add(buffer);
+            }
         } catch (IOException e) {
             throw new CannotReadResourceException("리소스 파일을 읽을 수 없습니다: " + htmlResourcePath);
         }
