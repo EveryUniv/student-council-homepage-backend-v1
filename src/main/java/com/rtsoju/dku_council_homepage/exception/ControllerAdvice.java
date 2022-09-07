@@ -34,6 +34,8 @@ public class ControllerAdvice {
             DuplicateCreatePetition.class,
             DuplicateSignInException.class,
             AlreadyExistException.class,
+            CannotReadResourceException.class,
+            InvalidKeyException.class,
             FindCategoryWithIdNotFoundException.class,
             FileIsEmptyException.class,
     })
