@@ -20,8 +20,7 @@ public class FileUploadService {
     public ArrayList<PostFile> uploadFiles(List<MultipartFile> files, String post){
         String token = nhnAuthService.requestToken();
         ArrayList<PostFile> postFiles = new ArrayList<>();
-        files.stream()
-                .forEach(file -> {
+        files.forEach(file -> {
                     String fileId = post + "-" + UUID.randomUUID();
                     String originName = file.getOriginalFilename();
                     try{

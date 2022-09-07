@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,15 +14,16 @@ import java.util.List;
 @Data
 public class RequestConferenceDto {
 
-    @NotBlank(message = "title(제목) 은 비어있으면 안됩니다.")
+    @NotBlank(message = "title(제목)은 비어있으면 안됩니다.")
     private String title;
 
-    @NotBlank(message = "date(개최 일자)는 필수 값 입니다.")
+    @NotBlank(message = "date(개최 일자)은 비어있으면 안됩니다.")
     private String date;
 
-    @NotNull(message = "round(회차)는 필수 값 입니다.")
+    @NotNull(message = "round(회차)은 비어있으면 안됩니다.")
     private Integer round;
 
+    @NotEmpty(message = "files(첨부 파일)은 비어있으면 안됩니다.")
     private List<MultipartFile> files = new ArrayList<>();
 
     public Conference toEntity() {
