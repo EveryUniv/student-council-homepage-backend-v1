@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.MessagingException;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -20,13 +22,13 @@ public class EmailController {
     private final GmailService gmailService;
 
     @PostMapping("/email")
-    public SuccessResponseResult emailSendForSignUp(@RequestBody RequestEmailDto dto) {
+    public SuccessResponseResult emailSendForSignUp(@RequestBody RequestEmailDto dto) throws MessagingException {
         gmailService.sendEmailForSignUp(dto);
         return new SuccessResponseResult(Messages.SUCCESS_EMAIL_SEND.getMessage());
     }
 
     @PostMapping("/email/password")
-    public SuccessResponseResult emailSendForChangePW(@RequestBody RequestEmailDto dto) {
+    public SuccessResponseResult emailSendForChangePW(@RequestBody RequestEmailDto dto) throws MessagingException {
         gmailService.sendEmailForChangePW(dto);
         return new SuccessResponseResult(Messages.SUCCESS_EMAIL_SEND.getMessage());
     }

@@ -46,8 +46,6 @@ public class PetitionController {
         return new PageRes<>(map.getContent(), map.getPageable(), map.getTotalElements());
 
     }
-
-
     /**
      * 단건 등록
      * @param data : title, text
