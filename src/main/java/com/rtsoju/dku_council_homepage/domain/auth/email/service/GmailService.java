@@ -44,6 +44,7 @@ public class GmailService {
     public void sendEmailForSignUp(RequestEmailDto dto) throws MessagingException {
         sendTemplatedEmail(
                 dto.getClassId(),
+                "sign-up",
                 "단국대학교 재학생 인증을 위해, 아래의 버튼을\n클릭해 주세요.",
                 "인증하기");
     }
@@ -63,11 +64,12 @@ public class GmailService {
     public void sendEmailForChangePW(RequestEmailDto dto) throws MessagingException {
         sendTemplatedEmail(
                 dto.getClassId(),
+                "password",
                 "비밀번호 변경을 하시려면, 아래의 버튼을\n클릭해 주세요.",
                 "비밀번호 변경");
     }
 
-    private void sendTemplatedEmail(String studentId, String emailContent, String buttonContent) throws MessagingException {
+    private void sendTemplatedEmail(String studentId, String endpoint, String emailContent, String buttonContent) throws MessagingException {
         userService.verifyExistMemberWithClassId(studentId);
         checkClassId(studentId);
 
@@ -78,7 +80,7 @@ public class GmailService {
         mail.setSubject("단국대학교 총학생회 이메일 인증");
 
         String emailToken = jwtProvider.createEmailValidationToken(studentId);
-        String authLinkUrl = String.format("http://www.dku54play.site:%s/password?token=%s&id=%s", port, emailToken, studentId);
+        String authLinkUrl = String.format("http://www.dku54play.site:%s/%s?token=%s&id=%s", port, endpoint, emailToken, studentId);
 
         String text = new TextTemplateEngine.Builder()
                 .argument("studentId", studentId)
