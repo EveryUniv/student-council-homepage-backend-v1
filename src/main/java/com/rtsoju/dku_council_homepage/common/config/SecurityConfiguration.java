@@ -54,6 +54,7 @@ public class SecurityConfiguration{
                 .antMatchers(HttpMethod.GET, "/api/main").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/schedule").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/carousel").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/category").permitAll()
                 // 게시글 목록 가져오기
                 .antMatchers(HttpMethod.GET, "/api/announce").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/petition").permitAll()
@@ -76,7 +77,7 @@ public class SecurityConfiguration{
                 .antMatchers(HttpMethod.POST, "/api/rule").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/rule/{id}").hasRole("ADMIN")
                 .antMatchers("/api/category").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST,"/api/suggestion/comment/admin/{postId}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/suggestion/comment/admin/{postId}").hasRole("ADMIN")
 
                 .anyRequest().hasRole("USER") //이 외는 USER권한이 있는 사람만 접근
 
