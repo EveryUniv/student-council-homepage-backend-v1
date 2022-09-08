@@ -1,6 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.post.service;
 
 import com.rtsoju.dku_council_homepage.common.nhn.service.FileUploadService;
+import com.rtsoju.dku_council_homepage.domain.base.SuggestionStatus;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Comment;
 import com.rtsoju.dku_council_homepage.domain.post.entity.PostFile;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageSuggestionDto;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +38,9 @@ public class SuggestionService {
     private final FileUploadService fileUploadService;
     private final CommentRepository commentRepository;
 
-    public Page<PageSuggestionDto> suggestionPageByTitleAndText(String title, String text, Pageable pageable) {
+    public Page<PageSuggestionDto> suggestionPageByTitleAndText(String query, SuggestionStatus status, String category, Pageable pageable) {
         Page<Suggestion> page;
-        if (title == null) {
-            page = suggestionRepository.findAll(pageable);
-        } else {
-            page = suggestionRepository.findAllByTitleContainsOrTextContains(title, text, pageable);
-        }
+        page = suggestionRepository.findSuggestionPage(query, status, category, pageable);
         return page.map(PageSuggestionDto::new);
     }
 
