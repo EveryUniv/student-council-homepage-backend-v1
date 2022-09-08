@@ -20,6 +20,7 @@ public class ResponseSuggestionDto {
     private SuggestionStatus status;
     private String category;
     private List<CommentResponseDto> commentList;
+    private String answer;
 
 
     public ResponseSuggestionDto(Suggestion suggestion) {
@@ -33,5 +34,6 @@ public class ResponseSuggestionDto {
         this.status = suggestion.getStatus();
         this.category = suggestion.getCategory();
         this.commentList = suggestion.getComments().stream().map(CommentResponseDto::new).collect(Collectors.toList());
+        this.answer = suggestion.getAnswer();
     }
 }

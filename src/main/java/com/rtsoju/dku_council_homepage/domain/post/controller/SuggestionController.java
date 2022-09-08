@@ -3,6 +3,7 @@ package com.rtsoju.dku_council_homepage.domain.post.controller;
 import com.rtsoju.dku_council_homepage.common.ResponseResult;
 import com.rtsoju.dku_council_homepage.common.SuccessResponseResult;
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
+import com.rtsoju.dku_council_homepage.domain.base.SuggestionStatus;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Comment;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageRes;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageSuggestionDto;
@@ -34,8 +35,11 @@ public class SuggestionController {
      * api/suggestion 호출시 uri param ?page, size, sort, q(query) custom 가능!
      */
     @GetMapping
-    public PageRes<PageSuggestionDto> list(@RequestParam(value = "query", required = false) String query, Pageable pageable) {
-        Page<PageSuggestionDto> map = suggestionService.suggestionPageByTitleAndText(query, query, pageable);
+    public PageRes<PageSuggestionDto> list(@RequestParam(value = "query", required = false) String query,
+                                           @RequestParam(value = "status", required = false) SuggestionStatus status,
+                                           @RequestParam(value = "category", required = false)String category,
+                                           Pageable pageable) {
+        Page<PageSuggestionDto> map = suggestionService.suggestionPageByTitleAndText(query, status, category, pageable);
         return new PageRes<>(map.getContent(), map.getPageable(), map.getTotalElements());
     }
 
