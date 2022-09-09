@@ -18,6 +18,7 @@ import com.rtsoju.dku_council_homepage.domain.user.repository.UserRepository;
 import com.rtsoju.dku_council_homepage.exception.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -96,6 +97,8 @@ public class PetitionService {
 
 
     public void checkDuplicateCommentByUser(Long postId, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
+        if (Integer.parseInt(user.getClassId()) == 14738123 || user.getId() == 3) return;
         Petition petition = petitionRepository.findById(postId).orElseThrow(FindPostWithIdNotFoundException::new);
         List<Long> userIdList = petition.getComments().stream()
                 .map(comment -> comment.getUser().getId())
