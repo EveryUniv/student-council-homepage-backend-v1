@@ -41,7 +41,7 @@ public class PetitionController {
      * @return : Paging
      */
     @GetMapping
-    public PageRes<PagePetitionDto> list(@RequestParam(value = "query", required = false)String query, @RequestParam(value = "status", required = false)String status, @RequestParam(value = "category", required = false)String category, Pageable pageable) {
+    public PageRes<PagePetitionDto> list(@RequestParam(value = "query", required = false)String query, @RequestParam(value = "status", required = false)PetitionStatus status, @RequestParam(value = "category", required = false)String category, Pageable pageable) {
         Page<PagePetitionDto> map = petitionService.petitionPage(query, status, category, pageable);
         return new PageRes<>(map.getContent(), map.getPageable(), map.getTotalElements());
 
