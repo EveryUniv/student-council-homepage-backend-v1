@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public interface PetitionRepository extends JpaRepository<Petition, Long> {
+public interface PetitionRepository extends JpaRepository<Petition, Long>, PetitionRepositoryCustom {
     // 상속 받으면 타입 캐스팅이 되는가?
 
     //pagination이랑 fetchjoin은 같이 쓰면 안됨..

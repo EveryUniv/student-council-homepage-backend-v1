@@ -18,7 +18,7 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class ControllerAdvice {
-    @ExceptionHandler({IllegalArgumentException.class,
+    @ExceptionHandler({
             LoginUserNotFoundException.class,
             LoginPwdDifferentException.class,
             EmailUserExistException.class,
