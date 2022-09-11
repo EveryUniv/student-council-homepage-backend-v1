@@ -29,9 +29,7 @@ jobs:
         
     - name: make main properties
       run: |
-        cd ./src/main
-        mkdir resources
-        cd ./resources
+        cd ./src/main/resources
         touch ./application.properties
         echo "${{ secrets.PROPERTIES_DEV }}" > ./application.properties
       shell: bash
@@ -39,9 +37,7 @@ jobs:
             
     - name: make test properties
       run: |
-        cd ./src/test
-        mkdir resources
-        cd ./resources
+        cd ./src/test/resources
         touch ./application.properties
         echo "${{ secrets.PROPERTIES_test }}" > ./application.properties
       shell: bash
