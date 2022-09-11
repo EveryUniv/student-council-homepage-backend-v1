@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 public class ResponseNewsDto {
+    private Long id;
     private String title;
     private String text;
     private List<FileUrlWithNameDto> files = new ArrayList<>();
@@ -19,6 +20,7 @@ public class ResponseNewsDto {
     private String writer;
 
     public ResponseNewsDto(News news) {
+        this.id = news.getId();
         this.writer = news.getUser().getName();
         this.title = news.getTitle();
         this.text = news.getText();
