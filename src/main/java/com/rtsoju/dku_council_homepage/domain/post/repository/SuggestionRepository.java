@@ -6,6 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface SuggestionRepository extends JpaRepository<Suggestion, Long> {
+public interface SuggestionRepository extends JpaRepository<Suggestion, Long>, SuggestionRepositoryCustom {
     Page<Suggestion> findAllByTitleContainsOrTextContains(String title, String text, Pageable pageable);
 }

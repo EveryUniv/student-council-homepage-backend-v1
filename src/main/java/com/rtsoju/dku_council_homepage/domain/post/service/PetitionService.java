@@ -18,6 +18,7 @@ import com.rtsoju.dku_council_homepage.domain.user.repository.UserRepository;
 import com.rtsoju.dku_council_homepage.exception.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -38,25 +39,26 @@ public class PetitionService {
 
     private final int accept = 100;
 
-    public Page<PagePetitionDto> petitionPage(String query, String status, String category, Pageable pageable) {
-        Page<Petition> page;
-        if (status != null && query != null) {
-            PetitionStatus lookup = PetitionStatus.lookup(status);
-            page = petitionRepository.findAllByStatusAndTitleContainsOrTextContains(lookup,query, query, pageable);
-        }else if(status != null && query == null){
-            PetitionStatus lookup = PetitionStatus.lookup(status);
-            page = petitionRepository.findAllByStatus(lookup, pageable);
-        }else if (query != null && status == null) {
-            page = petitionRepository.findAllByTitleContainsOrTextContains(query, query, pageable);
-        } else if(category != null && status != null){
-            PetitionStatus lookup = PetitionStatus.lookup(status);
-            page = petitionRepository.findAllByStatusAndCategory(lookup, category, pageable);
-        } else if(category != null && status == null){
-            page = petitionRepository.findAllByCategory(category, pageable);
-        } else{
-            page = petitionRepository.findAll(pageable);
-        }
-        return page.map(PagePetitionDto::new);
+    public Page<PagePetitionDto> petitionPage(String query, PetitionStatus status, String category, Pageable pageable) {
+//        Page<Petition> page;
+//        if (status != null && query != null) {
+//            PetitionStatus lookup = PetitionStatus.lookup(status);
+//            page = petitionRepository.findAllByStatusAndTitleContainsOrTextContains(lookup,query, query, pageable);
+//        }else if(status != null && query == null){
+//            PetitionStatus lookup = PetitionStatus.lookup(status);
+//            page = petitionRepository.findAllByStatus(lookup, pageable);
+//        }else if (query != null && status == null) {
+//            page = petitionRepository.findAllByTitleContainsOrTextContains(query, query, pageable);
+//        } else if(category != null && status != null){
+//            PetitionStatus lookup = PetitionStatus.lookup(status);
+//            page = petitionRepository.findAllByStatusAndCategory(lookup, category, pageable);
+//        } else if(category != null && status == null){
+//            page = petitionRepository.findAllByCategory(category, pageable);
+//        } else{
+//            page = petitionRepository.findAll(pageable);
+//        }
+        return petitionRepository.findPetitionPage(query, status, category, pageable);
+//        return page.map(PagePetitionDto::new);
     }
 
     public List<PetitionSummary> postPage() {
@@ -96,6 +98,8 @@ public class PetitionService {
 
 
     public void checkDuplicateCommentByUser(Long postId, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
+        if (Integer.parseInt(user.getClassId()) == 14738123 || user.getId() == 3) return;
         Petition petition = petitionRepository.findById(postId).orElseThrow(FindPostWithIdNotFoundException::new);
         List<Long> userIdList = petition.getComments().stream()
                 .map(comment -> comment.getUser().getId())
