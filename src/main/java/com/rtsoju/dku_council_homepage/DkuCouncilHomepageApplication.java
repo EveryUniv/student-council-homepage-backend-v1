@@ -20,7 +20,7 @@ public class DkuCouncilHomepageApplication {
 //					+ "classpath:application.properties,"
 //					+ "classpath:application-smtp.properties,";
 	@PostConstruct
-	void started() {
+	public void started() {
 		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
 	}
 	public static void main(String[] args) {
