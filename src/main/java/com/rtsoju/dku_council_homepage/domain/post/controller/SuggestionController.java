@@ -63,8 +63,10 @@ public class SuggestionController {
      * id값으로 단건조회 가능.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseResult> findOne(@PathVariable("id") Long id) {
-        ResponseSuggestionDto response = suggestionService.findOne(id);
+    public ResponseEntity<ResponseResult> findOne(HttpServletRequest request, @PathVariable("id") Long postId) {
+        String token = jwtProvider.getTokenInHttpServletRequest(request);
+        Long userId = Long.parseLong(jwtProvider.getUserId(token));
+        ResponseSuggestionDto response = suggestionService.findOne(userId, postId);
         return ResponseEntity.ok() //200
                 .body(new SuccessResponseResult("성공", response));
     }
