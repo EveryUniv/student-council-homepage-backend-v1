@@ -76,7 +76,7 @@ public class SuggestionService {
     @Transactional
     public void updateComment(Long commentId, Long userId, CommentRequestDto dto) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(NotFoundCommentException::new);
-        if(userId != comment.getUser().getId()) throw new FindUserWithIdNotFoundException();
+        if(!userId.equals(comment.getUser().getId())) throw new FindUserWithIdNotFoundException();
         CommentsLog commentsLog = new CommentsLog(comment);
         commentsLogRepository.save(commentsLog);
         comment.updateText(dto.getText());
@@ -85,7 +85,7 @@ public class SuggestionService {
     @Transactional
     public void deleteComment(Long commentId, Long userId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(NotFoundCommentException::new);
-        if(userId != comment.getUser().getId()) throw new FindUserWithIdNotFoundException();
+        if(!userId.equals(comment.getUser().getId())) throw new FindUserWithIdNotFoundException();
         comment.deleteComment();
         return;
     }
