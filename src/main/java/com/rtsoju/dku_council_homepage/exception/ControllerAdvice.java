@@ -38,6 +38,8 @@ public class ControllerAdvice {
             InvalidKeyException.class,
             FindCategoryWithIdNotFoundException.class,
             FileIsEmptyException.class,
+            NotAllowedUpdateException.class,
+            FindCommentWithPostAndUserException.class,
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponseResult exceptionHandler(HttpServletRequest request, Exception e) {

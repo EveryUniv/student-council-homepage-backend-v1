@@ -38,6 +38,9 @@ public class Comment extends BaseEntity {
         post.getComments().add(this);
     }
 
+    public void updateText(String text) {
+        this.text = text;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -50,4 +53,6 @@ public class Comment extends BaseEntity {
     public int hashCode() {
         return Objects.hash(id, post, user, text);
     }
+
+
 }

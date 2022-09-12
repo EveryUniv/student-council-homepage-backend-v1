@@ -33,7 +33,6 @@ public class ResponseSuggestionDto {
         this.fileList = suggestion.getFiles();
         this.createDate = suggestion.convertDate(suggestion.getCreateDate());
         this.postHits = suggestion.getHitCount();
-
         this.status = suggestion.getStatus();
         this.category = suggestion.getCategory();
         this.commentList = suggestion.getComments()
