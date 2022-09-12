@@ -83,18 +83,6 @@ public class SuggestionController {
                 .body(new SuccessResponseResult("삭제완료"));
     }
 
-    /**
-     * 답변 등록
-     * ONLY ADMIN
-     */
-    @PostMapping("/comment/admin/{postId}")
-    public ResponseEntity<SuccessResponseResult> answerSuggestion(@PathVariable("postId") Long postId, @RequestBody CommentRequestDto dto) {
-        suggestionService.answerSuggestion(postId, dto);
-
-        return ResponseEntity.ok()
-                .body(new SuccessResponseResult("답변을 등록하였습니다."));
-    }
-
     @PostMapping("/comment/{postId}")
     public ResponseEntity<SuccessResponseResult> makeCommentSuggestion(@PathVariable("postId") Long postId, @RequestBody CommentRequestDto dto, HttpServletRequest request) {
         String token = jwtProvider.getTokenInHttpServletRequest(request);
@@ -114,7 +102,22 @@ public class SuggestionController {
                 .body(new SuccessResponseResult("수정완료"));
     }
 
+    @DeleteMapping("/comment/{commentId}")
+    public ResponseEntity<SuccessResponseResult> deleteCommentSuggestion(@PathVariable("commentId") Long commentId, HttpServletRequest request) {
+        String token = jwtProvider.getTokenInHttpServletRequest(request);
+        Long userId = Long.parseLong(jwtProvider.getUserId(token));
+        suggestionService.deleteComment(commentId, userId);
+        return ResponseEntity.ok()
+                .body(new SuccessResponseResult("삭제완료"));
+    }
 
-
+    @DeleteMapping("/comment/admin/{commentId}")
+    public ResponseEntity<SuccessResponseResult> deleteCommentSuggestionByAdmin(@PathVariable("commentId") Long commentId, HttpServletRequest request) {
+        String token = jwtProvider.getTokenInHttpServletRequest(request);
+        Long userId = Long.parseLong(jwtProvider.getUserId(token));
+        suggestionService.deleteCommentByAdmin(commentId, userId);
+        return ResponseEntity.ok()
+                .body(new SuccessResponseResult("중지완료"));
+    }
 
 }

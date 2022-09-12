@@ -1,5 +1,6 @@
 package com.rtsoju.dku_council_homepage.domain.post.entity.subentity;
 
+import com.rtsoju.dku_council_homepage.domain.base.Major;
 import com.rtsoju.dku_council_homepage.domain.base.SuggestionStatus;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
 import com.rtsoju.dku_council_homepage.domain.post.entity.PostFile;
@@ -10,9 +11,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
+import javax.persistence.*;
 import java.util.ArrayList;
 
 @Entity
@@ -22,7 +21,7 @@ import java.util.ArrayList;
 public class Suggestion extends Post {
 
     private String category;
-
+    @Enumerated(EnumType.STRING)
     private SuggestionStatus status;
 
     @Lob
@@ -31,11 +30,11 @@ public class Suggestion extends Post {
     public Suggestion(User user, RequestSuggestionDto data, ArrayList<PostFile> files) {
         super(user, data, files);
         this.category = data.getCategory();
-        this.status = SuggestionStatus.진행중;
+        this.status = SuggestionStatus.등록;
     }
 
     public void answerSuggestion(String answer) {
         this.answer = answer;
-        this.status = SuggestionStatus.답변완료;
+        this.status = SuggestionStatus.등록;
     }
 }
