@@ -90,15 +90,15 @@ public class SuggestionService {
         return commentRepository.save(comment);
     }
 
-    @Transactional
-    public void updateComment(Long postId, Long userId, CommentRequestDto dto) {
-        Suggestion suggestion = suggestionRepository.findById(postId).orElseThrow(FindPostWithIdNotFoundException::new);
-        User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
-        Comment comment = commentRepository.findByPostAndUser(suggestion, user).orElseThrow(FindCommentWithPostAndUserException::new);
-        CommentsLog commentsLog = new CommentsLog(suggestion, user, comment.getText());
-        commentsLogRepository.save(commentsLog);
-        comment.updateText(dto.getText());
-        return;
-    }
+//    @Transactional
+//    public void updateComment(Long commentId, Long userId, CommentRequestDto dto) {
+//        User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
+//        commentRepository.findById(commentId).orElse
+//        Comment comment = commentRepository.findByPostAndUser(suggestion, user).orElseThrow(FindCommentWithPostAndUserException::new);
+//        CommentsLog commentsLog = new CommentsLog(suggestion, user, comment.getText());
+//        commentsLogRepository.save(commentsLog);
+//        comment.updateText(dto.getText());
+//        return;
+//    }
 
 }
