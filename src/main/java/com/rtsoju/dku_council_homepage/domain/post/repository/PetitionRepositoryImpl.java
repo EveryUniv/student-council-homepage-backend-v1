@@ -44,7 +44,6 @@ public class PetitionRepositoryImpl implements PetitionRepositoryCustom{
     @Override
     public Page<PagePetitionDto> findPetitionPage(String query, PetitionStatus status, String category, Pageable pageable) {
         BooleanBuilder builder = new BooleanBuilder();
-
         if (query != null) {
             builder.and(petition.title.contains(query)).or(petition.text.contains(query));
         }
@@ -74,7 +73,6 @@ public class PetitionRepositoryImpl implements PetitionRepositoryCustom{
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-
 
         JPAQuery<PagePetitionDto> countQuery = queryFactory
                 .select(Projections.fields(PagePetitionDto.class,

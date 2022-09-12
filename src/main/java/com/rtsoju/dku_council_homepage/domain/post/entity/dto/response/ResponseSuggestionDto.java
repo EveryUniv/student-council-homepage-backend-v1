@@ -1,6 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.post.entity.dto.response;
 
 import com.rtsoju.dku_council_homepage.domain.base.SuggestionStatus;
+import com.rtsoju.dku_council_homepage.domain.post.entity.Comment;
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Suggestion;
 import lombok.Data;
 
@@ -22,8 +23,10 @@ public class ResponseSuggestionDto {
     private List<CommentResponseDto> commentList;
     private String answer;
 
+    private boolean isMine;
 
-    public ResponseSuggestionDto(Suggestion suggestion) {
+
+    public ResponseSuggestionDto(Long userId, Suggestion suggestion) {
         this.id = suggestion.getId();
         this.title = suggestion.getTitle();
         this.text = suggestion.getText();
@@ -33,7 +36,11 @@ public class ResponseSuggestionDto {
 
         this.status = suggestion.getStatus();
         this.category = suggestion.getCategory();
-        this.commentList = suggestion.getComments().stream().map(CommentResponseDto::new).collect(Collectors.toList());
+        this.commentList = suggestion.getComments()
+                .stream()
+                .map((comment) -> new CommentResponseDto(userId, comment))
+                .collect(Collectors.toList());
         this.answer = suggestion.getAnswer();
+        this.isMine = suggestion.getUser().getId().equals(userId);
     }
 }
