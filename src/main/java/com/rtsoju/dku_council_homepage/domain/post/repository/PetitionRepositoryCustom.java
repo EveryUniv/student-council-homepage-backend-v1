@@ -6,6 +6,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface PetitionRepositoryCustom {
-
     Page<PagePetitionDto> findPetitionPage(String query, PetitionStatus status, String category, Pageable pageable);
 }

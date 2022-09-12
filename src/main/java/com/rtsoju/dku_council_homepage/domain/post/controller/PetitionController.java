@@ -82,7 +82,6 @@ public class PetitionController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseResult> deleteOne(@PathVariable("id") Long id){
-
         petitionService.deleteOne(id);
         return ResponseEntity.ok()
                 .body(new SuccessResponseResult(id+"번 petition 삭제완료"));
@@ -124,5 +123,6 @@ public class PetitionController {
         return ResponseEntity.ok()
                 .body(new SuccessResponseResult("상태 변경 완료! blind = " + petition.isBlind()));
     }
+
 
 }
