@@ -3,6 +3,7 @@ package com.rtsoju.dku_council_homepage.domain.page.controller;
 import com.rtsoju.dku_council_homepage.common.Messages;
 import com.rtsoju.dku_council_homepage.common.ResponseResult;
 import com.rtsoju.dku_council_homepage.common.SuccessResponseResult;
+import com.rtsoju.dku_council_homepage.domain.page.dto.CarouselImageRequestDto;
 import com.rtsoju.dku_council_homepage.domain.page.dto.CarouselImageResponse;
 import com.rtsoju.dku_council_homepage.domain.page.dto.MainPageResponse;
 import com.rtsoju.dku_council_homepage.domain.page.service.MainPageService;
@@ -38,7 +39,8 @@ public class MainPageController {
     }
 
     @PostMapping("/carousel")
-    public ResponseEntity<ResponseResult> uploadCarouselImage(@RequestBody MultipartFile imageFile) throws IOException {
+    public ResponseEntity<ResponseResult> uploadCarouselImage(@ModelAttribute CarouselImageRequestDto dto) throws IOException {
+        MultipartFile imageFile = dto.getImageFile();
         if (imageFile == null || imageFile.isEmpty()) {
             throw new IllegalArgumentException(Messages.ERROR_ARGUMENT_NOT_SPECIFIED.getMessage());
         }
@@ -52,7 +54,7 @@ public class MainPageController {
             throw new IllegalArgumentException(Messages.ERROR_ARGUMENT_NOT_SPECIFIED.getMessage());
         }
 
-        service.addCarouselImage(imageFile);
+        service.addCarouselImage(dto);
         return ResponseEntity.ok().body(new SuccessResponseResult());
     }
 

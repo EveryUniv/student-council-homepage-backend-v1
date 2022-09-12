@@ -105,14 +105,14 @@ public class SuggestionController {
                 .body(new SuccessResponseResult("댓글을 등록하였습니다."));
     }
 
-//    @PatchMapping("/comment/{commentId}")
-//    public ResponseEntity<SuccessResponseResult> updateCommentSuggestion(@PathVariable("commentId") Long commentId, @RequestBody CommentRequestDto dto, HttpServletRequest request) {
-//        String token = jwtProvider.getTokenInHttpServletRequest(request);
-//        Long userId = Long.parseLong(jwtProvider.getUserId(token));
-//        suggestionService.updateComment(commentId, userId, dto);
-//        return ResponseEntity.ok()
-//                .body(new SuccessResponseResult("수정완료"));
-//    }
+    @PatchMapping("/comment/{commentId}")
+    public ResponseEntity<SuccessResponseResult> updateCommentSuggestion(@PathVariable("commentId") Long commentId, @RequestBody CommentRequestDto dto, HttpServletRequest request) {
+        String token = jwtProvider.getTokenInHttpServletRequest(request);
+        Long userId = Long.parseLong(jwtProvider.getUserId(token));
+        suggestionService.updateComment(commentId, userId, dto);
+        return ResponseEntity.ok()
+                .body(new SuccessResponseResult("수정완료"));
+    }
 
 
 

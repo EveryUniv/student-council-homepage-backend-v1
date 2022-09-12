@@ -97,7 +97,7 @@ public class PetitionService {
         Petition petition = petitionRepository.findById(postId).orElseThrow(FindPostWithIdNotFoundException::new);
         User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
         Comment comment = new Comment(petition, user, data.getText());
-        if(petition.getComments().size() >= accept){
+        if (petition.getStatus() == PetitionStatus.진행중 && petition.getComments().size() >= accept) {
             petition.UpdateStandBy();
         }
         return commentRepository.save(comment);

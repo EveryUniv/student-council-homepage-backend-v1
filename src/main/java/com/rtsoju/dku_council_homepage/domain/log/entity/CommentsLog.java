@@ -33,9 +33,8 @@ public class CommentsLog extends BaseEntity {
 
     public CommentsLog(Comment comment){
         this.user = comment.getUser();
-        this.user = user;
-        this.post = post;
-        this.text = text;
+        this.post = comment.getPost();
+        this.text = comment.getText();
     }
 
 
