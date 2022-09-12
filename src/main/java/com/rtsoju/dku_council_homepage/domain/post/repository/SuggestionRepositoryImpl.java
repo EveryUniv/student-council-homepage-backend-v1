@@ -32,18 +32,16 @@ public class SuggestionRepositoryImpl implements SuggestionRepositoryCustom {
     }
 
     @Override
-    public Page<Suggestion> findSuggestionPage(String query, SuggestionStatus status, String category, Pageable pageable) {
-        BooleanBuilder builder = new BooleanBuilder();
+    public Page<Suggestion> findSuggestionPage(String query, String category, Pageable pageable) {
+        BooleanBuilder builder = new BooleanBuilder(suggestion.status.ne(SuggestionStatus.삭제));
 
         if (query != null) {
             builder.and(suggestion.title.contains(query)).or(suggestion.text.contains(query));
         }
-        if (status != null) {
-            builder.and(suggestion.status.eq(status));
-        }
         if (category != null) {
             builder.and(suggestion.category.eq(category));
         }
+
 
 
         List<Suggestion> content = queryFactory

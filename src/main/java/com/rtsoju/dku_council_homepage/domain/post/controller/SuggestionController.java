@@ -36,10 +36,9 @@ public class SuggestionController {
      */
     @GetMapping
     public PageRes<PageSuggestionDto> list(@RequestParam(value = "query", required = false) String query,
-                                           @RequestParam(value = "status", required = false) SuggestionStatus status,
-                                           @RequestParam(value = "category", required = false)String category,
+                                           @RequestParam(value = "category", required = false) String category,
                                            Pageable pageable) {
-        Page<PageSuggestionDto> map = suggestionService.suggestionPageByTitleAndText(query, status, category, pageable);
+        Page<PageSuggestionDto> map = suggestionService.suggestionPageByTitleAndText(query, category, pageable);
         return new PageRes<>(map.getContent(), map.getPageable(), map.getTotalElements());
     }
 
@@ -69,18 +68,6 @@ public class SuggestionController {
         ResponseSuggestionDto response = suggestionService.findOne(userId, postId);
         return ResponseEntity.ok() //200
                 .body(new SuccessResponseResult("성공", response));
-    }
-
-    /**
-     * 삭제
-     * 메시지만? pk값 필요없고, only Message
-     * 주의!! 공지사항은 ADMIN계정만 삭제할 수 있음!!!
-     */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseResult> deleteOne(@PathVariable("id") Long id) {
-        suggestionService.deleteOne(id);
-        return ResponseEntity.ok()
-                .body(new SuccessResponseResult("삭제완료"));
     }
 
     @PostMapping("/comment/{postId}")
@@ -120,4 +107,22 @@ public class SuggestionController {
                 .body(new SuccessResponseResult("중지완료"));
     }
 
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<SuccessResponseResult> deleteSuggestion(@PathVariable("id") Long postId, HttpServletRequest request) {
+        String token = jwtProvider.getTokenInHttpServletRequest(request);
+        Long userId = Long.parseLong(jwtProvider.getUserId(token));
+        suggestionService.deleteSuggestion(postId, userId);
+
+        return ResponseEntity.ok()
+                .body(new SuccessResponseResult("삭제 완료"));
+    }
+
+    @DeleteMapping("/admin/{id}")
+    public ResponseEntity<SuccessResponseResult> deleteSuggestion(@PathVariable("id") Long postId) {
+        suggestionService.deleteSuggestionByAdmin(postId);
+
+        return ResponseEntity.ok()
+                .body(new SuccessResponseResult("중지완료"));
+    }
 }

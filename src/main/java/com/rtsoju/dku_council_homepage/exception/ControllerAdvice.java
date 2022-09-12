@@ -35,6 +35,7 @@ public class ControllerAdvice {
             FileIsEmptyException.class,
             NotAllowedUpdateException.class,
             NotFoundCommentException.class,
+            NotMatchWriterException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponseResult exceptionHandler(HttpServletRequest request, Exception e) {
