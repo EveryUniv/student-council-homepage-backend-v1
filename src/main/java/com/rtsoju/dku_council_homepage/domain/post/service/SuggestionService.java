@@ -87,15 +87,16 @@ public class SuggestionService {
         return commentRepository.save(comment);
     }
 
-//    @Transactional
-//    public void updateComment(Long commentId, Long userId, CommentRequestDto dto) {
-//        User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
-//        Comment comment = commentRepository.findById(commentId).orElseThrow(NotFoundCommentException::new);
-//
-//        CommentsLog commentsLog = new CommentsLog(suggestion, user, comment.getText());
-//        commentsLogRepository.save(commentsLog);
-//        comment.updateText(dto.getText());
-//        return;
-//    }
+    @Transactional
+    public void updateComment(Long commentId,Long userId, CommentRequestDto dto) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(NotFoundCommentException::new);
+        if(userId != comment.getUser().getId()) throw new FindUserWithIdNotFoundException();
+        CommentsLog commentsLog = new CommentsLog(comment);
+        commentsLogRepository.save(commentsLog);
+        comment.updateText(dto.getText());
+        return;
+
+
+    }
 
 }
