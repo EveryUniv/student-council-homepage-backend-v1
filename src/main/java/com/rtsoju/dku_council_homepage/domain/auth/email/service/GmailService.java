@@ -6,18 +6,18 @@ import com.rtsoju.dku_council_homepage.domain.auth.email.dto.RequestEmailDto;
 import com.rtsoju.dku_council_homepage.domain.user.service.UserService;
 import com.rtsoju.dku_council_homepage.exception.ClassIdNotMatchException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.IOException;
 import java.util.regex.Pattern;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class GmailService {
     private final Pattern classIdCheckPattern = Pattern.compile("^\\d{8}$");
@@ -69,6 +69,9 @@ public class GmailService {
                 .build()
                 .readHtmlFromResource("auth_email_content.html");
         mail.setText(text, true);
+
+        log.info("authLinkUrl: " + authLinkUrl);
+        log.info(text);
 
         javaMailSender.send(mailSenderMimeMessage);
     }
