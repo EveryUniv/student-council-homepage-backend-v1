@@ -42,6 +42,9 @@ public class GmailService {
 //        return;
 //    }
     public void sendEmailForSignUp(RequestEmailDto dto) throws MessagingException {
+        String studentId = dto.getClassId();
+        userService.verifyExistMemberWithClassId(studentId);
+        checkClassId(studentId);
         sendTemplatedEmail(
                 dto.getClassId(),
                 "sign-up",
@@ -70,9 +73,6 @@ public class GmailService {
     }
 
     private void sendTemplatedEmail(String studentId, String endpoint, String emailContent, String buttonContent) throws MessagingException {
-        userService.verifyExistMemberWithClassId(studentId);
-        checkClassId(studentId);
-
         MimeMessage mailSenderMimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mail = new MimeMessageHelper(mailSenderMimeMessage, "UTF-8");
         mail.setFrom("단국대학교 총학생회 <54thplay@gmail.com>");
