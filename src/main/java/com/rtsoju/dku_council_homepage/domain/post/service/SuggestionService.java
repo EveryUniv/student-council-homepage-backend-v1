@@ -55,10 +55,10 @@ public class SuggestionService {
 
 
     @Transactional
-    public ResponseSuggestionDto findOne(Long id) {
-        Suggestion suggestion = suggestionRepository.findById(id).orElseThrow(FindUserWithIdNotFoundException::new);
+    public ResponseSuggestionDto findOne(Long userId, Long postId) {
+        Suggestion suggestion = suggestionRepository.findById(postId).orElseThrow(FindPostWithIdNotFoundException::new);
         suggestion.plusHits();
-        return new ResponseSuggestionDto(suggestion);
+        return new ResponseSuggestionDto(userId, suggestion);
     }
 
     @Transactional
