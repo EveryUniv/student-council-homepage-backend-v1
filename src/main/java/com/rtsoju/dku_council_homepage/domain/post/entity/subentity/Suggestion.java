@@ -33,8 +33,11 @@ public class Suggestion extends Post {
         this.status = SuggestionStatus.등록;
     }
 
-    public void answerSuggestion(String answer) {
-        this.answer = answer;
-        this.status = SuggestionStatus.등록;
+    public void deletePost() {
+        this.status = SuggestionStatus.삭제;
+    }
+
+    public void deletePostByAdmin() {
+        this.status = SuggestionStatus.정지;
     }
 }
