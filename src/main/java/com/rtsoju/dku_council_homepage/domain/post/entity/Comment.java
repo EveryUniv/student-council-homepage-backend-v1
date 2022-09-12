@@ -1,6 +1,8 @@
 package com.rtsoju.dku_council_homepage.domain.post.entity;
 
 import com.rtsoju.dku_council_homepage.domain.base.BaseEntity;
+import com.rtsoju.dku_council_homepage.domain.base.CommentStatus;
+import com.rtsoju.dku_council_homepage.domain.base.SuggestionStatus;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import lombok.AccessLevel;
@@ -20,6 +22,9 @@ public class Comment extends BaseEntity {
     @Column(name = "comment_id")
     private Long id;
 
+    @Enumerated(EnumType.STRING)
+    private CommentStatus status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
@@ -35,9 +40,20 @@ public class Comment extends BaseEntity {
         this.user = user;
         this.post = post;
         this.text = text;
+        this.status = CommentStatus.등록;
         post.getComments().add(this);
     }
 
+    public void updateText(String text) {
+        this.text = text;
+        this.status = CommentStatus.수정;
+    }
+    public void deleteComment(){
+        this.status = CommentStatus.삭제;
+    }
+    public void deleteCommentByAdmin(){
+        this.status = CommentStatus.정지;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -50,4 +66,6 @@ public class Comment extends BaseEntity {
     public int hashCode() {
         return Objects.hash(id, post, user, text);
     }
+
+
 }

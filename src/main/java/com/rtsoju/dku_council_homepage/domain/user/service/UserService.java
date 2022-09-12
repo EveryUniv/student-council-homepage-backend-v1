@@ -132,4 +132,8 @@ public class UserService {
         user.changePassword(bcryptPWD);
         return;
     }
+
+    public void checkUserExist(Long userId){
+        userRepository.findById(userId).orElseThrow(() -> new FindUserWithIdNotFoundException("회원가입을 진행해주세요"));
+    }
 }

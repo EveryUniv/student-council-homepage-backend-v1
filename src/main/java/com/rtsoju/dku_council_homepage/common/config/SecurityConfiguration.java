@@ -44,6 +44,7 @@ public class SecurityConfiguration{
                 .antMatchers(HttpMethod.GET, "/api").permitAll()
                 // 회원가입
                 .antMatchers(HttpMethod.POST, "/api/email").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/email/password").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/auth/sms-code").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/auth/sms-code").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/users/login").permitAll()
@@ -80,7 +81,7 @@ public class SecurityConfiguration{
                 .antMatchers(HttpMethod.DELETE, "/api/rule/{id}").hasRole("ADMIN")
                 .antMatchers("/api/category").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/suggestion/comment/admin/{postId}").hasRole("ADMIN")
-
+                .antMatchers(HttpMethod.DELETE, "/api/suggestion/comment/admin/{commentId}").hasRole("ADMIN")
                 .anyRequest().hasRole("USER") //이 외는 USER권한이 있는 사람만 접근
 
                 .and()

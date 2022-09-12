@@ -3,9 +3,6 @@ package com.rtsoju.dku_council_homepage.exception;
 import com.rtsoju.dku_council_homepage.common.ErrorResponseResult;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindException;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,8 +10,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestControllerAdvice
 public class ControllerAdvice {
@@ -38,6 +33,8 @@ public class ControllerAdvice {
             InvalidKeyException.class,
             FindCategoryWithIdNotFoundException.class,
             FileIsEmptyException.class,
+            NotAllowedUpdateException.class,
+            NotFoundCommentException.class,
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponseResult exceptionHandler(HttpServletRequest request, Exception e) {
