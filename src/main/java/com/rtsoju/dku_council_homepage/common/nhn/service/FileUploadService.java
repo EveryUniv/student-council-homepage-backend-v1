@@ -21,15 +21,18 @@ public class FileUploadService {
         String token = nhnAuthService.requestToken();
         ArrayList<PostFile> postFiles = new ArrayList<>();
         files.forEach(file -> {
-                    String fileId = post + "-" + UUID.randomUUID();
-                    String originName = file.getOriginalFilename();
-                    try{
-                        s3service.uploadObject(token, fileId, file.getInputStream());
-                        postFiles.add(new PostFile(fileId,originName));
-                    }catch (IOException e){
-                        e.printStackTrace();
-                    }
-                });
+            String originName = file.getOriginalFilename();
+            String ext = originName.substring(originName.lastIndexOf(".") + 1);
+
+            String fileId = post + "-" + UUID.randomUUID() + "." + ext;
+
+            try {
+                s3service.uploadObject(token, fileId, file.getInputStream());
+                postFiles.add(new PostFile(fileId, originName));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         return postFiles;
     }
 
