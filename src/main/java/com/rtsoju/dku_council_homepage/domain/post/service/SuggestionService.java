@@ -92,7 +92,6 @@ public class SuggestionService {
     @Transactional
     public void deleteCommentByAdmin(Long commentId, Long userId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(NotFoundCommentException::new);
-        if(userId != comment.getUser().getId()) throw new FindUserWithIdNotFoundException();
         comment.deleteCommentByAdmin();
         return;
     }
