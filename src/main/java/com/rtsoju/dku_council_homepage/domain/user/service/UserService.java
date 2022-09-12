@@ -121,13 +121,12 @@ public class UserService {
         return user;
     }
 
-    public void changePW(RequestChangePWDto request) {
-        String token = request.getToken();
+    public void changePW(RequestChangePWDto request, String token) {
         String userId = request.getUserId();
         if(!jwtProvider.validateEmailValidationToken(token, userId)){
             throw new BadRequestException("학번이 조작됐습니다.");
         }
-        User user = userRepository.findById(Long.parseLong(userId)).orElseThrow(FindUserWithIdNotFoundException::new);
+        User user = userRepository.findByClassId(userId.trim()).orElseThrow(FindUserWithIdNotFoundException::new);
         String bcryptPWD = passwordEncoder.encode(request.getNewPW());
         user.changePassword(bcryptPWD);
         return;

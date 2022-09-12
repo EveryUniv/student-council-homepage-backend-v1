@@ -2,15 +2,14 @@ package com.rtsoju.dku_council_homepage.domain.user.model.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class RequestChangePWDto {
-    @NotBlank(message = "전달받은 토큰을 보내주세요.")
-    private String token;
-
     @NotBlank(message = "학번을 입력해주세요.")
     private String userId;
 
