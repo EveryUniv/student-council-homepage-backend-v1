@@ -80,9 +80,10 @@ public class SecurityConfiguration{
                 .antMatchers(HttpMethod.POST, "/api/rule").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/rule/{id}").hasRole("ADMIN")
                 .antMatchers("/api/category").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/api/suggestion/comment/admin/{postId}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/suggestion/comment/admin/{commentId}").hasRole("ADMIN")
-                .anyRequest().hasRole("USER") //이 외는 USER권한이 있는 사람만 접근
+                .antMatchers(HttpMethod.DELETE, "/api/suggestion/admin/{id}").hasRole("ADMIN")
+                //이 외는 USER권한이 있는 사람만 접근
+                .anyRequest().hasRole("USER")
 
                 .and()
                 // 자동 주입으로 완성? OR new 생성자로 등록? 뭐가 좋을까...

@@ -19,6 +19,7 @@ import com.rtsoju.dku_council_homepage.domain.user.repository.UserRepository;
 import com.rtsoju.dku_council_homepage.exception.NotFoundCommentException;
 import com.rtsoju.dku_council_homepage.exception.FindPostWithIdNotFoundException;
 import com.rtsoju.dku_council_homepage.exception.FindUserWithIdNotFoundException;
+import com.rtsoju.dku_council_homepage.exception.NotMatchWriterException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -41,9 +42,9 @@ public class SuggestionService {
     private final CommentRepository commentRepository;
     private final CommentsLogRepository commentsLogRepository;
 
-    public Page<PageSuggestionDto> suggestionPageByTitleAndText(String query, SuggestionStatus status, String category, Pageable pageable) {
+    public Page<PageSuggestionDto> suggestionPageByTitleAndText(String query, String category, Pageable pageable) {
         Page<Suggestion> page;
-        page = suggestionRepository.findSuggestionPage(query, status, category, pageable);
+        page = suggestionRepository.findSuggestionPage(query, category, pageable);
         return page.map(PageSuggestionDto::new);
     }
 
@@ -62,14 +63,6 @@ public class SuggestionService {
         Suggestion suggestion = suggestionRepository.findById(postId).orElseThrow(FindPostWithIdNotFoundException::new);
         suggestion.plusHits();
         return new ResponseSuggestionDto(userId, suggestion);
-    }
-
-    @Transactional
-    public void deleteOne(Long id){
-        Suggestion suggestion = suggestionRepository.findById(id).orElseThrow(FindPostWithIdNotFoundException::new);
-        List<PostFile> fileList = suggestion.getFileList();
-        fileUploadService.deletePostFiles(fileList);
-        suggestionRepository.delete(suggestion);
     }
 
     @Transactional
@@ -104,4 +97,21 @@ public class SuggestionService {
         return;
     }
 
+    @Transactional
+    public void deleteSuggestion(Long postId, Long userId) {
+        Suggestion suggestion = suggestionRepository.findById(postId).orElseThrow(FindPostWithIdNotFoundException::new);
+        User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
+        if (!user.equals(suggestion.getUser())) {
+            throw new NotMatchWriterException();
+        }
+
+        suggestion.deletePost();
+        return;
+    }
+
+    @Transactional
+    public void deleteSuggestionByAdmin(Long postId) {
+        Suggestion suggestion = suggestionRepository.findById(postId).orElseThrow(FindPostWithIdNotFoundException::new);
+        suggestion.deletePostByAdmin();
+    }
 }
