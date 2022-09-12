@@ -63,6 +63,8 @@ public class SecurityConfiguration{
                 .antMatchers(HttpMethod.GET, "/api/rule").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/news").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/suggestion").permitAll()
+                //총학소식
+                .antMatchers(HttpMethod.GET, "/api/news/{postId}").permitAll()
                 // admin
                 .antMatchers(HttpMethod.POST, "/api/carousel").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/carousel/").hasRole("ADMIN")
