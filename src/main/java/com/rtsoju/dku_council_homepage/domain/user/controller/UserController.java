@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
@@ -74,8 +75,9 @@ public class UserController {
     }
 
     @PatchMapping("/users/password")
-    public  ResponseEntity<SuccessResponseResult> changePW(RequestChangePWDto request){
-        userService.changePW(request);
-        return ResponseEntity.ok().body(new SuccessResponseResult());
+    public  ResponseEntity<SuccessResponseResult> changePW(@RequestBody @Valid RequestChangePWDto request, HttpServletRequest header){
+        String token = header.getHeader("EMAIL-VALIDATION-TOKEN");
+        userService.changePW(request, token);
+        return ResponseEntity.ok().body(new SuccessResponseResult("성공~!~!"));
     }
 }

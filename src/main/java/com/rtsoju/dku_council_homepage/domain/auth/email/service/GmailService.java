@@ -56,7 +56,6 @@ public class GmailService {
         mail.setFrom("단국대학교 총학생회 <54thplay@gmail.com>");
         mail.setTo(studentId + "@dankook.ac.kr");
         mail.setSubject("단국대학교 총학생회 이메일 인증");
-
         String emailToken = jwtProvider.createEmailValidationToken(studentId);
         String authLinkUrl = String.format("http://www.dku54play.site:%d/%s?token=%s&id=%s", port, endpoint, emailToken, studentId);
 
