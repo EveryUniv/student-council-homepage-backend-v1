@@ -99,12 +99,22 @@ public class SuggestionController {
     public ResponseEntity<SuccessResponseResult> makeCommentSuggestion(@PathVariable("postId") Long postId, @RequestBody CommentRequestDto dto, HttpServletRequest request) {
         String token = jwtProvider.getTokenInHttpServletRequest(request);
         Long userId = Long.parseLong(jwtProvider.getUserId(token));
-
         Comment comment = suggestionService.createComment(postId, userId, dto);
         return ResponseEntity
                 .created(URI.create("/api/suggestion/comments/" + postId + "/" + comment.getId()))
                 .body(new SuccessResponseResult("댓글을 등록하였습니다."));
     }
+
+    @PatchMapping("/comment/{postId}")
+    public ResponseEntity<SuccessResponseResult> updateCommentSuggestion(@PathVariable("postId") Long postId, @RequestBody CommentRequestDto dto, HttpServletRequest request) {
+        String token = jwtProvider.getTokenInHttpServletRequest(request);
+        Long userId = Long.parseLong(jwtProvider.getUserId(token));
+        suggestionService.updateComment(postId, userId, dto);
+        return ResponseEntity.ok()
+                .body(new SuccessResponseResult("수정완료"));
+    }
+
+
 
 
 }

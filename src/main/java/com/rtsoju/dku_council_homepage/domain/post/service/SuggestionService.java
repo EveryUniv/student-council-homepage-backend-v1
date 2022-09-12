@@ -2,6 +2,8 @@ package com.rtsoju.dku_council_homepage.domain.post.service;
 
 import com.rtsoju.dku_council_homepage.common.nhn.service.FileUploadService;
 import com.rtsoju.dku_council_homepage.domain.base.SuggestionStatus;
+import com.rtsoju.dku_council_homepage.domain.log.entity.CommentsLog;
+import com.rtsoju.dku_council_homepage.domain.log.repository.CommentsLogRepository;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Comment;
 import com.rtsoju.dku_council_homepage.domain.post.entity.PostFile;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PageSuggestionDto;
@@ -14,10 +16,13 @@ import com.rtsoju.dku_council_homepage.domain.post.repository.CommentRepository;
 import com.rtsoju.dku_council_homepage.domain.post.repository.SuggestionRepository;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import com.rtsoju.dku_council_homepage.domain.user.repository.UserRepository;
+import com.rtsoju.dku_council_homepage.exception.FindCommentWithPostAndUserException;
 import com.rtsoju.dku_council_homepage.exception.FindPostWithIdNotFoundException;
 import com.rtsoju.dku_council_homepage.exception.FindUserWithIdNotFoundException;
+import com.rtsoju.dku_council_homepage.exception.NotAllowedUpdateException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -37,6 +42,7 @@ public class SuggestionService {
     private final UserRepository userRepository;
     private final FileUploadService fileUploadService;
     private final CommentRepository commentRepository;
+    private final CommentsLogRepository commentsLogRepository;
 
     public Page<PageSuggestionDto> suggestionPageByTitleAndText(String query, SuggestionStatus status, String category, Pageable pageable) {
         Page<Suggestion> page;
@@ -81,7 +87,18 @@ public class SuggestionService {
         Suggestion suggestion = suggestionRepository.findById(postId).orElseThrow(FindPostWithIdNotFoundException::new);
         User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
         Comment comment = new Comment(suggestion, user, dto.getText());
-
         return commentRepository.save(comment);
     }
+
+    @Transactional
+    public void updateComment(Long postId, Long userId, CommentRequestDto dto) {
+        Suggestion suggestion = suggestionRepository.findById(postId).orElseThrow(FindPostWithIdNotFoundException::new);
+        User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
+        Comment comment = commentRepository.findByPostAndUser(suggestion, user).orElseThrow(FindCommentWithPostAndUserException::new);
+        CommentsLog commentsLog = new CommentsLog(suggestion, user, comment.getText());
+        commentsLogRepository.save(commentsLog);
+        comment.updateText(dto.getText());
+        return;
+    }
+
 }
