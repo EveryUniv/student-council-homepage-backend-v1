@@ -37,7 +37,7 @@ public class PetitionService {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
-    private final int accept = 100;
+    private final int accept = 150;
 
     public Page<PagePetitionDto> petitionPage(String query, PetitionStatus status, String category, Pageable pageable) {
         return petitionRepository.findPetitionPage(query, status, category, pageable);
