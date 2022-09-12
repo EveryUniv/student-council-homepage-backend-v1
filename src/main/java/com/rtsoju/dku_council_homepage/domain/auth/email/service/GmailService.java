@@ -7,14 +7,12 @@ import com.rtsoju.dku_council_homepage.domain.user.service.UserService;
 import com.rtsoju.dku_council_homepage.exception.ClassIdNotMatchException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.IOException;
 import java.util.regex.Pattern;
 
 @Service
@@ -69,6 +67,9 @@ public class GmailService {
                 .build()
                 .readHtmlFromResource("auth_email_content.html");
         mail.setText(text, true);
+
+        System.out.println("authLinkUrl: " + authLinkUrl);
+        System.out.println(text);
 
         javaMailSender.send(mailSenderMimeMessage);
     }
