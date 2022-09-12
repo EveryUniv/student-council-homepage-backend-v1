@@ -42,8 +42,7 @@ public class GmailService {
 
     public void sendEmailForChangePW(RequestEmailDto dto) throws MessagingException {
         String classId = dto.getClassId();
-        long userId = Long.parseLong(classId);
-        userService.checkUserExist(userId);
+        userService.checkUserExist(classId);
         sendTemplatedEmail(
                 dto.getClassId(),
                 "password",
