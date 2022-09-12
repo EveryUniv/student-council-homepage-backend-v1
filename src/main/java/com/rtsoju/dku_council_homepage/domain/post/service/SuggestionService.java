@@ -16,18 +16,15 @@ import com.rtsoju.dku_council_homepage.domain.post.repository.CommentRepository;
 import com.rtsoju.dku_council_homepage.domain.post.repository.SuggestionRepository;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import com.rtsoju.dku_council_homepage.domain.user.repository.UserRepository;
-import com.rtsoju.dku_council_homepage.exception.FindCommentWithPostAndUserException;
+import com.rtsoju.dku_council_homepage.exception.NotFoundCommentException;
 import com.rtsoju.dku_council_homepage.exception.FindPostWithIdNotFoundException;
 import com.rtsoju.dku_council_homepage.exception.FindUserWithIdNotFoundException;
-import com.rtsoju.dku_council_homepage.exception.NotAllowedUpdateException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,8 +90,8 @@ public class SuggestionService {
 //    @Transactional
 //    public void updateComment(Long commentId, Long userId, CommentRequestDto dto) {
 //        User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
-//        commentRepository.findById(commentId).orElse
-//        Comment comment = commentRepository.findByPostAndUser(suggestion, user).orElseThrow(FindCommentWithPostAndUserException::new);
+//        Comment comment = commentRepository.findById(commentId).orElseThrow(NotFoundCommentException::new);
+//
 //        CommentsLog commentsLog = new CommentsLog(suggestion, user, comment.getText());
 //        commentsLogRepository.save(commentsLog);
 //        comment.updateText(dto.getText());

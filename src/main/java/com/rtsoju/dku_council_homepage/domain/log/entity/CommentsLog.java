@@ -31,7 +31,8 @@ public class CommentsLog extends BaseEntity {
     @Column(length = 100)
     private String text;
 
-    public CommentsLog(Post post, User user, String text){
+    public CommentsLog(Comment comment){
+        this.user = comment.getUser();
         this.user = user;
         this.post = post;
         this.text = text;
