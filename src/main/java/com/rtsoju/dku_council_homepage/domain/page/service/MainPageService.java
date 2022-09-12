@@ -3,6 +3,7 @@ package com.rtsoju.dku_council_homepage.domain.page.service;
 import com.rtsoju.dku_council_homepage.common.Messages;
 import com.rtsoju.dku_council_homepage.common.nhn.service.NHNAuthService;
 import com.rtsoju.dku_council_homepage.common.nhn.service.ObjectStorageService;
+import com.rtsoju.dku_council_homepage.domain.page.dto.CarouselImageRequestDto;
 import com.rtsoju.dku_council_homepage.domain.page.dto.CarouselImageResponse;
 import com.rtsoju.dku_council_homepage.domain.page.dto.PetitionSummary;
 import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
@@ -38,11 +39,14 @@ public class MainPageService {
     }
 
 
-    public void addCarouselImage(MultipartFile file) throws IOException {
+    public void addCarouselImage(CarouselImageRequestDto dto) throws IOException {
+        MultipartFile file = dto.getImageFile();
+        String url = dto.getRedirectUrl();
+
         String fileId = "carousel-" + UUID.randomUUID();
         String token = nhnAuthService.requestToken();
         s3service.uploadObject(token, fileId, file.getInputStream());
-        carouselImageRepository.save(new CarouselImage(fileId));
+        carouselImageRepository.save(new CarouselImage(fileId, url));
     }
 
     public void deleteCarouselImage(Long carouselId) {

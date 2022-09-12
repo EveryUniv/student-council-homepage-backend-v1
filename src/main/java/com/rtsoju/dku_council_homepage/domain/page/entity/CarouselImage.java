@@ -23,10 +23,17 @@ public class CarouselImage extends BaseEntity {
     @Column(name = "carousel_file_id")
     private String fileId;
 
+    private String redirectUrl;
+
     public CarouselImage() {
     }
 
     public CarouselImage(String fileId) {
         this.fileId = fileId;
+    }
+
+    public CarouselImage(String fileId, String url) {
+        this.fileId = fileId;
+        this.redirectUrl = url;
     }
 }

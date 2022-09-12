@@ -8,9 +8,11 @@ import lombok.Data;
 public class CarouselImageResponse {
     private Long id;
     private String url;
+    private String redirectUrl;
 
     public CarouselImageResponse(ObjectStorageService s3service, CarouselImage image) {
         this.id = image.getId();
         this.url = s3service.getObjectURL(image.getFileId());
+        this.redirectUrl = image.getRedirectUrl();
     }
 }
