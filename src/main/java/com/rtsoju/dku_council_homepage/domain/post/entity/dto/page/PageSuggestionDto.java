@@ -1,6 +1,5 @@
 package com.rtsoju.dku_council_homepage.domain.post.entity.dto.page;
 
-import com.rtsoju.dku_council_homepage.domain.base.SuggestionStatus;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.response.FileUrlWithNameDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Suggestion;
 import lombok.Data;
@@ -16,7 +15,6 @@ public class PageSuggestionDto {
     private int postHits;
 
     private int commentCount;
-    private SuggestionStatus status;
     private String category;
 
     public PageSuggestionDto(Suggestion suggestion) {
@@ -25,7 +23,6 @@ public class PageSuggestionDto {
         this.userName = suggestion.getUser().getName();
         this.postHits = suggestion.getHitCount();
         this.commentCount = suggestion.getComments().size();
-        this.status = suggestion.getStatus();
         this.category = suggestion.getCategory();
     }
 
