@@ -73,13 +73,6 @@ public class SuggestionService {
     }
 
     @Transactional
-    public void answerSuggestion(Long postId, CommentRequestDto dto) {
-        Suggestion suggestion = suggestionRepository.findById(postId).orElseThrow(FindPostWithIdNotFoundException::new);
-        suggestion.answerSuggestion(dto.getText());
-        return;
-    }
-
-    @Transactional
     public Comment createComment(Long postId, Long userId, CommentRequestDto dto) {
         Suggestion suggestion = suggestionRepository.findById(postId).orElseThrow(FindPostWithIdNotFoundException::new);
         User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
@@ -88,15 +81,27 @@ public class SuggestionService {
     }
 
     @Transactional
-    public void updateComment(Long commentId,Long userId, CommentRequestDto dto) {
+    public void updateComment(Long commentId, Long userId, CommentRequestDto dto) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(NotFoundCommentException::new);
         if(userId != comment.getUser().getId()) throw new FindUserWithIdNotFoundException();
         CommentsLog commentsLog = new CommentsLog(comment);
         commentsLogRepository.save(commentsLog);
         comment.updateText(dto.getText());
         return;
-
-
+    }
+    @Transactional
+    public void deleteComment(Long commentId, Long userId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(NotFoundCommentException::new);
+        if(userId != comment.getUser().getId()) throw new FindUserWithIdNotFoundException();
+        comment.deleteComment();
+        return;
+    }
+    @Transactional
+    public void deleteCommentByAdmin(Long commentId, Long userId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(NotFoundCommentException::new);
+        if(userId != comment.getUser().getId()) throw new FindUserWithIdNotFoundException();
+        comment.deleteCommentByAdmin();
+        return;
     }
 
 }
