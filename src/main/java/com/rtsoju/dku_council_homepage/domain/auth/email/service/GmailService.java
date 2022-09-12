@@ -27,7 +27,7 @@ public class GmailService {
     private final JwtProvider jwtProvider;
 
     @Value("${env_port}")
-    private String port;
+    private int port;
 
     public void sendEmailForSignUp(RequestEmailDto dto) throws MessagingException {
         String studentId = dto.getClassId();
@@ -59,7 +59,7 @@ public class GmailService {
         mail.setSubject("단국대학교 총학생회 이메일 인증");
 
         String emailToken = jwtProvider.createEmailValidationToken(studentId);
-        String authLinkUrl = String.format("http://www.dku54play.site:%s/%s?token=%s&id=%s", port, endpoint, emailToken, studentId);
+        String authLinkUrl = String.format("http://www.dku54play.site:%d/%s?token=%s&id=%s", port, endpoint, emailToken, studentId);
 
         String text = new TextTemplateEngine.Builder()
                 .argument("studentId", studentId)
@@ -69,9 +69,6 @@ public class GmailService {
                 .build()
                 .readHtmlFromResource("auth_email_content.html");
         mail.setText(text, true);
-
-        log.info("authLinkUrl: " + authLinkUrl);
-        log.info(text);
 
         javaMailSender.send(mailSenderMimeMessage);
     }
