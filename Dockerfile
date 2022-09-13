@@ -8,5 +8,5 @@ COPY build/libs/*.jar application.jar
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "application.jar"]
+CMD ["java", "-Duser.timezone=\"Asia/Seoul\"", "-jar", "application.jar"]
 

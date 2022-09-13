@@ -16,8 +16,8 @@ public class PageSuggestionDto {
     private int postHits;
 
     private int commentCount;
-    private SuggestionStatus status;
     private String category;
+    private SuggestionStatus status;
 
     public PageSuggestionDto(Suggestion suggestion) {
         this.id = suggestion.getId();
@@ -25,8 +25,8 @@ public class PageSuggestionDto {
         this.userName = suggestion.getUser().getName();
         this.postHits = suggestion.getHitCount();
         this.commentCount = suggestion.getComments().size();
-        this.status = suggestion.getStatus();
         this.category = suggestion.getCategory();
+        this.status = suggestion.getStatus();
     }
 
 }

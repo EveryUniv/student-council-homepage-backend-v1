@@ -6,6 +6,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface SuggestionRepositoryCustom {
-
-    public Page<Suggestion> findSuggestionPage(String query, SuggestionStatus status, String category, Pageable pageable);
+    Page<Suggestion> findSuggestionPage(String query, String category, Pageable pageable);
 }

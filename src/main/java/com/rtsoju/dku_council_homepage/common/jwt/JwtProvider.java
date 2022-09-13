@@ -30,8 +30,9 @@ public class JwtProvider {
     @Value("${auth.sms.expirationSeconds}")
     private int expirationSeconds;
 
-    private final Long accessTokenValidMillisecond = 24 * 60 * 60 * 1000L; // 1 hour
+    private final Long accessTokenValidMillisecond = 24 * 60 * 60 * 1000L; // 1 day
     private final Long refreshTokenValidMillisecond = 14 * 24 * 60 * 60 * 1000L; // 14 day
+    private final Long emailTokenValidMillisecond = 10 * 60 * 1000L; // 10 min
 
     @PostConstruct
     protected void init() {
@@ -69,7 +70,7 @@ public class JwtProvider {
 //        claims.setSubject("ClassId");
         claims.put("classId",classId);
 
-        return createToken(claims, accessTokenValidMillisecond);
+        return createToken(claims, emailTokenValidMillisecond);
     }
 
     public String createLoginRefreshToken(Long userId) {

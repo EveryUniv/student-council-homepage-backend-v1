@@ -54,14 +54,14 @@ public class UserService {
         if(!jwtProvider.validateEmailValidationToken(token, classId)){
             throw new RefreshTokenNotValidateException("학번이 조작되었습니다.");
         }
-        if(userRepository.findByClassId(classId).isPresent()){
+        if(userRepository.findByClassId(classId.trim()).isPresent()){
             throw new DuplicateSignInException("이미 회원가입이 되었습니다.");
         }
 
     }
 
     public RoleAndTokenResponseDto login(RequestLoginDto dto) {
-        User findUser = userRepository.findByClassId(dto.getClassId()).orElseThrow(LoginUserNotFoundException::new);
+        User findUser = userRepository.findByClassId(dto.getClassId().trim()).orElseThrow(LoginUserNotFoundException::new);
 
         if (passwordEncoder.matches(dto.getPassword(), findUser.getPassword())) {
             // Todo : 권한 부분 수정
@@ -79,7 +79,7 @@ public class UserService {
     }
 
     public void verifyExistMemberWithClassId(String classId) {
-        userRepository.findByClassId(classId).ifPresent(user -> {
+        userRepository.findByClassId(classId.trim()).ifPresent(user -> {
             throw new EmailUserExistException("이미 존재하는 회원입니다.");
         });
     }
@@ -121,15 +121,19 @@ public class UserService {
         return user;
     }
 
-    public void changePW(RequestChangePWDto request) {
-        String token = request.getToken();
+    public void changePW(RequestChangePWDto request, String token) {
         String userId = request.getUserId();
         if(!jwtProvider.validateEmailValidationToken(token, userId)){
             throw new BadRequestException("학번이 조작됐습니다.");
         }
-        User user = userRepository.findById(Long.parseLong(userId)).orElseThrow(FindUserWithIdNotFoundException::new);
+        User user = userRepository.findByClassId(userId.trim()).orElseThrow(FindUserWithIdNotFoundException::new);
         String bcryptPWD = passwordEncoder.encode(request.getNewPW());
         user.changePassword(bcryptPWD);
+        return;
+    }
+
+    public void checkUserExist(String userId){
+        userRepository.findByClassId(userId.trim()).orElseThrow(() -> new FindUserWithIdNotFoundException("회원가입을 진행해주세요"));
         return;
     }
 }

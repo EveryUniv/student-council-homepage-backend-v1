@@ -6,18 +6,18 @@ import com.rtsoju.dku_council_homepage.domain.auth.email.dto.RequestEmailDto;
 import com.rtsoju.dku_council_homepage.domain.user.service.UserService;
 import com.rtsoju.dku_council_homepage.exception.ClassIdNotMatchException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.IOException;
 import java.util.regex.Pattern;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class GmailService {
     private final Pattern classIdCheckPattern = Pattern.compile("^\\d{8}$");
@@ -27,21 +27,12 @@ public class GmailService {
     private final JwtProvider jwtProvider;
 
     @Value("${env_port}")
-    private String port;
+    private int port;
 
-    //    public void sendEmailForSignUp(RequestEmailDto dto) {
-//        userService.verifyExistMemberWithClassId(dto.getClassId());
-//        checkClassId(dto.getClassId());
-//        SimpleMailMessage smm = new SimpleMailMessage();
-//        String emailToken = jwtProvider.createEmailValidationToken(dto.getClassId());
-//        smm.setTo(dto.getClassId() + "@dankook.ac.kr");
-//        smm.setSubject("단국대학교 총학생회 이메일 인증");
-//        String text = "http://www.dku54play.site:" + port + "/sign-up?token=" + emailToken + "&id=" + dto.getClassId();
-//        smm.setText(text);
-//        javaMailSender.send(smm);
-//        return;
-//    }
     public void sendEmailForSignUp(RequestEmailDto dto) throws MessagingException {
+        String studentId = dto.getClassId();
+        userService.verifyExistMemberWithClassId(studentId);
+        checkClassId(studentId);
         sendTemplatedEmail(
                 dto.getClassId(),
                 "sign-up",
@@ -49,19 +40,9 @@ public class GmailService {
                 "인증하기");
     }
 
-//    public void sendEmailForChangePW(RequestEmailDto dto){
-//        userService.verifyExistMemberWithClassId(dto.getClassId());
-//        checkClassId(dto.getClassId());
-//        SimpleMailMessage smm = new SimpleMailMessage();
-//        String emailToken = jwtProvider.createEmailValidationToken(dto.getClassId());
-//        smm.setTo(dto.getClassId()+"@dankook.ac.kr");
-//        smm.setSubject("단국대학교 총학생회 비밀번호 변경");
-//        smm.setText("http://www.dku54play.site:" + port + "/password?token=" + emailToken + "&id=" + dto.getClassId());
-//        javaMailSender.send(smm);
-//        return;
-//    }
-
     public void sendEmailForChangePW(RequestEmailDto dto) throws MessagingException {
+        String classId = dto.getClassId();
+        userService.checkUserExist(classId);
         sendTemplatedEmail(
                 dto.getClassId(),
                 "password",
@@ -70,17 +51,13 @@ public class GmailService {
     }
 
     private void sendTemplatedEmail(String studentId, String endpoint, String emailContent, String buttonContent) throws MessagingException {
-        userService.verifyExistMemberWithClassId(studentId);
-        checkClassId(studentId);
-
         MimeMessage mailSenderMimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mail = new MimeMessageHelper(mailSenderMimeMessage, "UTF-8");
         mail.setFrom("단국대학교 총학생회 <54thplay@gmail.com>");
         mail.setTo(studentId + "@dankook.ac.kr");
         mail.setSubject("단국대학교 총학생회 이메일 인증");
-
         String emailToken = jwtProvider.createEmailValidationToken(studentId);
-        String authLinkUrl = String.format("http://www.dku54play.site:%s/%s?token=%s&id=%s", port, endpoint, emailToken, studentId);
+        String authLinkUrl = String.format("http://www.dku54play.site:%d/%s?token=%s&id=%s", port, endpoint, emailToken, studentId);
 
         String text = new TextTemplateEngine.Builder()
                 .argument("studentId", studentId)
@@ -93,7 +70,6 @@ public class GmailService {
 
         javaMailSender.send(mailSenderMimeMessage);
     }
-
 
     private void checkClassId(String classId) {
         if (!classIdCheckPattern.matcher(classId).matches()) {

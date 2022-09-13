@@ -37,26 +37,9 @@ public class PetitionService {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
-    private final int accept = 100;
+    private final int accept = 150;
 
     public Page<PagePetitionDto> petitionPage(String query, PetitionStatus status, String category, Pageable pageable) {
-//        Page<Petition> page;
-//        if (status != null && query != null) {
-//            PetitionStatus lookup = PetitionStatus.lookup(status);
-//            page = petitionRepository.findAllByStatusAndTitleContainsOrTextContains(lookup,query, query, pageable);
-//        }else if(status != null && query == null){
-//            PetitionStatus lookup = PetitionStatus.lookup(status);
-//            page = petitionRepository.findAllByStatus(lookup, pageable);
-//        }else if (query != null && status == null) {
-//            page = petitionRepository.findAllByTitleContainsOrTextContains(query, query, pageable);
-//        } else if(category != null && status != null){
-//            PetitionStatus lookup = PetitionStatus.lookup(status);
-//            page = petitionRepository.findAllByStatusAndCategory(lookup, category, pageable);
-//        } else if(category != null && status == null){
-//            page = petitionRepository.findAllByCategory(category, pageable);
-//        } else{
-//            page = petitionRepository.findAll(pageable);
-//        }
         return petitionRepository.findPetitionPage(query, status, category, pageable);
 //        return page.map(PagePetitionDto::new);
     }
@@ -114,7 +97,7 @@ public class PetitionService {
         Petition petition = petitionRepository.findById(postId).orElseThrow(FindPostWithIdNotFoundException::new);
         User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
         Comment comment = new Comment(petition, user, data.getText());
-        if(petition.getComments().size() >= accept){
+        if (petition.getStatus() == PetitionStatus.진행중 && petition.getComments().size() >= accept) {
             petition.UpdateStandBy();
         }
         return commentRepository.save(comment);
