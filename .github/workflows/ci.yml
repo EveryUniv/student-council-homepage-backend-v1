@@ -9,7 +9,7 @@ name: CI
 
 on:
   pull_request:
-    branches: [ "prod" ]
+    branches: [ "prod", "main" ]
 
 permissions:
   contents: read
