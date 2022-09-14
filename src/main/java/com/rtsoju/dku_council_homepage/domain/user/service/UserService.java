@@ -1,6 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.user.service;
 
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
+import com.rtsoju.dku_council_homepage.domain.base.Major;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestChangePWDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestLoginDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestReissueDto;
@@ -37,6 +38,9 @@ public class UserService {
 
         checkEmailValidationToken(emailValidationToken, dto.getClassId());
 
+        if (dto.getMajor().isAdmin())
+            throw new MajorAdminNotAllowException();
+
         String bcryptPwd = passwordEncoder.encode(dto.getPassword());
         dto.setPassword(bcryptPwd);
         User user = dto.toUserEntity();
@@ -45,6 +49,7 @@ public class UserService {
         userRepository.save(user);
         return user.getId();
     }
+
 
     private void checkEmailValidationToken(String token, String classId){
         if(token==null){
