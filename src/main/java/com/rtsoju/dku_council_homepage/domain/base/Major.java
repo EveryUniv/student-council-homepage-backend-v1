@@ -44,6 +44,7 @@ public enum Major {
     DANCE(Department.MUSIC_ART, "무용과"),
     MUSIC(Department.MUSIC_ART, "음악학부"),
     LIBERAL_ARTS(Department.LIBERAL_ARTS, "자유교양대학"),
+    ADMIN(Department.SOFTWARE, "총학생회"),
     ;
 
     private final Department department;
@@ -61,6 +62,8 @@ public enum Major {
     public String getName() {
         return name;
     }
+
+    public boolean isAdmin() { return this == ADMIN; }
 
     /**
      * name으로 Major찾기.
