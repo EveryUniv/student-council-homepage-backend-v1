@@ -52,9 +52,9 @@ public class EmailSerivce {
 
     private String makeTemplatedEmail(String studentId, String endpoint, String emailContent, String buttonContent) {
         String emailToken = jwtProvider.createEmailValidationToken(studentId);
-        String authLinkUrl = String.format("https://www.dku54play.site:%d/%s?token=%s&id=%s", port, endpoint, emailToken, studentId);
+        String authLinkUrl = String.format("http://www.dku54play.site:%d/%s?token=%s&id=%s", port, endpoint, emailToken, studentId);
         String text = new TextTemplateEngine.Builder()
-                .argument("studentId", studentId)
+                .argument("studentId", studentId)g
                 .argument("authLinkUrl", authLinkUrl)
                 .argument("emailContent", emailContent)
                 .argument("linkButtonContent", buttonContent)
