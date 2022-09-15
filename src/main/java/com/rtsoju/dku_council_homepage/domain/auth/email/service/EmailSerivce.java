@@ -26,7 +26,6 @@ import java.util.regex.Pattern;
 public class EmailSerivce {
     private final Pattern classIdCheckPattern = Pattern.compile("^\\d{8}$");
     private final UserService userService;
-    private final JavaMailSender javaMailSender;
 
     private final JwtProvider jwtProvider;
 
