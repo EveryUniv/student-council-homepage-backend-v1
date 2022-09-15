@@ -54,7 +54,7 @@ public class EmailSerivce {
         String emailToken = jwtProvider.createEmailValidationToken(studentId);
         String authLinkUrl = String.format("http://www.dku54play.site:%d/%s?token=%s&id=%s", port, endpoint, emailToken, studentId);
         String text = new TextTemplateEngine.Builder()
-                .argument("studentId", studentId)g
+                .argument("studentId", studentId)
                 .argument("authLinkUrl", authLinkUrl)
                 .argument("emailContent", emailContent)
                 .argument("linkButtonContent", buttonContent)
