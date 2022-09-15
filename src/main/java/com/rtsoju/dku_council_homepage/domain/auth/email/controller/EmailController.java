@@ -5,7 +5,7 @@ import com.rtsoju.dku_council_homepage.common.SuccessResponseResult;
 import com.rtsoju.dku_council_homepage.domain.auth.email.dto.RequestEmailDto;
 import com.rtsoju.dku_council_homepage.domain.auth.email.dto.request.EmailResponseDto;
 import com.rtsoju.dku_council_homepage.domain.auth.email.service.EmailSerivce;
-import com.rtsoju.dku_council_homepage.domain.auth.email.service.GmailService;
+//import com.rtsoju.dku_council_homepage.domain.auth.email.service.GmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +21,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class EmailController {
-    private final GmailService gmailService;
+//    private final GmailService gmailService;/
     private final EmailSerivce emailSerivce;
 
     @PostMapping("/email")
