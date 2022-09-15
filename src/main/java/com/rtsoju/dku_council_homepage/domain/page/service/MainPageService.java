@@ -14,6 +14,7 @@ import com.rtsoju.dku_council_homepage.domain.post.service.NewsService;
 import com.rtsoju.dku_council_homepage.domain.post.service.PetitionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MainPageService {
     private final NHNAuthService nhnAuthService;
     private final ObjectStorageService s3service;
@@ -39,16 +41,20 @@ public class MainPageService {
     }
 
 
+    @Transactional
     public void addCarouselImage(CarouselImageRequestDto dto) throws IOException {
         MultipartFile file = dto.getImageFile();
         String url = dto.getRedirectUrl();
+        String originName = file.getOriginalFilename();
+        String ext = originName.substring(originName.lastIndexOf(".") + 1);
 
-        String fileId = "carousel-" + UUID.randomUUID();
+        String fileId = "carousel-" + UUID.randomUUID() + "." + ext;
         String token = nhnAuthService.requestToken();
         s3service.uploadObject(token, fileId, file.getInputStream());
         carouselImageRepository.save(new CarouselImage(fileId, url));
     }
 
+    @Transactional
     public void deleteCarouselImage(Long carouselId) {
         String token = nhnAuthService.requestToken();
         Optional<CarouselImage> image = carouselImageRepository.findById(carouselId);
