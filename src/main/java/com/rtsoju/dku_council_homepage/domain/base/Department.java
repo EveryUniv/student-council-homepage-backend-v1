@@ -11,6 +11,7 @@ public enum Department {
     EDUCATION("사범대학"),
     MUSIC_ART("음악예술대학"),
     LIBERAL_ARTS("자유교양대학"),
+    GRADUATE("대학원"),
     ;
 
     private final String name;
