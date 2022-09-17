@@ -44,6 +44,7 @@ public class SecurityConfiguration{
                 .antMatchers(HttpMethod.GET, "/api").permitAll()
                 // 회원가입
                 .antMatchers(HttpMethod.POST, "/api/email").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/email/validate").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/email/password").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/auth/sms-code").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/auth/sms-code").permitAll()

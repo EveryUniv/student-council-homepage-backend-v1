@@ -2,9 +2,12 @@ package com.rtsoju.dku_council_homepage.domain.auth.sms.dto;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class NHNCloudSMSResponse {
     private Header header;
+    private Body body;
 
     @Data
     public static class Header {
@@ -21,6 +24,25 @@ public class NHNCloudSMSResponse {
 
         public void setIsSuccessful(boolean successful) {
             isSuccessful = successful;
+        }
+    }
+
+    @Data
+    public static class Body {
+        private Data data;
+
+        @lombok.Data
+        public static class Data {
+            private String requestId;
+            private String statusCode;
+            private List<SendResult> sendResultList;
+
+            @lombok.Data
+            public static class SendResult {
+                private String recipientNo;
+                private String resultCode;
+                private String resultMessage;
+            }
         }
     }
 }

@@ -10,6 +10,7 @@ import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.response.RoleAndTokenResponseDto;
 import com.rtsoju.dku_council_homepage.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
     private final UserService userService;
     private final JwtProvider jwtProvider;
@@ -34,6 +36,7 @@ public class UserController {
     public ResponseEntity<SuccessResponseResult> signup(@RequestBody RequestSignupDto dto, HttpServletRequest request) {
         String token = request.getHeader("EMAIL-VALIDATION-TOKEN");
         Long result = userService.signup(dto, token);
+        log.info("유저가 회원가입을 하였습니다. 학번: " + dto.getClassId());
         return ResponseEntity.ok().body(new SuccessResponseResult("Sign up Success"));
     }
 

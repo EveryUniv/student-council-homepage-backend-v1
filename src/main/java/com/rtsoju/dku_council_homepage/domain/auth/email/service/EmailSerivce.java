@@ -6,6 +6,7 @@ import com.rtsoju.dku_council_homepage.common.TextTemplateEngine;
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
 import com.rtsoju.dku_council_homepage.domain.auth.email.dto.NhnMessage;
 import com.rtsoju.dku_council_homepage.domain.auth.email.dto.RequestEmailDto;
+import com.rtsoju.dku_council_homepage.domain.auth.email.dto.AuthTokenValidationResult;
 import com.rtsoju.dku_council_homepage.domain.user.service.UserService;
 import com.rtsoju.dku_council_homepage.exception.ClassIdNotMatchException;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -117,6 +117,11 @@ public class EmailSerivce {
         OkHttpClient client = new OkHttpClient();
         sendMessage(client, message);
         return;
+    }
+
+
+    public AuthTokenValidationResult validateToken(String token) {
+        return new AuthTokenValidationResult(jwtProvider.validationToken(token));
     }
 
 }
