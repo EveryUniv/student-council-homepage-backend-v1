@@ -2,10 +2,12 @@ package com.rtsoju.dku_council_homepage.domain.user.controller;
 
 import com.rtsoju.dku_council_homepage.common.SuccessResponseResult;
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
+import com.rtsoju.dku_council_homepage.domain.base.Major;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestChangePWDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestLoginDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestReissueDto;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.request.RequestSignupDto;
+import com.rtsoju.dku_council_homepage.domain.user.model.dto.response.MajorListResponse;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import com.rtsoju.dku_council_homepage.domain.user.model.dto.response.RoleAndTokenResponseDto;
 import com.rtsoju.dku_council_homepage.domain.user.service.UserService;
@@ -78,9 +80,14 @@ public class UserController {
     }
 
     @PatchMapping("/users/password")
-    public  ResponseEntity<SuccessResponseResult> changePW(@RequestBody @Valid RequestChangePWDto request, HttpServletRequest header){
+    public ResponseEntity<SuccessResponseResult> changePW(@RequestBody @Valid RequestChangePWDto request, HttpServletRequest header) {
         String token = header.getHeader("EMAIL-VALIDATION-TOKEN");
         userService.changePW(request, token);
         return ResponseEntity.ok().body(new SuccessResponseResult("성공~!~!"));
+    }
+
+    @GetMapping("/users/major")
+    public ResponseEntity<SuccessResponseResult> majorList() {
+        return ResponseEntity.ok(new SuccessResponseResult(new MajorListResponse()));
     }
 }
