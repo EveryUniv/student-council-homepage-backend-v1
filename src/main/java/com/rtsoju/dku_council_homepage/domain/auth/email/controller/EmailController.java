@@ -26,6 +26,7 @@ public class EmailController {
     public SuccessResponseResult emailSendForSignUp(@RequestBody RequestEmailDto dto) throws MessagingException, IOException {
 //        gmailService.sendEmailForSignUp(dto);
         emailSerivce.sendEmailForSignUp(dto);
+        log.info("정상적으로 메일을 보냈습니다. 학번 : " + dto.getClassId());
         return new SuccessResponseResult(Messages.SUCCESS_EMAIL_SEND.getMessage());
     }
 
