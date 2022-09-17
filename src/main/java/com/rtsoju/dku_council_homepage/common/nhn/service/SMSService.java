@@ -47,6 +47,8 @@ public class SMSService {
         String url = ExternalURLs.NHNSMS(appKey);
         NHNCloudSMSResponse response = restTemplate.postForObject(url, entity, NHNCloudSMSResponse.class);
 
+        log.info(String.format("Result of sending SMS to %s: %s", phone, response));
+
         // handle response
         String failReason = null;
         if (response == null || response.getHeader() == null) {
