@@ -32,7 +32,7 @@ public class JwtProvider {
 
     private final Long accessTokenValidMillisecond = 24 * 60 * 60 * 1000L; // 1 day
     private final Long refreshTokenValidMillisecond = 14 * 24 * 60 * 60 * 1000L; // 14 day
-    private final Long emailTokenValidMillisecond = 10 * 60 * 1000L; // 10 min
+    private final Long emailTokenValidMillisecond = 30 * 60 * 1000L; // 30 min
 
     @PostConstruct
     protected void init() {
