@@ -44,6 +44,7 @@ public enum Major {
     DANCE(Department.MUSIC_ART, "무용과"),
     MUSIC(Department.MUSIC_ART, "음악학부"),
     LIBERAL_ARTS(Department.LIBERAL_ARTS, "자유교양대학"),
+    GRADUATE(Department.GRADUATE, "대학원"),
     ADMIN(Department.SOFTWARE, "총학생회"),
     ;
 
