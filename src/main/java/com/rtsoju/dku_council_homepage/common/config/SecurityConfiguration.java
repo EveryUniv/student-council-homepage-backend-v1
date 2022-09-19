@@ -25,7 +25,7 @@ import java.net.http.HttpRequest;
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터가 스프링 필터체인에 등록이 됨.
 @RequiredArgsConstructor
-public class SecurityConfiguration{
+public class SecurityConfiguration {
 
     private final CorsFilter corsFilter; // cors 정책에서 벗어남
     private final JwtProvider jwtProvider;
@@ -51,6 +51,7 @@ public class SecurityConfiguration{
                 .antMatchers(HttpMethod.POST, "/api/users/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/users").permitAll() //회원가입
                 .antMatchers(HttpMethod.POST, "/api/users/reissue").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/users/major").permitAll()
                 .antMatchers(HttpMethod.PATCH, "/api/users/password").permitAll()
                 // 메인페이지
                 .antMatchers(HttpMethod.GET, "/api/main").permitAll()
