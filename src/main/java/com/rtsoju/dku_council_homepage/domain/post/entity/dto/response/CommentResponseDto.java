@@ -14,6 +14,7 @@ public class CommentResponseDto {
     private LocalDateTime time;
     private String text;
     private boolean isMine;
+
     private int anonymouseNum = 0;
 
     public CommentResponseDto(Long userId, Comment comment) {
