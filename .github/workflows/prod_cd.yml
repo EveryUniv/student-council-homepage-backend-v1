@@ -68,5 +68,5 @@ jobs:
           docker pull ${{ secrets.USERNAME }}/${{ secrets.DOCKER_PROD_REPO }}:${GITHUB_SHA::7}
           docker tag ${{ secrets.USERNAME }}/${{ secrets.DOCKER_PROD_REPO }}:${GITHUB_SHA::7} ${{ secrets.DOCKER_PROD_REPO }}
           docker stop ${{ secrets.DOCKER_PROD_REPO }}
-          docker run -d --rm --name ${{ secrets.DOCKER_PROD_REPO }} -p 8080:8080 ${{ secrets.DOCKER_PROD_REPO }}
+          docker run -d --rm --name ${{ secrets.DOCKER_PROD_REPO }} -p 8080:8080 -e TZ=Asia/Seoul ${{ secrets.DOCKER_PROD_REPO }}
         
