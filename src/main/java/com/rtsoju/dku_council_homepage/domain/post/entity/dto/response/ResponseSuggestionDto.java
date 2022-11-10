@@ -41,7 +41,7 @@ public class ResponseSuggestionDto {
     private List<CommentResponseDto> createAnonymityUser(List<CommentResponseDto> data){
         //댓글 작성 pool 생성
         List<Long> collect = data.stream()
-                .map(commentDto -> commentDto.getId())
+                .map(commentDto -> commentDto.getUserId())
                 .collect(Collectors.toList());
         //indexOf로 익명 번호를 생성한다. 같은 유저의 경우 초기값 인덱스를 반환.
         data.stream().forEach(
