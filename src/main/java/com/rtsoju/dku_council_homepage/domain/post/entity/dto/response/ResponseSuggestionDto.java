@@ -50,7 +50,7 @@ public class ResponseSuggestionDto {
         //indexOf로 익명 번호를 생성한다. 같은 유저의 경우 초기값 인덱스를 반환.
         data.stream().forEach(
                         commentUser -> {
-                            commentUser.setAnonymouseNum(userIdPool.indexOf(commentUser.getUserId()));
+                            commentUser.setAnonymousNum(userIdPool.indexOf(commentUser.getUserId()));
                         }
                 );
         return data;

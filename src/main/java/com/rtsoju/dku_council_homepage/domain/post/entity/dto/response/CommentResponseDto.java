@@ -15,7 +15,7 @@ public class CommentResponseDto {
     private String text;
     private boolean isMine;
 
-    private int anonymouseNum = 0;
+    private int anonymousNum = 0;
 
     public CommentResponseDto(Long userId, Comment comment) {
         this.id = comment.getId();
