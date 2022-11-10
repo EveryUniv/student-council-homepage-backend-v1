@@ -92,6 +92,7 @@ public class Post extends BaseEntity {
     }
 
     public void putFiles(List<PostFile> fileList) {
+        // 파일 리스트에 추가해준다..
         for (PostFile postFile : fileList) {
             postFile.putPost(this);
         }
@@ -100,7 +101,9 @@ public class Post extends BaseEntity {
 
     public void putUser(User user) {
         this.user = user;
+        //유저를 세팅하면서 해당 유저가 작성했던 리스트들을 모두 가져온다.
         List<Post> postList = user.getPostList();
+        //유저의 포스트 리스트에 해당 포스트도 추가한다..
         postList.add(this);
     }
 
