@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
 
@@ -62,12 +63,12 @@ public class SuggestionController {
      * id값으로 단건조회 가능.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseResult> findOne(HttpServletRequest request, @PathVariable("id") Long postId) {
+    public ResponseEntity<ResponseResult> findOne(@PathVariable("id") Long postId, HttpServletRequest request, HttpServletResponse response) {
         String token = jwtProvider.getTokenInHttpServletRequest(request);
         Long userId = Long.parseLong(jwtProvider.getUserId(token));
-        ResponseSuggestionDto response = suggestionService.findOne(userId, postId);
+        ResponseSuggestionDto suggestionDto = suggestionService.findOne(userId, postId, request, response);
         return ResponseEntity.ok() //200
-                .body(new SuccessResponseResult("성공", response));
+                .body(new SuccessResponseResult("성공", suggestionDto));
     }
 
     @PostMapping("/comment/{postId}")

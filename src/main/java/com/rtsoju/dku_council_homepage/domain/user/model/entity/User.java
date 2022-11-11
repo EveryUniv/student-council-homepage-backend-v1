@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -42,6 +43,9 @@ public class User extends BaseEntity {
     @Column(name = "petition_create")
     private boolean petitionCreate;
 
+    //초기값 해당 일의 00:00:00으로 저장. -> Critical한 Issue는 아니기에 이대로 사용한다.
+    private LocalDateTime suggestionCreate;
+
     //권한 들어가야함.
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserRole> roles = new ArrayList<>();
@@ -55,13 +59,9 @@ public class User extends BaseEntity {
         this.petitionCreate = true;
     }
 
-//    // 2022-07-09 임시 사용 예정
-//    public User(String classId, String password, String name, String phone) {
-//        this.classId = classId;
-//        this.password = password;
-//        this.name = name;
-//        this.phone = phone;
-//    }
+    public void createSuggestion(){
+        this.suggestionCreate = LocalDateTime.now();
+    }
 
     public User(String classId, String password, String name, Major major, Register register, String phone) {
         this.classId = classId;
@@ -82,6 +82,14 @@ public class User extends BaseEntity {
     public void changePassword(String pw){
         this.password = pw;
         return;
+    }
+    public boolean isAdmin(){
+        List<UserRole> roles = this.getRoles();
+        List<String> collect = roles.stream().map(role -> role.getRole()).collect(Collectors.toList());
+        if(collect.contains("ROLE_ADMIN")){
+            return true;
+        }
+        return false;
     }
 }
 

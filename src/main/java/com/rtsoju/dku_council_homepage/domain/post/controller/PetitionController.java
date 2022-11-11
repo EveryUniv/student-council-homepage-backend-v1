@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
 
@@ -68,10 +69,10 @@ public class PetitionController {
      * @return : 해당 Post의 제목, 본문, 상태(진행중, 취소, 완료), 댓글수, 댓글 목록, 생성일, 종료일
      */
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseResult> findOne(@PathVariable("id") Long id) {
-        ResponsePetitionDto response = petitionService.findOne(id);
+    public ResponseEntity<ResponseResult> findOne(@PathVariable("id") Long id, HttpServletRequest request, HttpServletResponse response) {
+        ResponsePetitionDto petitionDto = petitionService.findOne(id, request, response);
         return ResponseEntity.ok() //200
-                .body(new SuccessResponseResult(response));
+                .body(new SuccessResponseResult(petitionDto));
     }
 
     /**

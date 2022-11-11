@@ -26,7 +26,7 @@ public class ControllerAdvice {
             BadRequestException.class,
             EmptyResultDataAccessException.class, // JpaRepository error -> directory 다 반환되는데 어케 처리할지..
             DuplicateCommentException.class,
-            DuplicateCreatePetition.class,
+            DuplicateCreatePost.class,
             DuplicateSignInException.class,
             AlreadyExistException.class,
             CannotReadResourceException.class,

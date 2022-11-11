@@ -1,7 +1,6 @@
 package com.rtsoju.dku_council_homepage.domain.post.service;
 
 import com.rtsoju.dku_council_homepage.common.nhn.service.FileUploadService;
-import com.rtsoju.dku_council_homepage.domain.base.SuggestionStatus;
 import com.rtsoju.dku_council_homepage.domain.log.entity.CommentsLog;
 import com.rtsoju.dku_council_homepage.domain.log.repository.CommentsLogRepository;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Comment;
@@ -16,10 +15,7 @@ import com.rtsoju.dku_council_homepage.domain.post.repository.CommentRepository;
 import com.rtsoju.dku_council_homepage.domain.post.repository.SuggestionRepository;
 import com.rtsoju.dku_council_homepage.domain.user.model.entity.User;
 import com.rtsoju.dku_council_homepage.domain.user.repository.UserRepository;
-import com.rtsoju.dku_council_homepage.exception.NotFoundCommentException;
-import com.rtsoju.dku_council_homepage.exception.FindPostWithIdNotFoundException;
-import com.rtsoju.dku_council_homepage.exception.FindUserWithIdNotFoundException;
-import com.rtsoju.dku_council_homepage.exception.NotMatchWriterException;
+import com.rtsoju.dku_council_homepage.exception.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -27,8 +23,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 
 @Service
@@ -41,6 +39,7 @@ public class SuggestionService {
     private final FileUploadService fileUploadService;
     private final CommentRepository commentRepository;
     private final CommentsLogRepository commentsLogRepository;
+    private final PostService postService;
 
     public Page<PageSuggestionDto> suggestionPageByTitleAndText(String query, String category, Pageable pageable) {
         Page<Suggestion> page;
@@ -51,17 +50,28 @@ public class SuggestionService {
     @Transactional
     public IdResponseDto createSuggestion(Long userId, RequestSuggestionDto data) {
         User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
+        //중복 게시물 방지를 위한 TimeOut설정
+        checkDuplicateSuggestion(user);
         ArrayList<PostFile> postFiles = fileUploadService.uploadFiles(data.getFiles(), "suggestion");
         Suggestion suggestion = new Suggestion(user, data, postFiles);
         Suggestion save = suggestionRepository.save(suggestion);
+        user.createSuggestion();
         return new IdResponseDto(save.getId());
     }
 
+    private void checkDuplicateSuggestion(User user) {
+        if(user.isAdmin()) return;
+        LocalDateTime suggestionCreate = user.getSuggestionCreate();
+        LocalDateTime localDateTime = LocalDateTime.now().minusMinutes(2L);
+        if(suggestionCreate.isAfter(localDateTime)){
+            throw new DuplicateCreatePost("글을 너무 자주 작성할 수 없습니다. 잠시 후 다시 작성해주세요 ^^");
+        }
+    }
 
     @Transactional
-    public ResponseSuggestionDto findOne(Long userId, Long postId) {
+    public ResponseSuggestionDto findOne(Long userId, Long postId, HttpServletRequest request, HttpServletResponse response) {
         Suggestion suggestion = suggestionRepository.findById(postId).orElseThrow(FindPostWithIdNotFoundException::new);
-        suggestion.plusHits();
+        postService.postHitByCookie(suggestion, request, response);
         return new ResponseSuggestionDto(userId, suggestion);
     }
 
