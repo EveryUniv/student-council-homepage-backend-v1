@@ -44,7 +44,8 @@ public class User extends BaseEntity {
     private boolean petitionCreate;
 
     //초기값 해당 일의 00:00:00으로 저장. -> Critical한 Issue는 아니기에 이대로 사용한다.
-    private LocalDateTime suggestionCreate;
+    //기존 DB를 업데이트 하지 않기에 null로 저장되어 강제 초기화.
+    private LocalDateTime suggestionCreate = LocalDateTime.now();
 
     //권한 들어가야함.
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
