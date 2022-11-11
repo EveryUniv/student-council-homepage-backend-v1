@@ -62,6 +62,8 @@ public class SuggestionService {
     private void checkDuplicateSuggestion(User user) {
         if(user.isAdmin()) return;
         LocalDateTime suggestionCreate = user.getSuggestionCreate();
+        //초기 테이블을 설정 못했기에 초기값 설정을 여기서 한다.
+        if(suggestionCreate == null) return;
         LocalDateTime localDateTime = LocalDateTime.now().minusMinutes(2L);
         if(suggestionCreate.isAfter(localDateTime)){
             throw new DuplicateCreatePost("글을 너무 자주 작성할 수 없습니다. 잠시 후 다시 작성해주세요 ^^");
