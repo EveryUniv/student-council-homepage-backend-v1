@@ -19,6 +19,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.HashMap;
@@ -65,10 +66,10 @@ public class RuleController {
      * @return : title, text, createDate, fileUrl
      */
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseResult> findOne(@PathVariable("id")Long id){
-        ResponseRuleDto response = ruleService.findOne(id);
+    public ResponseEntity<ResponseResult> findOne(@PathVariable("id")Long id, HttpServletRequest request, HttpServletResponse response){
+        ResponseRuleDto ruleDto = ruleService.findOne(id, request, response);
         return ResponseEntity.ok()
-                .body(new SuccessResponseResult(response));
+                .body(new SuccessResponseResult(ruleDto));
     }
 
     /**

@@ -13,6 +13,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -32,6 +37,29 @@ public class PostService {
 
         Comment comment = new Comment(post, user, dto.getText());
         return commentRepository.save(comment);
+    }
+
+    public void postHitByCookie(Post post, HttpServletRequest request, HttpServletResponse response){
+        Cookie oldCookie = null;
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null){
+            oldCookie = Arrays.stream(cookies).filter(cookie -> cookie.equals("dku_post")).findFirst().get();
+        }
+        if(oldCookie != null){
+            if(!oldCookie.getValue().contains("[" + post.getId().toString() + "]")){
+                post.plusHits();
+                oldCookie.setValue(oldCookie.getValue() + "_[" + post.getId() + "]");
+                oldCookie.setPath("/");
+                oldCookie.setMaxAge(60*60*24);
+                response.addCookie(oldCookie);
+            }
+        }else{
+            post.plusHits();
+            Cookie cookie = new Cookie("dku_post", "[" + post.getId() + "]");
+            cookie.setPath("/");
+            cookie.setMaxAge(60*60*24);
+            response.addCookie(cookie);
+        }
 
     }
 }

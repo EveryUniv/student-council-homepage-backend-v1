@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
 
@@ -56,10 +57,10 @@ public class AnnounceController {
      * id값으로 단건조회 가능.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseResult> findOne(@PathVariable("id") Long id) {
-        ResponseAnnounceDto response = announceService.findOne(id);
+    public ResponseEntity<ResponseResult> findOne(@PathVariable("id") Long id, HttpServletRequest request, HttpServletResponse response) {
+        ResponseAnnounceDto announceDto = announceService.findOne(id, request, response);
         return ResponseEntity.ok() //200
-                .body(new SuccessResponseResult(response));
+                .body(new SuccessResponseResult(announceDto));
     }
 
     /**
