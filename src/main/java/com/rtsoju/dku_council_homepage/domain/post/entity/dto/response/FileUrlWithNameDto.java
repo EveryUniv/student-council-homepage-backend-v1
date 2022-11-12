@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class FileUrlWithNameDto {
+    private Long id;
     private String originName;
     private String url;
 
@@ -14,6 +15,7 @@ public class FileUrlWithNameDto {
         final String storageName = "main-storage";
         final String prefix = s3Domain + storageAccount + "/" + storageName + "/";
 
+        this.id = postFile.getId();
         this.url = prefix + postFile.getUrl();
         this.originName = postFile.getName();
     }
