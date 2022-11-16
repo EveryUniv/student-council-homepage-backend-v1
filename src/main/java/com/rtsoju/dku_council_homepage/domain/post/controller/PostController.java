@@ -53,9 +53,9 @@ public class PostController {
             HttpServletRequest request){
         String token = jwtProvider.getTokenInHttpServletRequest(request);
         long userId = Long.parseLong(jwtProvider.getUserId(token));
-        likesService.touchLikes(userId, postId);
+        boolean isCreate = likesService.touchLikes(userId, postId);
         return ResponseEntity.ok()
-                .body(new SuccessResponseResult("OK"));
+                .body(new SuccessResponseResult("isCreate", isCreate));
     }
 
 }

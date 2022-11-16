@@ -1,5 +1,6 @@
 package com.rtsoju.dku_council_homepage.domain.post.entity.dto.response;
 
+import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Suggestion;
 import lombok.Data;
 
@@ -21,6 +22,7 @@ public class ResponseSuggestionDto {
     private List<CommentResponseDto> commentList;
     private String answer;
     private int likeCount;
+    private boolean isLike;
     private boolean isMine;
 
     public ResponseSuggestionDto(Long userId, Suggestion suggestion) {
@@ -37,6 +39,7 @@ public class ResponseSuggestionDto {
                         .collect(Collectors.toList())
         );
         this.likeCount = suggestion.getLikesList().size();
+        this.isLike = findLikeUser(suggestion, userId);
         this.isMine = suggestion.getUser().getId().equals(userId);
     }
 
@@ -57,5 +60,13 @@ public class ResponseSuggestionDto {
         return data;
     }
 
+    private boolean findLikeUser(Post post, Long userId){
+        List<Long> collect = post.getLikesList()
+                .stream()
+                .map(likes -> likes.getUser().getId())
+                .collect(Collectors.toList());
+        return collect.contains(userId);
+
+    }
 
 }

@@ -25,11 +25,13 @@ public class LikesService {
     private final PostRepository postRepository;
 
     @Transactional
-    public void touchLikes(Long userId, Long postId){
+    public boolean touchLikes(Long userId, Long postId){
         Likes likes = createOrDeleteLikes(userId, postId);
         if(likes != null){
             likesRepository.save(likes);
+            return true;
         }
+        return false;
     }
 
     public long countLikes(Long postId){
