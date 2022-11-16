@@ -1,6 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.post.entity;
 
 import com.rtsoju.dku_council_homepage.domain.base.BaseEntity;
+import com.rtsoju.dku_council_homepage.domain.likes.model.Likes;
 import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestPostDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestRuleDto;
@@ -31,6 +32,9 @@ public class Post extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Likes> likesList = new ArrayList<>();
 
     @Column
     private String title;
