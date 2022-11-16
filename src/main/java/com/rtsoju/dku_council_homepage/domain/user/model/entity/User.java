@@ -1,6 +1,7 @@
 package com.rtsoju.dku_council_homepage.domain.user.model.entity;
 
 import com.rtsoju.dku_council_homepage.domain.base.*;
+import com.rtsoju.dku_council_homepage.domain.likes.model.Likes;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -55,6 +56,9 @@ public class User extends BaseEntity {
     //연관관계 매핑
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> postList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Likes> likesList = new ArrayList<>();
 
     public void createPetition() {
         this.petitionCreate = true;
