@@ -10,6 +10,8 @@ import com.rtsoju.dku_council_homepage.domain.user.repository.UserRepository;
 import com.rtsoju.dku_council_homepage.exception.FindPostWithIdNotFoundException;
 import com.rtsoju.dku_council_homepage.exception.FindUserWithIdNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,10 +57,16 @@ public class PostService {
             }
         }else{
             post.plusHits();
-            Cookie cookie = new Cookie("dku_post", "[" + post.getId() + "]");
-            cookie.setPath("/");
-            cookie.setMaxAge(60*60*24);
-            response.addCookie(cookie);
+//            Cookie cookie = new Cookie("dku_post", "[" + post.getId() + "]");
+//            cookie.setPath("/");
+//            cookie.setSecure(false);
+//            cookie.setMaxAge(60*60*24);
+            ResponseCookie cookie = ResponseCookie.from("dku_post", "[" + post.getId() + "]")
+                    .secure(false)
+                    .maxAge(60 * 60 * 24)
+                    .sameSite("Lax")
+                    .build();
+            response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
         }
 
     }
