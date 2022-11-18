@@ -62,7 +62,7 @@ public class PostService {
 //            cookie.setSecure(false);
 //            cookie.setMaxAge(60*60*24);
             ResponseCookie cookie = ResponseCookie.from("dku_post", "[" + post.getId() + "]")
-                    .domain("localhost")
+                    .domain("dku54play.site")
                     .path("/")
                     .maxAge(60 * 60 * 24)
                     .sameSite("Lax")
