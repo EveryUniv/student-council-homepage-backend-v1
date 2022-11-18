@@ -65,8 +65,8 @@ public class PostService {
                     .domain("dku54play.site")
                     .path("/")
                     .maxAge(60 * 60 * 24)
-                    .sameSite("Lax")
-                    .httpOnly(true)
+                    .sameSite("None")
+                    .secure(false)
                     .build();
             response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
         }
