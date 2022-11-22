@@ -2,6 +2,7 @@ package com.rtsoju.dku_council_homepage.domain.post.controller;
 
 import com.rtsoju.dku_council_homepage.common.SuccessResponseResult;
 import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
+import com.rtsoju.dku_council_homepage.domain.likes.service.LikesService;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Comment;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.CommentRequestDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.subentity.Announce;
@@ -28,6 +29,7 @@ public class PostController {
 
     private final JwtProvider jwtProvider;
     private final PostService postService;
+    private final LikesService likesService;
 
     @PostMapping("/posts/{postId}")
     public ResponseEntity<SuccessResponseResult> createComment(
@@ -44,4 +46,16 @@ public class PostController {
                 .body(new SuccessResponseResult("댓글 생성 성공!"));
 
     }
+
+    @PostMapping("/posts/likes/{postId}")
+    public ResponseEntity<SuccessResponseResult> touchLike(
+            @PathVariable("postId") Long postId,
+            HttpServletRequest request){
+        String token = jwtProvider.getTokenInHttpServletRequest(request);
+        long userId = Long.parseLong(jwtProvider.getUserId(token));
+        boolean isCreate = likesService.touchLikes(userId, postId);
+        return ResponseEntity.ok()
+                .body(new SuccessResponseResult("isCreate", isCreate));
+    }
+
 }

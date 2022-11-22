@@ -10,7 +10,6 @@ public enum Register {
     REST("휴학"),
     GRADUATE("졸업"),
     ;
-
-    private String name;
+    private final String name;
 
 }

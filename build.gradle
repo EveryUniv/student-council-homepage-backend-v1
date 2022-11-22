@@ -50,7 +50,9 @@ dependencies {
 
     //okhttp
     implementation group: 'com.squareup.okhttp3', name: 'okhttp', version:'4.2.2'
-
+//
+//    //tunneling
+//    implementation 'com.jcraft:jsch:0.1.55'
 }
 
 jar {

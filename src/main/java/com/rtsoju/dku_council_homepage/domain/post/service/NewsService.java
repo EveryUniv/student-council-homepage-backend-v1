@@ -21,6 +21,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +35,7 @@ public class NewsService {
     private final NewsRepository newsRepository;
     private final FileUploadService fileUploadService;
     private final UserRepository userRepository;
+    private final PostService postService;
 
     public Page<PageNewsDto> newsPage(String title, String text, Pageable pageable){
         Page<News> page;
@@ -63,13 +66,11 @@ public class NewsService {
     }
 
     @Transactional
-    public ResponseNewsDto getOneNews(Long postId) {
+    public ResponseNewsDto getOneNews(Long postId, HttpServletRequest request, HttpServletResponse response) {
         News news = newsRepository.findById(postId).orElseThrow(() -> new FindPostWithIdNotFoundException("id와 일치하는 news가 존재하지 않습니다."));
-
-        news.plusHits(); //얘 때문에 transactional
-
-        ResponseNewsDto response = new ResponseNewsDto(news);
-        return response;
+        postService.postHitByCookie(news, request, response);
+        ResponseNewsDto newsDto = new ResponseNewsDto(news);
+        return newsDto;
     }
 
     @Transactional

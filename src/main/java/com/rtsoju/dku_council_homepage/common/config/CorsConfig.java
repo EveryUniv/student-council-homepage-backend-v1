@@ -7,9 +7,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import java.util.Arrays;
+
 @Configuration
 public class CorsConfig {
-
     @Bean
     public CorsFilter corsFilter(){
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -18,7 +19,10 @@ public class CorsConfig {
         config.addAllowedOriginPattern("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-//
+        config.addExposedHeader("Set-Cookie");
+//        config.setAllowedOriginPatterns(Arrays.asList("*"));
+//        config.setAllowedHeaders(Arrays.asList("*"));
+//        config.setAllowedMethods(Arrays.asList("HEAD","POST","GET","DELETE","PUT"));
 //        config.setAllowedOrigins("*"); // 모든 Ip에 응답을 허용
 //        config.setAllowedHeaders("*"); // 모든 header에 응답을 허용
 //        config.setAllowedMethods("*"); // 모든 post, get ,put 등등 요청을 허용

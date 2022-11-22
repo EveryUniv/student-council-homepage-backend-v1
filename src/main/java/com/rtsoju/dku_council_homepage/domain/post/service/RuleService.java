@@ -20,6 +20,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class RuleService {
     private final RuleRepository ruleRepository;
     private final UserRepository userRepository;
     private final FileUploadService fileUploadService;
+    private final PostService postService;
 
     public Page<PageRuleDto> rulePage(String title, String text, Pageable pageable) {
         Page<Rule> page;
@@ -54,9 +57,9 @@ public class RuleService {
 
 
     @Transactional
-    public ResponseRuleDto findOne(Long id) {
+    public ResponseRuleDto findOne(Long id, HttpServletRequest request, HttpServletResponse response) {
         Rule rule = ruleRepository.findById(id).orElseThrow(FindPostWithIdNotFoundException::new);
-        rule.plusHits();
+        postService.postHitByCookie(rule, request, response);
         return new ResponseRuleDto(rule);
     }
 

@@ -2,9 +2,7 @@ package com.rtsoju.dku_council_homepage.domain.post.service;
 
 import com.rtsoju.dku_council_homepage.domain.base.PetitionStatus;
 import com.rtsoju.dku_council_homepage.domain.page.dto.PetitionSummary;
-import com.rtsoju.dku_council_homepage.domain.page.dto.PostSummary;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Comment;
-import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.page.PagePetitionDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.CommentRequestDto;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.RequestPetitionDto;
@@ -18,14 +16,14 @@ import com.rtsoju.dku_council_homepage.domain.user.repository.UserRepository;
 import com.rtsoju.dku_council_homepage.exception.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,6 +34,7 @@ public class PetitionService {
     private final PetitionRepository petitionRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
+    private final PostService postService;
 
     private final int accept = 150;
 
@@ -53,9 +52,9 @@ public class PetitionService {
     @Transactional
     public IdResponseDto createPetition(long id, RequestPetitionDto data) {
         User user = userRepository.findById(id).orElseThrow(FindUserWithIdNotFoundException::new);
-        if (Integer.parseInt(user.getClassId()) != 14738123 || user.getId() != 3) {
+        if (!user.isAdmin()) {
             if(user.isPetitionCreate()){
-                throw new DuplicateCreatePetition("1일 1회만 청원 등록이 가능합니다.");
+                throw new DuplicateCreatePost("1일 1회만 청원 등록이 가능합니다.");
             }
         }
         Petition petition = new Petition(user, data.getTitle(), data.getText(), data.getCategory());
@@ -67,9 +66,9 @@ public class PetitionService {
 
 
     @Transactional //연관관계 땡겨와야하기에 나중에 repository jpql로 설정하면 지울 예정...
-    public ResponsePetitionDto findOne(Long id) {
+    public ResponsePetitionDto findOne(Long id, HttpServletRequest request, HttpServletResponse response) {
         Petition petition = petitionRepository.findById(id).orElseThrow(FindPostWithIdNotFoundException::new);
-        petition.plusHits();
+        postService.postHitByCookie(petition, request, response);
         return new ResponsePetitionDto(petition);
     }
 
@@ -82,7 +81,7 @@ public class PetitionService {
 
     public void checkDuplicateCommentByUser(Long postId, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
-        if (Integer.parseInt(user.getClassId()) == 14738123 || user.getId() == 3) return;
+        if (user.isAdmin()) return;
         Petition petition = petitionRepository.findById(postId).orElseThrow(FindPostWithIdNotFoundException::new);
         List<Long> userIdList = petition.getComments().stream()
                 .map(comment -> comment.getUser().getId())

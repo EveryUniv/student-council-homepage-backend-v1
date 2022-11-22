@@ -10,7 +10,6 @@ import com.rtsoju.dku_council_homepage.domain.auth.email.service.EmailSerivce;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
 import javax.mail.MessagingException;
 import java.io.IOException;
 

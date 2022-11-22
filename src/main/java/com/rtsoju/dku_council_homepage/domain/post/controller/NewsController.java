@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
 
@@ -55,10 +56,10 @@ public class NewsController {
      * 총학소식 단건 조회
      */
     @GetMapping("/{postId}")
-    public ResponseEntity<SuccessResponseResult> getOneNews(@PathVariable("postId") Long postId) {
-        ResponseNewsDto response = newsService.getOneNews(postId);
+    public ResponseEntity<SuccessResponseResult> getOneNews(@PathVariable("postId") Long postId, HttpServletRequest request, HttpServletResponse response) {
+        ResponseNewsDto newsDto = newsService.getOneNews(postId, request, response);
 
-        return ResponseEntity.ok().body(new SuccessResponseResult(response));
+        return ResponseEntity.ok().body(new SuccessResponseResult(newsDto));
     }
 
     /**

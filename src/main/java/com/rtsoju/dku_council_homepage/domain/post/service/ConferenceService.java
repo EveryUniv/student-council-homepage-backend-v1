@@ -54,13 +54,19 @@ public class ConferenceService {
 
     @Transactional
     public IdResponseDto createConference(RequestConferenceDto dto, Long userId) {
-        Conference conference = dto.toEntity();
+        Conference conference = dto.toEntity(); // 해당 일에 해당하는 conference를 중복있게 생성한다.
 
+        // 유저를 찾는다.. - 작성자를 찾는다.
         User user = userRepository.findById(userId).orElseThrow(FindUserWithIdNotFoundException::new);
+
+        // 해당 일에 해당하는 conference에 유저연관관계 매핑을 한다.. 현재 유저는 데이터가 없는 conference를 생성한 상태
         conference.putUser(user);
 
+        // 해당 파일을 등록한다.
         ArrayList<PostFile> postFiles = fileUploadService.uploadFiles(dto.getFiles(), "conference");
+        //conference에 파일을 담는다.
         conference.putFiles(postFiles);
+        // 저장..
         Conference save = conferenceRepository.save(conference);
         return new IdResponseDto(save.getId());
     }
