@@ -19,6 +19,7 @@ public class ResponseSuggestionDto {
     private String createDate;
     private String category;
     private List<CommentResponseDto> commentList;
+    private String answer;
     private int likeCount;
     private boolean isLike;
     private boolean isMine;
@@ -35,6 +36,7 @@ public class ResponseSuggestionDto {
                 .map(comment -> new CommentResponseDto(userId, comment))
                         .collect(Collectors.toList())
         );
+        this.answer = suggestion.getAnswer();
         this.likeCount = suggestion.getLikesList().size();
         this.isLike = findLikeUser(suggestion, userId);
         this.isMine = suggestion.getUser().getId().equals(userId);
