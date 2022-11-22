@@ -12,13 +12,11 @@ public class ResponseRuleDto {
     private String text;
     private List<FileUrlWithNameDto> fileList;
     private String createDate;
-    private int postHits;
     public ResponseRuleDto(Rule rule) {
         this.id = rule.getId();
         this.title = rule.getTitle();
         this.text = rule.getText();
         this.fileList = rule.getFiles();
         this.createDate = rule.convertDate(rule.getCreateDate());
-        this.postHits = rule.getHitCount();
     }
 }

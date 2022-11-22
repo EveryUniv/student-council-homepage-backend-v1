@@ -20,7 +20,6 @@ public class ResponsePetitionDto {
     private int commentCount;
     private List<PageCommentDto> comments;
     private String adminComment;
-    private int postHits;
     private boolean isBlind;
     public ResponsePetitionDto(Petition petition) {
         this.status = petition.getStatus().toString();
@@ -32,7 +31,6 @@ public class ResponsePetitionDto {
         this.commentCount = petition.getComments().size();
         this.comments = petition.getComments().stream().map(PageCommentDto::new).collect(Collectors.toList());
         this.adminComment = petition.getAdminComment();
-        this.postHits = petition.getHitCount();
         this.isBlind = petition.isBlind();
     }
 }

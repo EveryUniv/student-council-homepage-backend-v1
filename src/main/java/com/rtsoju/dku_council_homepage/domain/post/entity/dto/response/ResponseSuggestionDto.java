@@ -17,10 +17,8 @@ public class ResponseSuggestionDto {
     private String text;
     private List<FileUrlWithNameDto> fileList;
     private String createDate;
-    private int postHits;
     private String category;
     private List<CommentResponseDto> commentList;
-    private String answer;
     private int likeCount;
     private boolean isLike;
     private boolean isMine;
@@ -31,7 +29,6 @@ public class ResponseSuggestionDto {
         this.text = suggestion.getText();
         this.fileList = suggestion.getFiles();
         this.createDate = suggestion.convertDate(suggestion.getCreateDate());
-        this.postHits = suggestion.getHitCount();
         this.category = suggestion.getCategory();
         this.commentList = createAnonymityUser(
                 suggestion.getComments().stream()
