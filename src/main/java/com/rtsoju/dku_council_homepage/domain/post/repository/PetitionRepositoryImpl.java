@@ -59,7 +59,6 @@ public class PetitionRepositoryImpl implements PetitionRepositoryCustom{
                         petition.id,
                         petition.status.as("petitionStatus"),
                         petition.title,
-                        user.name.as("userName"),
                         comment.count().as("commentCount"),
                         petition.hitCount.as("postHits"),
                         petition.isBlind
@@ -79,7 +78,6 @@ public class PetitionRepositoryImpl implements PetitionRepositoryCustom{
                         petition.id,
                         petition.status.as("petitionStatus"),
                         petition.title,
-                        user.name.as("userName"),
                         comment.count().as("commentCount"),
                         petition.hitCount.as("postHits"),
                         petition.isBlind
