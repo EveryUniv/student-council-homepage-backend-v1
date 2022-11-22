@@ -11,6 +11,7 @@ import java.util.Map;
  * 프로퍼티 파일을 파싱해서 Map으로 제공하는 클래스. 테스트할 때 @Value 대신 사용할 수 있다.
  */
 public class PropertiesReader {
+
     public static final PropertiesReader INSTANCE;
     private final HashMap<String, String> properties = new HashMap<>();
 
