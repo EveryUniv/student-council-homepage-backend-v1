@@ -14,7 +14,6 @@ public enum Messages {
     SUCCESS_EMAIL_SEND("이메일 요청 성공");
 
     private final String message;
-
     Messages(String message) {
         this.message = message;
     }
@@ -26,4 +25,5 @@ public enum Messages {
     public String getFormatMessage(Object... args) {
         return String.format(message, args);
     }
+
 }

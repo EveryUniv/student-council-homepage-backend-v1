@@ -1,5 +1,6 @@
 package com.rtsoju.dku_council_homepage.domain.post.service;
 
+import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Comment;
 import com.rtsoju.dku_council_homepage.domain.post.entity.Post;
 import com.rtsoju.dku_council_homepage.domain.post.entity.dto.request.CommentRequestDto;
@@ -28,6 +29,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
+    private final JwtProvider jwtProvider;
 
     @Transactional
     public Comment createComment(Long postId, CommentRequestDto dto, Long userId) {
@@ -62,14 +64,20 @@ public class PostService {
 //            cookie.setSecure(false);
 //            cookie.setMaxAge(60*60*24);
             ResponseCookie cookie = ResponseCookie.from("dku_post", "[" + post.getId() + "]")
-                    .domain("dku54play.site")
+                    .domain("www.dku54play.site")
                     .path("/")
                     .maxAge(60 * 60 * 24)
-                    .sameSite("Lax")
+                    .sameSite("None")
+                    .secure(true)
                     .httpOnly(true)
                     .build();
             response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
         }
+    }
+
+    public void postHitByUser(Post post, HttpServletRequest request){
+        String token = jwtProvider.getTokenInHttpServletRequest(request);
+        long userId = Long.parseLong(jwtProvider.getUserId(token));
 
     }
 }

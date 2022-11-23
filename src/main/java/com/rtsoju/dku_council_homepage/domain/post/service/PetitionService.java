@@ -40,7 +40,6 @@ public class PetitionService {
 
     public Page<PagePetitionDto> petitionPage(String query, PetitionStatus status, String category, Pageable pageable) {
         return petitionRepository.findPetitionPage(query, status, category, pageable);
-//        return page.map(PagePetitionDto::new);
     }
 
     public List<PetitionSummary> postPage() {
