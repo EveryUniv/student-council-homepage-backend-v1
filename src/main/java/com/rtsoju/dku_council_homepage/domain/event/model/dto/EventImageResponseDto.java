@@ -1,4 +1,4 @@
-package com.rtsoju.dku_council_homepage.domain.event.dto;
+package com.rtsoju.dku_council_homepage.domain.event.model.dto;
 
 import lombok.Data;
 
