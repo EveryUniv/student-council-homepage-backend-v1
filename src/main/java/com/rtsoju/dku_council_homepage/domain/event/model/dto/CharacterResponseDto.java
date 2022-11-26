@@ -8,5 +8,5 @@ import java.util.List;
 @Data
 public class CharacterResponseDto {
     private boolean isVote;
-    private List<Character> selected;
+    private Boolean[] selected;
 }

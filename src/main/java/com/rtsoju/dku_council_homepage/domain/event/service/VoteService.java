@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,34 +27,40 @@ public class VoteService {
 
     @Transactional
     public void vote(long userId, CharacterRequestDto dto) {
-        checkDuplicate(dto);
+        checkValid(dto);
         if(isVote(userId)) throw new BadRequestException("이미 투표가 되었습니다 :)");
         createVote(userId, dto);
     }
 
     private void createVote(long userId, CharacterRequestDto dto) {
-        if(dto.isFirst()) voteRepository.save(new Vote(userId, Character.first));
-        if(dto.isSecond()) voteRepository.save(new Vote(userId, Character.second));
-        if(dto.isThird()) voteRepository.save(new Vote(userId, Character.third));
-        if(dto.isForth()) voteRepository.save(new Vote(userId, Character.fourth));
-        if(dto.isFifth()) voteRepository.save(new Vote(userId, Character.fifth));
-        if(dto.isSixth()) voteRepository.save(new Vote(userId, Character.sixth));
+        List<Boolean> checkList = dto.getCheckList();
+        for(int i=0; i< checkList.size(); i++){
+            Boolean check = checkList.get(i);
+            if(check){
+                voteRepository.save(new Vote(userId, Character.values()[i]));
+            }
+        }
     }
 
-    private void checkDuplicate(CharacterRequestDto dto) {
-        int cnt = 0;
-        if(dto.isFirst()) cnt += 1;
-        if(dto.isSecond()) cnt += 1;
-        if(dto.isThird()) cnt += 1;
-        if(dto.isForth()) cnt += 1;
-        if(dto.isFifth()) cnt += 1;
-        if(dto.isSixth()) cnt += 1;
-        if(cnt > 2 || cnt == 0) throw new BadRequestException("최대 2표까지 가능합니다!!");
+    private void checkValid(CharacterRequestDto dto) {
+        //길이 검사
+        List<Boolean> checkList = dto.getCheckList();
+        if(checkList.size() != 6) throw new BadRequestException("6가지 응답이 필수입니다.");
+        //중복 검사
+        long count = checkList.stream().filter(data -> data.booleanValue()).count();
+        if(count > 2 || count == 0) throw new BadRequestException("최대 2표까지 가능합니다!");
     }
 
 
-    public List<Character> whichVote(long userId) {
+    public Boolean[] whichVote(long userId) {
+        Boolean[] ret = new Boolean[6];
+        Arrays.fill(ret, false);
         List<Vote> byUserId = voteRepository.findByUserId(userId);
-        return byUserId.stream().map(Vote::getCharacters).distinct().collect(Collectors.toList());
+        List<Character> collect = byUserId.stream().map(Vote::getCharacters).distinct().collect(Collectors.toList());
+        for(Character character : collect){
+            int index = character.ordinal();
+            ret[index] = true;
+        }
+        return ret;
     }
 }
