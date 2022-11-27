@@ -69,15 +69,15 @@ public class UserController {
                 .body(new SuccessResponseResult("Reissue Success", roleAndTokenResponseDto));
     }
 
-    @PostMapping("/users/upgrade")
-    public ResponseEntity<SuccessResponseResult> addRoleToAdmin(HttpServletRequest request) {
-        String token = jwtProvider.getTokenInHttpServletRequest(request);
-        Long userId = Long.parseLong(jwtProvider.getUserId(token));
-        User user = userService.addRoleAdmin(userId);
-
-        return ResponseEntity.ok()
-                .body(new SuccessResponseResult(user.getClassId() + "유저는 ADMIN 권한을 가지게 되었습니다"));
-    }
+//    @PostMapping("/users/upgrade")
+//    public ResponseEntity<SuccessResponseResult> addRoleToAdmin(HttpServletRequest request) {
+//        String token = jwtProvider.getTokenInHttpServletRequest(request);
+//        Long userId = Long.parseLong(jwtProvider.getUserId(token));
+//        User user = userService.addRoleAdmin(userId);
+//
+//        return ResponseEntity.ok()
+//                .body(new SuccessResponseResult(user.getClassId() + "유저는 ADMIN 권한을 가지게 되었습니다"));
+//    }
 
     @PatchMapping("/users/password")
     public ResponseEntity<SuccessResponseResult> changePW(@RequestBody @Valid RequestChangePWDto request, HttpServletRequest header) {
