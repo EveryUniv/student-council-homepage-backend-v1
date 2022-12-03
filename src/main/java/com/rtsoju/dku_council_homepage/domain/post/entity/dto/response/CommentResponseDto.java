@@ -18,7 +18,6 @@ public class CommentResponseDto {
 
     public CommentResponseDto(Long userId, Comment comment) {
         this.id = comment.getId();
-        this.userId = comment.getUser().getId();
         this.time = comment.getCreateDate();
         this.status = comment.getStatus().toString();
         this.text = comment.getText();
