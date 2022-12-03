@@ -26,7 +26,6 @@ public class Suggestion extends Post {
     private SuggestionStatus status;
 
     @Lob
-    // 건의게시판 응답
     private String answer;
     public Suggestion(User user, RequestSuggestionDto data, ArrayList<PostFile> files) {
         super(user, data, files);

@@ -11,10 +11,7 @@ import java.util.List;
 public class PageSuggestionDto {
     private Long id;
     private String title;
-    private String userName;
-
     private int postHits;
-
     private int commentCount;
     private String category;
     private SuggestionStatus status;
@@ -23,7 +20,6 @@ public class PageSuggestionDto {
     public PageSuggestionDto(Suggestion suggestion) {
         this.id = suggestion.getId();
         this.title = suggestion.getTitle();
-        this.userName = suggestion.getUser().getName();
         this.postHits = suggestion.getHitCount();
         this.commentCount = suggestion.getComments().size();
         this.category = suggestion.getCategory();
