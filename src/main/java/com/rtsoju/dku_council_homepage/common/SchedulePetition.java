@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Slf4j
 @RequiredArgsConstructor
 @Transactional
-public class SchedulePetitionAndCache {
+public class SchedulePetition {
     private final PetitionRepository petitionRepository;
     private final UserRepository userRepository;
     private final CacheService cacheService;
@@ -28,9 +28,9 @@ public class SchedulePetitionAndCache {
         userRepository.bulkPetitionCreateReset();
     }
 
-    @Scheduled(cron = "0 0 0 * * *")
-    public void deleteEmailCodeCache(){
-        log.info("Email Code Cache 삭제");
-        cacheService.expireAllCacheData();
-    }
+//    @Scheduled(cron = "0 0 0 * * *")
+//    public void deleteEmailCodeCache(){
+//        log.info("Email Code Cache 삭제");
+//        cacheService.expireAllCacheData();
+//    }
 }
