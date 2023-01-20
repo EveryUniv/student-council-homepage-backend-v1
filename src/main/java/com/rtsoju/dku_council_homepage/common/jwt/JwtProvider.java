@@ -67,7 +67,6 @@ public class JwtProvider {
 
     public String createEmailValidationToken(String classId){
         Claims claims = Jwts.claims();
-//        claims.setSubject("ClassId");
         claims.put("classId",classId);
 
         return createToken(claims, emailTokenValidMillisecond);

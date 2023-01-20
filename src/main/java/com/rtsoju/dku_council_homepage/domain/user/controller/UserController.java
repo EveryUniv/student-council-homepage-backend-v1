@@ -42,6 +42,14 @@ public class UserController {
         return ResponseEntity.ok().body(new SuccessResponseResult("Sign up Success"));
     }
 
+    @PostMapping("/m/users")
+    public ResponseEntity<SuccessResponseResult> singUpForMobile(@RequestBody RequestSignupDto dto, HttpServletRequest request) {
+        String token = request.getHeader("EMAIL-VALIDATION-TOKEN");
+        Long result = userService.signup(dto, token);
+        log.info("유저가 회원가입을 하였습니다. 학번: " + dto.getClassId());
+        return ResponseEntity.ok().body(new SuccessResponseResult("Sign up Success"));
+    }
+
 
     @PostMapping("/users/login")
     public ResponseEntity<SuccessResponseResult> login(@RequestBody RequestLoginDto dto) {

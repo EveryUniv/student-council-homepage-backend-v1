@@ -2,7 +2,7 @@
 //
 //import com.rtsoju.dku_council_homepage.common.TextTemplateEngine;
 //import com.rtsoju.dku_council_homepage.common.jwt.JwtProvider;
-//import com.rtsoju.dku_council_homepage.domain.auth.email.dto.RequestEmailDto;
+//import com.rtsoju.dku_council_homepage.domain.auth.email.dto.request.RequestEmailDto;
 //import com.rtsoju.dku_council_homepage.domain.user.service.UserService;
 //import com.rtsoju.dku_council_homepage.exception.ClassIdNotMatchException;
 //import lombok.RequiredArgsConstructor;
