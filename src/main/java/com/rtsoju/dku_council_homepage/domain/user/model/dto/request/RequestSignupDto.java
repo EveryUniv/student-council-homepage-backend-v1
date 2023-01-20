@@ -11,11 +11,8 @@ public class RequestSignupDto {
     private String classId;
     private String password;
     private String name;
-
-
     private Major major;
     private Register register;
-
     private String phone;
 
 

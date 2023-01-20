@@ -1,5 +1,6 @@
 package com.rtsoju.dku_council_homepage.common;
 
+import com.rtsoju.dku_council_homepage.common.cache.CacheService;
 import com.rtsoju.dku_council_homepage.domain.base.PetitionStatus;
 import com.rtsoju.dku_council_homepage.domain.post.repository.PetitionRepository;
 import com.rtsoju.dku_council_homepage.domain.user.repository.UserRepository;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 public class SchedulePetition {
     private final PetitionRepository petitionRepository;
     private final UserRepository userRepository;
+    private final CacheService cacheService;
     @Scheduled(cron = "0 0 0 * * *")
     public void updatePetitionStatus(){
         log.info("Petition상태 없데이트");
@@ -25,4 +27,10 @@ public class SchedulePetition {
         log.info("Petition Create 초기화");
         userRepository.bulkPetitionCreateReset();
     }
+
+//    @Scheduled(cron = "0 0 0 * * *")
+//    public void deleteEmailCodeCache(){
+//        log.info("Email Code Cache 삭제");
+//        cacheService.expireAllCacheData();
+//    }
 }
