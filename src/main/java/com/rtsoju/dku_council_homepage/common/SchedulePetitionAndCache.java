@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Slf4j
 @RequiredArgsConstructor
 @Transactional
-public class SchedulePetition {
+public class SchedulePetitionAndCache {
     private final PetitionRepository petitionRepository;
     private final UserRepository userRepository;
     private final CacheService cacheService;
