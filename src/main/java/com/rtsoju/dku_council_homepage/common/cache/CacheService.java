@@ -29,8 +29,12 @@ public class CacheService {
         throw new FindUserWithIdNotFoundException();
     }
 
+    @CacheEvict(cacheNames = "emailCode", key="#studentId")
+    public void expireCacheData(final String studentId){};
+
     @CacheEvict(value = "emailCode", allEntries = true, cacheManager = "cacheManager")
     public void expireAllCacheData(){}
+
 
 
     public boolean isExpired(final CacheData cacheData){

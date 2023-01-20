@@ -167,6 +167,8 @@ public class EmailSerivce {
         if(!dto.getCode().equals(cacheData.getEmailCode())){
             throw new EmailCodeException("인증번호가 일치하지 않습니다.");
         }
+        //캐시 삭제
+        cacheService.expireCacheData(dto.getClassId());
         return jwtProvider.createEmailValidationToken(dto.getClassId());
 
 

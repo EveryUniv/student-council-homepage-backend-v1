@@ -27,5 +27,14 @@ class CacheServiceTest {
         //없는데 조회
         assertThrows(FindUserWithIdNotFoundException.class, () -> cacheService.getCacheData("1234"));
 
+        //생성
+        CacheData cacheData2 = cacheService.createCacheData("1234");
+        CacheData cacheData3 = cacheService.getCacheData("1234");
+        assertEquals(cacheData2, cacheData3);
+
+        //삭제
+        cacheService.expireCacheData("1234");
+
+        assertThrows(FindUserWithIdNotFoundException.class, () -> cacheService.getCacheData("1234"));
     }
 }
