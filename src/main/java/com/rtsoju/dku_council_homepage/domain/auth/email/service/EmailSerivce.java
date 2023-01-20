@@ -164,7 +164,7 @@ public class EmailSerivce {
         if(cacheService.isExpired(cacheData)){
             throw new EmailCodeException("인증시간 초과. 재인증 요청바랍니다.");
         }
-        if(dto.getCode().equals(cacheData.getEmailCode())){
+        if(!dto.getCode().equals(cacheData.getEmailCode())){
             throw new EmailCodeException("인증번호가 일치하지 않습니다.");
         }
         return jwtProvider.createEmailValidationToken(dto.getClassId());
