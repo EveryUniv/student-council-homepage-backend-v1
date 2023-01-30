@@ -53,6 +53,8 @@ dependencies {
 //
 //    //tunneling
 //    implementation 'com.jcraft:jsch:0.1.55'
+    //spring cache
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
 }
 
 jar {
