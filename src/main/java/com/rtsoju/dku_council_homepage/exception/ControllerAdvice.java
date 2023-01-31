@@ -36,7 +36,8 @@ public class ControllerAdvice {
             NotAllowedUpdateException.class,
             NotFoundCommentException.class,
             NotMatchWriterException.class,
-            MajorAdminNotAllowException.class
+            MajorAdminNotAllowException.class,
+            EmailCodeException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponseResult exceptionHandler(HttpServletRequest request, Exception e) {

@@ -147,11 +147,13 @@ public class EmailSerivce {
         //인증코드 생성
         CacheData cacheData = cacheService.createCacheData(dto.getClassId());
 
-        String message = makeTemplatedEmailForMobile(
+        String text = makeTemplatedEmailForMobile(
                 dto.getClassId(),
                 "단국대학교 재학생 인증을 위해, 아래의 코드를\n입력해 주세요.",
                 cacheData.getEmailCode()
         );
+
+        String message = makeMessage(dto.getClassId(), text);
 
         OkHttpClient client = new OkHttpClient();
         sendMessage(client, message);
