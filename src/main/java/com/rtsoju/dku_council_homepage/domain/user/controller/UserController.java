@@ -53,10 +53,6 @@ public class UserController {
 
     @PostMapping("/users/login")
     public ResponseEntity<SuccessResponseResult> login(@RequestBody RequestLoginDto dto) {
-/*
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("test", "1234");
-*/
         RoleAndTokenResponseDto roleAndTokenResponseDto = userService.login(dto);
         SuccessResponseResult result = new SuccessResponseResult("Login Success", roleAndTokenResponseDto);
         return new ResponseEntity<>(result, HttpStatus.valueOf(200));
