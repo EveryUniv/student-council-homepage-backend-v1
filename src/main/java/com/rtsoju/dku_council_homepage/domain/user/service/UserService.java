@@ -77,7 +77,7 @@ public class UserService {
             if(role.contains("ROLE_ADMIN")){
                 isAdmin = true;
             }
-            return new RoleAndTokenResponseDto(loginAccessToken, loginRefreshToken, isAdmin);
+            return new RoleAndTokenResponseDto(loginAccessToken, loginRefreshToken, isAdmin, findUser);
         } else {
             throw new LoginPwdDifferentException("Wrong pwd");
         }
@@ -115,7 +115,7 @@ public class UserService {
         if(role.contains("ROLE_ADMIN")){
             isAdmin = true;
         }
-        return new RoleAndTokenResponseDto(newAccessToken, newRefreshToken, isAdmin);
+        return new RoleAndTokenResponseDto(newAccessToken, newRefreshToken, isAdmin, user);
 
     }
 
